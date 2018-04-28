@@ -1,10 +1,10 @@
-package ru.job4j.calculate;
+package ru.job4j;
 
 /**
 * Class Calculate решение задания части 001 урок 1
-* @autor Андрей Олиферов
+* @author Андрей Олиферов
 * @since 27.04.2018
-* @versin 1.0
+* @version 1.0
 */
 public class Calculate {
 	
