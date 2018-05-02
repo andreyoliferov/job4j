@@ -42,7 +42,7 @@ public class CalculatorTest {
      * Деление.
      */
     @Test
-    public void whenDivFourDivideTwoThenTwo() {
+    public void whenDivFourByTwoThenTwo() {
         Calculator calc = new Calculator();
         calc.div(4D, 2D);
         double result = calc.getResult();
@@ -54,7 +54,7 @@ public class CalculatorTest {
      * Умножение.
      */
     @Test
-    public void whenMultipleFourMultipleTwoThenEight() {
+    public void whenMultipleFourByTwoThenEight() {
         Calculator calc = new Calculator();
         calc.multiple(4D, 2D);
         double result = calc.getResult();
@@ -66,7 +66,7 @@ public class CalculatorTest {
      * Умножение на 0.
      */
     @Test
-    public void whenMultipleFourMultipleNullThenNull() {
+    public void whenMultipleFourByNullThenNull() {
         Calculator calc = new Calculator();
         calc.multiple(4D, 0D);
         double result = calc.getResult();
