@@ -79,7 +79,7 @@ public class MaxTest {
 
     /**
      * тестирование метода maxOfThreeNunber
-     * first < second < third
+     * first = second = third = 0
      */
     @Test
     public void whenNumbers0And0And0MaxIs0() {
