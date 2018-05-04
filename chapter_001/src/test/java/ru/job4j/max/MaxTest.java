@@ -43,4 +43,48 @@ public class MaxTest {
         int result = max.maxOfTwoNunber(3, 3);
         assertThat(result, is(3));
     }
+
+    /**
+     * тестирование метода maxOfThreeNunber
+     * first > second > third
+     */
+    @Test
+    public void whenNumbers7And5And3MaxIs7() {
+        Max max = new Max();
+        int result = max.maxOfThreeNumbers(7, 5, 3);
+        assertThat(result, is(7));
+    }
+
+    /**
+     * тестирование метода maxOfThreeNunber
+     * first < second > third
+     */
+    @Test
+    public void whenNumbersMinus7And5And3MaxIs7() {
+        Max max = new Max();
+        int result = max.maxOfThreeNumbers(-7, 5, 3);
+        assertThat(result, is(5));
+    }
+
+    /**
+     * тестирование метода maxOfThreeNunber
+     * first < second < third
+     */
+    @Test
+    public void whenNumbersMinus7And3And6MaxIs6() {
+        Max max = new Max();
+        int result = max.maxOfThreeNumbers(-7, 3, 6);
+        assertThat(result, is(6));
+    }
+
+    /**
+     * тестирование метода maxOfThreeNunber
+     * first < second < third
+     */
+    @Test
+    public void whenNumbers0And0And0MaxIs0() {
+        Max max = new Max();
+        int result = max.maxOfThreeNumbers(0, 0, 0);
+        assertThat(result, is(0));
+    }
 }
