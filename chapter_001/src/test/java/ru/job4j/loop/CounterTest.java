@@ -20,7 +20,7 @@ public class CounterTest {
     @Test
     public void whenWriteInStartAndFinishReturnSumCuonter() {
         Counter counter = new Counter();
-        int result = counter.counterSum(-3 , 2);
+        int result = counter.counterSum(-3, 2);
         assertThat(result, is(0));
     }
 
@@ -31,7 +31,7 @@ public class CounterTest {
     @Test
     public void whenWriteInStartMoreThenFinishReturnSumCuonter() {
         Counter counter = new Counter();
-        int result = counter.counterSum(7 , 2);
+        int result = counter.counterSum(7, 2);
         assertThat(result, is(12));
     }
 }

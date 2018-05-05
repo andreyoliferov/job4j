@@ -13,15 +13,15 @@ public class Counter {
      * @param finish последнее число счетчика
      * @return сумма
      */
-    public int counterSum (int start, int finish){
+    public int counterSum(int start, int finish) {
         int sum = 0;
-        if(start > finish){
+        if (start > finish) {
             int temp = start;
             start = finish;
             finish = temp;
         }
-        for(int i = start; i <= finish; i++) {
-            if(i % 2 == 0){
+        for (int i = start; i <= finish; i++) {
+            if (i % 2 == 0) {
                 sum += i;
             }
         }
