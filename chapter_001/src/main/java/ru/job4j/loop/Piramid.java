@@ -1,5 +1,7 @@
 package ru.job4j.loop;
 
+import java.util.function.BiPredicate;
+
 /**
  * 4.4. Построить пирамиду в псевдографике. [#4412]
  * @autor Андрей
@@ -27,18 +29,17 @@ public class Piramid {
         return screen.toString();
     }
 
-
     /**
-     * Метод рисует правую часть пирамиды
-     * @param height высота
-     * @return правая часть пирамиды
+     * @param height высота пирамиды
+     * @param weight ширина
+     * @param predict условие
+     * @return пирамида
      */
-    public String rightTrl(int height) {
+    private String loopBy(int height, int weight, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
-        int weight = height;
         for (int row = 0; row != height; row++) {
             for (int column = 0; column != weight; column++) {
-                if (row >= column) {
+                if (predict.test(row, column)) {
                     screen.append("^");
                 } else {
                     screen.append(" ");
@@ -47,6 +48,19 @@ public class Piramid {
             screen.append(System.lineSeparator());
         }
         return screen.toString();
+    }
+
+    /**
+     * Метод рисует правую часть пирамиды
+     * @param height высота
+     * @return правая часть пирамиды
+     */
+    public String rightTrl(int height) {
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= column
+        );
     }
 
     /**
@@ -55,19 +69,11 @@ public class Piramid {
      * @return левая часть пирамиды
      */
     public String leftTrl(int height) {
-        StringBuilder screen = new StringBuilder();
-        int weight = height;
-        for (int row = 0; row != height; row++) {
-            for (int column = 0; column != weight; column++) {
-                if (row >= weight - column - 1) {
-                    screen.append("^");
-                } else {
-                    screen.append(" ");
-                }
-            }
-            screen.append(System.lineSeparator());
-        }
-        return screen.toString();
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= height - column - 1
+        );
     }
 
     /**
@@ -76,18 +82,10 @@ public class Piramid {
      * @return пирамида
      */
     public String paint(int height) {
-        StringBuilder screen = new StringBuilder();
-        int weight = 2 * height - 1;
-        for (int row = 0; row != height; row++) {
-            for (int column = 0; column != weight; column++) {
-                if (row >= height - column - 1 && row + height - 1 >= column) {
-                    screen.append("^");
-                } else {
-                    screen.append(" ");
-                }
-            }
-            screen.append(System.lineSeparator());
-        }
-        return screen.toString();
+        return this.loopBy(
+                height,
+                2 * height - 1,
+                (row, column) -> row >= height - column - 1 && row + height - 1 >= column
+        );
     }
 }
