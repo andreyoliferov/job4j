@@ -27,6 +27,49 @@ public class Piramid {
         return screen.toString();
     }
 
+
+    /**
+     * Метод рисует правую часть пирамиды
+     * @param height высота
+     * @return правая часть пирамиды
+     */
+    public String rightTrl(int height) {
+        StringBuilder screen = new StringBuilder();
+        int weight = height;
+        for (int row = 0; row != height; row++) {
+            for (int column = 0; column != weight; column++) {
+                if (row >= column) {
+                    screen.append("^");
+                } else {
+                    screen.append(" ");
+                }
+            }
+            screen.append(System.lineSeparator());
+        }
+        return screen.toString();
+    }
+
+    /**
+     * метод рисует левую часть пирамиды
+     * @param height высота
+     * @return левая часть пирамиды
+     */
+    public String leftTrl(int height) {
+        StringBuilder screen = new StringBuilder();
+        int weight = height;
+        for (int row = 0; row != height; row++) {
+            for (int column = 0; column != weight; column++) {
+                if (row >= weight - column - 1) {
+                    screen.append("^");
+                } else {
+                    screen.append(" ");
+                }
+            }
+            screen.append(System.lineSeparator());
+        }
+        return screen.toString();
+    }
+
     /**
      * метод рисует пирамиду
      * @param height высота пирамиды
