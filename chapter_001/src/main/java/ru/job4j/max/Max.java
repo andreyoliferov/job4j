@@ -13,7 +13,7 @@ public class Max {
      * @param second второе число
      * @return максимальное значение из 2х чисел
      */
-    public int maxOfTwoNunber(int first, int second) {
+    public int maxOfTwoNumber(int first, int second) {
         return first > second ? first : second;
     }
 
@@ -25,7 +25,7 @@ public class Max {
      * @return максимальное значение из 3х
      */
     public int maxOfThreeNumbers(int first, int second, int third) {
-        int temp = this.maxOfTwoNunber(first, second);
-        return this.maxOfTwoNunber(temp, third);
+        int temp = this.maxOfTwoNumber(first, second);
+        return this.maxOfTwoNumber(temp, third);
     }
 }

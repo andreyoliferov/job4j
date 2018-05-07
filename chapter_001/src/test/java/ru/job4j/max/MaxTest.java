@@ -12,35 +12,35 @@ import static org.junit.Assert.assertThat;
 public class MaxTest {
 
     /**
-     * тестирование метода maxOfTwoNunber
+     * тестирование метода maxOfTwoNumber
      * first > second
      */
     @Test
     public void whenNumbers3And5MaxIs5() {
         Max max = new Max();
-        int result = max.maxOfTwoNunber(3, 5);
+        int result = max.maxOfTwoNumber(3, 5);
         assertThat(result, is(5));
     }
 
     /**
-     * тестирование метода maxOfTwoNunber
+     * тестирование метода maxOfTwoNumber
      * first < second
      */
     @Test
     public void whenNumbers4AndMinus5MaxIs3() {
         Max max = new Max();
-        int result = max.maxOfTwoNunber(4, -5);
+        int result = max.maxOfTwoNumber(4, -5);
         assertThat(result, is(4));
     }
 
     /**
-     * тестирование метода maxOfTwoNunber
+     * тестирование метода maxOfTwoNumber
      * first = second
      */
     @Test
     public void whenNumbers3And35MaxIs3() {
         Max max = new Max();
-        int result = max.maxOfTwoNunber(3, 3);
+        int result = max.maxOfTwoNumber(3, 3);
         assertThat(result, is(3));
     }
 
