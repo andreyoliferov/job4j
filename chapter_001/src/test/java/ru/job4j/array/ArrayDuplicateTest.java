@@ -2,7 +2,7 @@ package ru.job4j.array;
 
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -19,7 +19,8 @@ public class ArrayDuplicateTest {
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
         String[] array = {"Andrey", "Katya", "Andrey", "Maksim", "Maksim", "Sasha", "Maksim"};
+        String[] expect = {"Andrey", "Katya", "Maksim", "Sasha"};
         String[] result = arrayDuplicate.remove(array);
-        assertThat(result, is(new String[] {"Andrey", "Katya", "Maksim", "Sasha"}));
+        assertThat(result, arrayContainingInAnyOrder(expect));
     }
 }
