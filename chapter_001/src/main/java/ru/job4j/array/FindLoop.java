@@ -10,10 +10,27 @@ public class FindLoop {
     /**
      * Метод ищет элемент в массиве и возвращает его индекс
      * @param data массив для поиска
-     * @param elem искомый элемент
+     * @param elem искомый элемент Integer
      * @return индекс найденного элемента
      */
     public int indexOf(int[] data, int elem) {
+        int rst = -1;
+        for (int i = 0; i < data.length; i++) {
+            if (elem == data[i]) {
+                rst = i;
+                break;
+            }
+        }
+        return rst;
+    }
+
+    /**
+     * Метод ищет элемент в массиве и возвращает его индекс
+     * @param data массив для поиска
+     * @param elem искомый элемент String
+     * @return индекс найденного элемента
+     */
+    public int indexOf(String[] data, String elem) {
         int rst = -1;
         for (int i = 0; i < data.length; i++) {
             if (elem == data[i]) {
