@@ -19,7 +19,7 @@ public class ArrayDuplicateTest {
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
         String[] array = {"Andrey", "Katya", "Andrey", "Maksim", "Maksim", "Sasha", "Maksim"};
-        String[] expect = {"Andrey", "Katya", "Maksim", "Sasha"};
+        String[] expect = {"Andrey", "Katya", "Sasha", "Maksim"};
         String[] result = arrayDuplicate.remove(array);
         assertThat(result, arrayContainingInAnyOrder(expect));
     }
