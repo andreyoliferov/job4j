@@ -59,12 +59,16 @@ public class TicTacToe extends Application {
         return gap;
     }
 
-    private void checkWinner() {
+    private boolean checkWinner() {
+        boolean win = true;
         if (this.logic.isWinnerX()) {
             this.showAlert("Победили Крестики! Начните новую Игру!");
         } else if (this.logic.isWinnerO()) {
             this.showAlert("Победили Нолики! Начните новую Игру!");
+        } else {
+            win = false;
         }
+        return win;
     }
 
     private Group buildMarkX(double x, double y, int size) {
@@ -97,7 +101,9 @@ public class TicTacToe extends Application {
                             this.buildMarkO(rect.getX(), rect.getY(), 50)
                     );
                 }
-                this.checkState();
+                if (!this.checkWinner()) {
+                    this.checkState();
+                }
             }
         };
     }
