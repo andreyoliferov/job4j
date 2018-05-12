@@ -33,4 +33,15 @@ public class ArrayCharTest {
         boolean result = word.startWith("Hi");
         assertThat(result, is(false));
     }
+
+    /**
+     * Тест метода startWith
+     * false
+     */
+    @Test
+    public void whenNotStartWithPrefixThenFalseFull() {
+        ArrayChar word = new ArrayChar("hello");
+        boolean result = word.startWith("hillo");
+        assertThat(result, is(false));
+    }
 }
