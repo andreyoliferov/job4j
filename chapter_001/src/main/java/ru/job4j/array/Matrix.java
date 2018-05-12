@@ -12,7 +12,7 @@ public class Matrix {
      * @param size размер
      * @return двумерный массив таблицы умножения
      */
-    public static int[][] table(int size) {
+    public int[][] table(int size) {
         int[][] array = new int[size][size];
         for (int j = 0; j < size; j++) {
             for (int i = 0; i < size; i++) {
