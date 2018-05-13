@@ -15,13 +15,13 @@ import static org.junit.Assert.assertThat;
 public class PiramidTest {
 
     /**
-     * тестирование метода paintMy
+     * тестирование метода paintTwo
      * пирамида 4х4
      */
     @Test
     public void whenPyramid4OfMyPaint() {
         Piramid piramid = new Piramid();
-        String rst = piramid.paintMy(4);
+        String rst = piramid.paintTwo(4);
         System.out.println(rst);
         assertThat(rst,
                 is(

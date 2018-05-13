@@ -19,8 +19,8 @@ public class FindLoopTest {
      * @param expectedIndex ожидаемый индекс
      */
     private void baseTestIndexOf(int[] data, int elem, int expectedIndex) {
-        FindLoop findLoop = new FindLoop();
-        int index =  findLoop.indexOf(data, elem);
+        FindLoop find = new FindLoop();
+        int index =  find.indexOf(data, elem);
         assertThat(index, is(expectedIndex));
     }
 
@@ -47,8 +47,8 @@ public class FindLoopTest {
      * @param expectedIndex ожидаемый индекс
      */
     private void baseTestIndexOf(String[] data, String elem, int expectedIndex) {
-        FindLoop findLoop = new FindLoop();
-        int index =  findLoop.indexOf(data, elem);
+        FindLoop find = new FindLoop();
+        int index =  find.indexOf(data, elem);
         assertThat(index, is(expectedIndex));
     }
 

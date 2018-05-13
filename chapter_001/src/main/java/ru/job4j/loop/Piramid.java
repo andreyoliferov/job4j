@@ -15,7 +15,7 @@ public class Piramid {
      * @param height высота пирамиды
      * @return пирамида
      */
-    public String paintMy(int height) {
+    public String paintTwo(int height) {
         StringBuilder screen = new StringBuilder();
         for (int row = 1; row <= height; row++) {
             for (int count = 0; count < height - row; count++) {

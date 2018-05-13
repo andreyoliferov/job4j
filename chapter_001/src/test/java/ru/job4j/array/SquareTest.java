@@ -19,8 +19,8 @@ public class SquareTest {
      * @param expect ожидаемый результат
      */
     private void baseCalculateTest(int bound, int[] expect) {
-        Square square = new Square();
-        int[] rst = square.calculate(bound);
+        Square test = new Square();
+        int[] rst = test.calculate(bound);
         assertThat(rst, is(expect));
     }
 

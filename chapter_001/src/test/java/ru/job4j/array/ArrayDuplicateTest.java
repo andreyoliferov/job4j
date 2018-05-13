@@ -17,10 +17,10 @@ public class ArrayDuplicateTest {
      */
     @Test
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
-        ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
+        ArrayDuplicate duplicate = new ArrayDuplicate();
         String[] array = {"Andrey", "Katya", "Andrey", "Maksim", "Maksim", "Sasha", "Maksim"};
         String[] expect = {"Andrey", "Katya", "Sasha", "Maksim"};
-        String[] result = arrayDuplicate.remove(array);
+        String[] result = duplicate.remove(array);
         assertThat(result, arrayContainingInAnyOrder(expect));
     }
 }

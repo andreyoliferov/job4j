@@ -14,24 +14,24 @@ import static org.junit.Assert.assertThat;
 public class CounterTest {
 
     /**
-     * metod counterSum
+     * metod sum
      * start меньше чем finish
      */
     @Test
     public void whenWriteInStartAndFinishReturnSumCuonter() {
-        Counter counter = new Counter();
-        int result = counter.counterSum(-3, 2);
+        Counter count = new Counter();
+        int result = count.sum(-3, 2);
         assertThat(result, is(0));
     }
 
     /**
-     * metod counterSum
+     * metod sum
      * start больше чем finish
      */
     @Test
     public void whenWriteInStartMoreThenFinishReturnSumCuonter() {
-        Counter counter = new Counter();
-        int result = counter.counterSum(7, 2);
+        Counter count = new Counter();
+        int result = count.sum(7, 2);
         assertThat(result, is(12));
     }
 }

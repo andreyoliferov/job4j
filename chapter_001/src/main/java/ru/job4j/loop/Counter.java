@@ -13,7 +13,7 @@ public class Counter {
      * @param finish последнее число счетчика
      * @return сумма
      */
-    public int counterSum(int start, int finish) {
+    public int sum(int start, int finish) {
         int sum = 0;
         if (start > finish) {
             int temp = start;

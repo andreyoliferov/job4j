@@ -14,10 +14,10 @@ public class Turn {
      */
     public int[] turn(int[] array) {
         for (int i = 0; i < array.length / 2; i++) {
-            int lastIndex = array.length - 1;
+            int last = array.length - 1;
             int temp = array[i];
-            array[i] = array[lastIndex - i];
-            array[lastIndex - i] = temp;
+            array[i] = array[last - i];
+            array[last - i] = temp;
         }
         return array;
     }
