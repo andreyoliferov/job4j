@@ -16,6 +16,7 @@ public class ConsoleInput implements Input {
      * @param question вопрос
      * @return ответ
      */
+    @Override
     public String ask(String question) {
         System.out.println(question);
         return scanner.nextLine();

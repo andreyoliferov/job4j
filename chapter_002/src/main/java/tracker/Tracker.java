@@ -8,7 +8,7 @@ import java.util.UUID;
  * @since 18.05.2018
  */
 public class Tracker {
-    Item[] items = new Item[100];
+    private Item[] items = new Item[100];
     private int position = 0;
 
     /**
@@ -77,15 +77,22 @@ public class Tracker {
      * @param key
      * @return
      */
-    public Item findByName(String key) {
-        Item finded = null;
-        for (Item item : items) {
+    public Item[] findByName(String key) {
+        int count = 0;
+        Item[] all = findAll();
+        for (Item item : all) {
             if (item.getName().equals(key)) {
-                finded = item;
-                break;
+                count++;
             }
         }
-        return finded;
+        Item[] allByName = new Item[count];
+        for (Item item : all) {
+            if (item.getName().equals(key)) {
+                allByName[count - 1] = item;
+                count--;
+            }
+        }
+        return allByName;
     }
 
     /**

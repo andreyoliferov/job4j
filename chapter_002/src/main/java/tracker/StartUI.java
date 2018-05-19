@@ -123,16 +123,18 @@ public class StartUI {
     }
 
     /**
-     * Метод находит заявку по имени
+     * Метод находит заявки по имени
      */
     private void findByNameItem() {
         System.out.println("------------ Найти заявку по имени --------------");
         String name = this.input.ask("Введите имя заявки");
-        Item finded = this.tracker.findByName(name);
-        System.out.println("--------Заявка: " + name);
-        System.out.println("ID: " + finded.getId());
-        System.out.println("Дата создания: " + finded.getCreated());
-        System.out.println(finded.getDesc());
+        Item[] finded = this.tracker.findByName(name);
+        for (Item item : finded) {
+            System.out.println("--------Заявка: " + name);
+            System.out.println("ID: " + item.getId());
+            System.out.println("Дата создания: " + item.getCreated());
+            System.out.println(item.getDesc());
+        }
     }
 
     /**
