@@ -11,10 +11,10 @@ public class Item {
     private long created;
     private String[] comments;
 
-    public Item(String name, String desc, long created) {
+    public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
-        this.created = created;
+        this.created = System.currentTimeMillis();
     }
 
     public String getId() {
