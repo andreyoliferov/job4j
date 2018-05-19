@@ -1,5 +1,8 @@
 package tracker;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * @autor Андрей Олиферов
  * @since 18.05.2018
@@ -8,13 +11,13 @@ public class Item {
     private String id;
     private String name;
     private String desc;
-    private long created;
+    private String created;
     private String[] comments;
 
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
-        this.created = System.currentTimeMillis();
+        this.created = DateFormat.getDateTimeInstance().format(new Date());
     }
 
     public String getId() {
@@ -31,5 +34,17 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc() {
+        return this.desc;
+    }
+
+    public void setDesc(String name) {
+        this.desc = desc;
+    }
+
+    public String getCreated() {
+        return this.created;
     }
 }
