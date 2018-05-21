@@ -76,21 +76,17 @@ public class Tracker {
      * @return
      */
     public Item[] findByName(String key) {
+        Item[] temp = new Item[position];
         int count = 0;
-        Item[] all = findAll();
-        for (Item item : all) {
-            if (item.getName().equals(key)) {
+        for (int i = 0; i < position; i++) {
+            if (items[i].getName().equals(key)) {
+                temp[count] = items[i];
                 count++;
             }
         }
-        Item[] allByName = new Item[count];
-        for (Item item : all) {
-            if (item.getName().equals(key)) {
-                allByName[count - 1] = item;
-                count--;
-            }
-        }
-        return allByName;
+        Item[] finded = new Item[count];
+        System.arraycopy(temp, 0, finded, 0, count);
+        return finded;
     }
 
     /**

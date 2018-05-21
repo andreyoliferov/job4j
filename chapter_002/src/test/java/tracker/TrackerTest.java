@@ -48,7 +48,11 @@ public class TrackerTest {
     public void whenFindByNameThenReturnItem() {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription1");
+        Item itemTwo = new Item("test2", "testDescription1");
+        Item itemTree = new Item("test1", "testDescription1");
         tracker.add(item);
-        assertThat(tracker.findByName("test1"), is(new Item[] {item}));
+        tracker.add(itemTwo);
+        tracker.add(itemTree);
+        assertThat(tracker.findByName("test1"), is(new Item[] {item, itemTree}));
     }
 }
