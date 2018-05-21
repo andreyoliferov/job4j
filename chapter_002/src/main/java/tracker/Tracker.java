@@ -53,10 +53,8 @@ public class Tracker {
             if (items[i].getId().equals(id)) {
                 Item[] temp = items;
                 System.arraycopy(temp, i + 1, items, i,  position - (i + 1));
-                if (position == items.length) {
-                    items[items.length] = null;
-                }
                 position--;
+                items[position] = null;
                 break;
             }
         }
