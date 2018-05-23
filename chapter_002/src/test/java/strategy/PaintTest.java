@@ -9,7 +9,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Тестирование класса Paint
  * @autor Андрей Олиферов
  * @since 21.05.2018
  */

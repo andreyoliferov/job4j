@@ -10,7 +10,7 @@ public class Paint {
      * метод рисует форму
      * @param shape вариант реализации формы
      */
-    public void draw(Shape shape){
+    public void draw(Shape shape) {
         System.out.println(shape.pic());
     }
 
