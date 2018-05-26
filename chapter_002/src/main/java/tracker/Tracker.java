@@ -17,7 +17,6 @@ public class Tracker {
      * @return
      */
     public Item add(Item item) {
-        item.setId(this.generateId());
         this.items[this.position++] = item;
         return item;
     }
@@ -38,6 +37,7 @@ public class Tracker {
     public void replace(String id, Item newItem) {
         for (int i = 0; i < position; i++) {
             if (this.items[i].getId().equals(id)) {
+                newItem.setId(this.items[i].getId());
                 this.items[i] = newItem;
                 break;
             }

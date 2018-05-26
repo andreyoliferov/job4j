@@ -74,7 +74,7 @@ public class StartUIOutputTest {
         tracker.add(new Item("заявка2", "Описание2"));
         tracker.add(new Item("заявка3", "Описание3"));
         String id = tracker.findAll()[1].getId();
-        Input stubInput = new StubInput(new String[] {"4", id, "6"});
+        Input stubInput = new StubInput(new String[] {"5", id, "6"});
         new StartUI(stubInput, tracker).init();
         checkOutput(true,
                 new String[] {"Заявка: " + id, "Имя: заявка2", "Дата создания: " + tracker.findAll()[1].getCreated(),
@@ -92,7 +92,7 @@ public class StartUIOutputTest {
         tracker.add(new Item("заявка1", "Описание1"));
         tracker.add(new Item(name, "Описание2"));
         tracker.add(new Item(name, "Описание3"));
-        Input stubInput = new StubInput(new String[] {"5", name, "6"});
+        Input stubInput = new StubInput(new String[] {"4", name, "6"});
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {
                 "Заявка: " + name,
@@ -120,8 +120,8 @@ public class StartUIOutputTest {
                 "1. Показать все заявки",
                 "2. Редактировать заявку",
                 "3. Удалить заявку",
-                "4. Найти заявку по ID",
-                "5. Найти заявку по имени",
+                "4. Найти заявку по имени",
+                "5. Найти заявку по ID",
                 "6. Выйти"});
     }
 }

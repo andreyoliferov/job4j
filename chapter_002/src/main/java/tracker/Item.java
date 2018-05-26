@@ -2,6 +2,7 @@ package tracker;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @autor Андрей Олиферов
@@ -17,6 +18,7 @@ public class Item {
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
+        this.id = UUID.randomUUID().toString();
         this.created = DateFormat.getDateTimeInstance().format(new Date());
     }
 
