@@ -49,14 +49,20 @@ public class Tracker {
      * @param id
      */
     public void delete(String id) {
+        boolean del = false;
         for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
                 Item[] temp = items;
                 System.arraycopy(temp, i + 1, items, i,  position - (i + 1));
                 position--;
                 items[position] = null;
+                del = true;
+                System.out.println("Заявка удалена!");
                 break;
             }
+        }
+        if (!del) {
+            System.out.println("Указанной заявки не существует!");
         }
     }
 

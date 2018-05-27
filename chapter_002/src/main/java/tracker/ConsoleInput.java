@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements Input {
 
-    private Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
     /**
      * Метод возвразает ответ на вопрос
@@ -22,4 +22,20 @@ public class ConsoleInput implements Input {
         return scanner.nextLine();
     }
 
+    @Override
+    public int ask(String question, int[] range) {
+        int key = Integer.valueOf(this.ask(question));
+        boolean exist = false;
+        for (int n : range) {
+            if (n == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist) {
+            return key;
+        } else {
+            throw new MenuOutException("Выход из диапазона!");
+        }
+    }
 }

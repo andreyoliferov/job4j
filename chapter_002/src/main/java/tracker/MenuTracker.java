@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.Arrays;
+
 /**
  * Создать заявку
  */
@@ -39,12 +41,22 @@ public class MenuTracker {
 
     /**Хранилище заявок*/
     private Tracker tracker;
+    private static final int QTY = 15;
 
-    private UserAction[] actions = new UserAction[15];
+    private UserAction[] actions = new UserAction[QTY];
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
+    }
+
+    public int[] range() {
+        int[] temp = new int[QTY];
+        int i;
+        for (i = 0; actions[i] != null && i < actions.length; i++) {
+            temp[i] = actions[i].key();
+        }
+        return Arrays.copyOf(temp, i + 1);
     }
 
     public void fillActions() {
@@ -139,7 +151,6 @@ public class MenuTracker {
             System.out.println("------------ Удаление заявки --------------");
             String id = input.ask("Введите ID заявки");
             tracker.delete(id);
-            System.out.println("------------ Заявка удалена --------------");
         }
 
         @Override
