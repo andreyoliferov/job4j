@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements Input {
 
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     /**
      * Метод возвразает ответ на вопрос
