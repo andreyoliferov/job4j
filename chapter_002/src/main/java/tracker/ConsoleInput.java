@@ -1,6 +1,9 @@
 package tracker;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * Консольный ввод данных
@@ -22,6 +25,17 @@ public class ConsoleInput implements Input {
         return scanner.nextLine();
     }
 
+    /**
+     * эксперимент с лямбдой
+     */
+    private final List<Consumer<Boolean>> valid = Arrays.asList(
+            exist -> {
+                if (!exist) {
+                    throw new MenuOutException("Выход из диапазона!");
+                }
+            }
+    );
+
     @Override
     public int ask(String question, int[] range) {
         int key = Integer.valueOf(this.ask(question));
@@ -32,10 +46,8 @@ public class ConsoleInput implements Input {
                 break;
             }
         }
-        if (exist) {
-            return key;
-        } else {
-            throw new MenuOutException("Выход из диапазона!");
-        }
+        boolean finalExist = exist;
+        this.valid.forEach(action -> action.accept(finalExist));
+        return key;
     }
 }
