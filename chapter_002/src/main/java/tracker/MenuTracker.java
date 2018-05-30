@@ -5,11 +5,9 @@ import java.util.Arrays;
 /**
  * Создать заявку
  */
-class CreateItem  implements UserAction {
-
-    @Override
-    public int key() {
-        return 0;
+class CreateItem extends BaseAction {
+    public CreateItem() {
+        super(0, "Добавить новую заявку");
     }
 
     @Override
@@ -20,11 +18,6 @@ class CreateItem  implements UserAction {
         Item item = new Item(name, desc);
         tracker.add(item);
         System.out.println("------- Создана новая заявка с Id : " + item.getId() + "--------");
-    }
-
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key(), "Добавить новую заявку");
     }
 }
 
@@ -84,11 +77,9 @@ public class MenuTracker {
     /**
      * показать все заявки
      */
-    public static class ShowAllItem implements UserAction {
-
-        @Override
-        public int key() {
-            return 1;
+    public static class ShowAllItem extends BaseAction {
+        public ShowAllItem() {
+            super(1, "Показать все заявки");
         }
 
         @Override
@@ -102,21 +93,14 @@ public class MenuTracker {
                 System.out.println(finded[i].getCreated());
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Показать все заявки");
-        }
     }
 
     /**
      * отредактировать заявку
      */
-    public class EditItem implements UserAction {
-
-        @Override
-        public int key() {
-            return 2;
+    public class EditItem  extends BaseAction {
+        public EditItem() {
+            super(2, "Редактировать заявку");
         }
 
         @Override
@@ -129,21 +113,14 @@ public class MenuTracker {
             tracker.replace(id, item);
             System.out.println("------------ Заявка изменена --------------");
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Редактировать заявку");
-        }
     }
 
     /**
      * удалить заявку
      */
-    public class DeleteItem implements UserAction {
-
-        @Override
-        public int key() {
-            return 3;
+    public class DeleteItem  extends BaseAction {
+        public DeleteItem() {
+            super(3, "Удалить заявку");
         }
 
         @Override
@@ -152,21 +129,14 @@ public class MenuTracker {
             String id = input.ask("Введите ID заявки");
             tracker.delete(id);
         }
-
-        @Override
-        public String info() {
-            return  String.format("%s. %s", this.key(), "Удалить заявку");
-        }
     }
 
     /**
      * найти по имени
      */
-    public class FindByNameItem implements UserAction {
-
-        @Override
-        public int key() {
-            return 4;
+    public class FindByNameItem  extends BaseAction {
+        public FindByNameItem() {
+            super(4, "Найти заявку по имени");
         }
 
         @Override
@@ -181,21 +151,14 @@ public class MenuTracker {
                 System.out.println(item.getDesc());
             }
         }
-
-        @Override
-        public String info() {
-            return  String.format("%s. %s", this.key(), "Найти заявку по имени");
-        }
     }
 
     /**
      * найти по ID
      */
-    public class FindByIdItem implements UserAction {
-
-        @Override
-        public int key() {
-            return 5;
+    public class FindByIdItem  extends BaseAction {
+        public FindByIdItem() {
+            super(5, "Найти заявку по ID");
         }
 
         @Override
@@ -208,31 +171,19 @@ public class MenuTracker {
             System.out.println("Дата создания: " + finded.getCreated());
             System.out.println(finded.getDesc());
         }
-
-        @Override
-        public String info() {
-            return  String.format("%s. %s", this.key(), "Найти заявку по ID");
-        }
     }
 
     /**
      * Выйти
      */
-    public class Out implements UserAction {
-
-        @Override
-        public int key() {
-            return 6;
+    public class Out  extends BaseAction {
+        public Out() {
+            super(6, "Выйти");
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
             run = false;
-        }
-
-        @Override
-        public String info() {
-            return  String.format("%s. %s", this.key(), "Выйти");
         }
     }
 }
