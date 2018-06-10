@@ -1,14 +1,14 @@
 package ru.job4j.chess.firuges.white;
 
-import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.abstractFigures.Bishop;
 
 /**
  * @autor Андрей
  * @since 31.05.2018
  */
-public class BishopWhite implements Figure {
+public class BishopWhite extends Bishop {
     private final Cell position;
 
     public BishopWhite(final Cell position) {
@@ -18,26 +18,6 @@ public class BishopWhite implements Figure {
     @Override
     public Cell position() {
         return this.position;
-    }
-
-    @Override
-    public Cell[] way(Cell source, Cell dest)throws ImpossibleMoveException {
-        int a = dest.x - source.x;
-        int b = dest.y - source.y;
-        Cell[] array = new Cell[Math.abs(a)];
-        if (!(Math.abs(a) == Math.abs(b))) {
-            throw new ImpossibleMoveException();
-        }
-        int stepX = Integer.compare(a, 0);
-        int stepY = Integer.compare(b, 0);
-        int deltaX = stepX;
-        int deltaY = stepY;
-        for (int i = 0; i < array.length; i++) {
-            array[i] = Cell.find(source.x + deltaX, source.y +deltaY);
-            deltaX += stepX;
-            deltaY += stepY;
-        }
-        return array;
     }
 
     @Override

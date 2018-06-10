@@ -3,12 +3,13 @@ package ru.job4j.chess.firuges.white;
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
+import ru.job4j.chess.firuges.abstractFigures.Pawn;
 
 /**
  * @autor Андрей
  * @since 31.05.2018
  */
-public class PawnWhite implements Figure {
+public class PawnWhite extends Pawn {
     private final Cell position;
 
     public PawnWhite(final Cell position) {
