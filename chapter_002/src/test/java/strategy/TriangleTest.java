@@ -18,10 +18,10 @@ public class TriangleTest {
                 triangle.pic(),
                 is(
                         new StringBuilder()
-                                .append("   +   \n")
-                                .append("  +++  \n")
-                                .append(" +++++ \n")
-                                .append("+++++++\n")
+                                .append("   +   ").append(System.lineSeparator())
+                                .append("  +++  ").append(System.lineSeparator())
+                                .append(" +++++ ").append(System.lineSeparator())
+                                .append("+++++++").append(System.lineSeparator())
                                 .toString()
                 )
         );

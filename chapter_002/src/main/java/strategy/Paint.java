@@ -11,7 +11,7 @@ public class Paint {
      * @param shape вариант реализации формы
      */
     public void draw(Shape shape) {
-        System.out.println(shape.pic());
+        System.out.print(shape.pic());
     }
 
     public static void main(String[] args) {

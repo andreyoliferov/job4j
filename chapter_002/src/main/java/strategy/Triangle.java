@@ -14,10 +14,10 @@ public class Triangle implements Shape {
     @Override
     public String pic() {
         StringBuilder pic = new StringBuilder();
-        pic.append("   +   \n");
-        pic.append("  +++  \n");
-        pic.append(" +++++ \n");
-        pic.append("+++++++\n");
+        pic.append("   +   ").append(System.lineSeparator())
+                .append("  +++  ").append(System.lineSeparator())
+                .append(" +++++ ").append(System.lineSeparator())
+                .append("+++++++").append(System.lineSeparator());
         return pic.toString();
     }
 }
