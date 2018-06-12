@@ -19,6 +19,15 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
+    /**
+     * Метод выполяет перемещение фигуры
+     * @param source начальная ячейка
+     * @param dest конечная ячейка
+     * @return массив ячеек пути, где последняя ячейка массива = финальная ячейка
+     * @throws ImpossibleMoveException перемещение невозможно
+     * @throws OccupiedWayException путь занят
+     * @throws FigureNotFoundException фигура не найдена
+     */
     public boolean move(Cell source, Cell dest)
             throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         boolean rst = false;
@@ -28,6 +37,9 @@ public class Logic {
             if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                 for (Cell step : steps) {
                     for (Figure figure : figures) {
+                        if (figure == null) {
+                            break;
+                        }
                         if (figure.position().equals(step)) {
                             if (figure != figures[index]) {
                                 throw new OccupiedWayException();
@@ -60,5 +72,9 @@ public class Logic {
             }
         }
         return rst;
+    }
+
+    public Figure[] getFigures() {
+        return this.figures;
     }
 }

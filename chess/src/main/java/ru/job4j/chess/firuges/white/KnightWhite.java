@@ -2,7 +2,7 @@ package ru.job4j.chess.firuges.white;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
-import ru.job4j.chess.firuges.abstractFigures.Knight;
+import ru.job4j.chess.firuges.base.Knight;
 
 /**
  * @autor Андрей

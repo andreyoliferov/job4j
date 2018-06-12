@@ -1,4 +1,4 @@
-package ru.job4j.chess.firuges.abstractFigures;
+package ru.job4j.chess.firuges.base;
 
 import ru.job4j.chess.firuges.Figure;
 

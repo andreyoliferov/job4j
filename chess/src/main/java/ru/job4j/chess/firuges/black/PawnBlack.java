@@ -3,7 +3,7 @@ package ru.job4j.chess.firuges.black;
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
-import ru.job4j.chess.firuges.abstractFigures.Pawn;
+import ru.job4j.chess.firuges.base.Pawn;
 
 /**
  * @autor Андрей
@@ -26,7 +26,7 @@ public class PawnBlack extends Pawn {
         if (!(source.y == dest.y + 1 && source.x == dest.x)) {
             throw new ImpossibleMoveException();
         }
-        return new Cell[] { dest };
+        return new Cell[] {dest};
     }
 
     @Override

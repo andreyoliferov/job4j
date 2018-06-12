@@ -1,4 +1,4 @@
-package ru.job4j.chess.firuges.abstractFigures;
+package ru.job4j.chess.firuges.base;
 
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
@@ -23,7 +23,7 @@ public abstract class Bishop implements Figure {
         int deltaX = stepX;
         int deltaY = stepY;
         for (int i = 0; i < array.length; i++) {
-            array[i] = Cell.find(source.x + deltaX, source.y +deltaY);
+            array[i] = Cell.find(source.x + deltaX, source.y + deltaY);
             deltaX += stepX;
             deltaY += stepY;
         }

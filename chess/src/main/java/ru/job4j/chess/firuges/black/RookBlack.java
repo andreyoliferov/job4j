@@ -2,7 +2,7 @@ package ru.job4j.chess.firuges.black;
 
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
-import ru.job4j.chess.firuges.abstractFigures.Rook;
+import ru.job4j.chess.firuges.base.Rook;
 
 /**
  * @autor Андрей
