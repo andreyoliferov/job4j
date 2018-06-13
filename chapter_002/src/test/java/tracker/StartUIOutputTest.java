@@ -124,4 +124,39 @@ public class StartUIOutputTest {
                 "5. Найти заявку по ID",
                 "6. Выйти"});
     }
+
+    @Test
+    public void whenHaveNotOrdersShowAll() {
+        Input stubInput = new StubInput(new String[] {"1", "1", "6"});
+        new StartUI(stubInput, tracker).init();
+        checkOutput(true, new String[] {"------------ Заявок нет --------------"});
+    }
+
+    @Test
+    public void whenHaveNotOrdersEditItem() {
+        Input stubInput = new StubInput(new String[] {"2", "1", "6"});
+        new StartUI(stubInput, tracker).init();
+        checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
+    }
+
+    @Test
+    public void whenHaveNotOrdersDeleteItem() {
+        Input stubInput = new StubInput(new String[] {"3", "1", "6"});
+        new StartUI(stubInput, tracker).init();
+        checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
+    }
+
+    @Test
+    public void whenHaveNotOrdersFindByName() {
+        Input stubInput = new StubInput(new String[] {"4", "1", "6"});
+        new StartUI(stubInput, tracker).init();
+        checkOutput(true, new String[] {"------------ Заявки не найдены --------------"});
+    }
+
+    @Test
+    public void whenHaveNotOrdersFindById() {
+        Input stubInput = new StubInput(new String[] {"5", "1", "6"});
+        new StartUI(stubInput, tracker).init();
+        checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
+    }
 }

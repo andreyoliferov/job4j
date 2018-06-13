@@ -1,7 +1,5 @@
 package tracker;
 
-import java.util.UUID;
-
 /**
  * Класс обертка для массива заявок
  * @autor Андрей Олиферов
@@ -10,6 +8,7 @@ import java.util.UUID;
 public class Tracker {
     private Item[] items = new Item[100];
     private int position = 0;
+    private boolean run = true;
 
     /**
      * добавить элемент
@@ -22,33 +21,28 @@ public class Tracker {
     }
 
     /**
-     * генерация уникального id
-     * @return
-     */
-    private String generateId() {
-        return UUID.randomUUID().toString();
-    }
-
-    /**
      * заменить элемент
      * @param id
      * @param newItem
      */
-    public void replace(String id, Item newItem) {
+    public boolean replace(String id, Item newItem) {
+        boolean repl = false;
         for (int i = 0; i < position; i++) {
             if (this.items[i].getId().equals(id)) {
                 newItem.setId(this.items[i].getId());
                 this.items[i] = newItem;
+                repl = true;
                 break;
             }
         }
+        return repl;
     }
 
     /**
      * удалить элемент
      * @param id
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
         boolean del = false;
         for (int i = 0; i < position; i++) {
             if (items[i].getId().equals(id)) {
@@ -57,13 +51,10 @@ public class Tracker {
                 position--;
                 items[position] = null;
                 del = true;
-                System.out.println("Заявка удалена!");
                 break;
             }
         }
-        if (!del) {
-            System.out.println("Указанной заявки не существует!");
-        }
+        return del;
     }
 
     /**
@@ -102,13 +93,27 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item finded = null;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                finded = item;
+        for (int i = 0; i < position; i++) {
+            if (items[i].getId().equals(id)) {
+                finded = items[i];
                 break;
             }
         }
         return finded;
     }
 
+    /**
+     * выйти
+     */
+    public void setRun(boolean run) {
+        this.run = run;
+    }
+
+    /**
+     * геттер для переменной run
+     * @return boolean
+     */
+    public boolean getRun() {
+       return this.run;
+    }
 }

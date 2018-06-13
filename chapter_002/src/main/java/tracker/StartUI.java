@@ -28,7 +28,7 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
-        while (menu.run) {
+        while (tracker.getRun()) {
             menu.show();
             menu.select(this.input.ask("Введите пункт меню : ", menu.range()));
         }
