@@ -180,7 +180,7 @@ public class MenuTracker {
             System.out.println("------------ Найти заявку по ID --------------");
             String id = input.ask("Введите ID заявки");
             Item finded = tracker.findById(id);
-            if(finded != null) {
+            if (finded != null) {
                 System.out.println("--------Заявка: " + id);
                 System.out.println("Имя: " + finded.getName());
                 System.out.println("Дата создания: " + finded.getCreated());
