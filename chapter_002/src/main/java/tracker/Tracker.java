@@ -8,7 +8,6 @@ package tracker;
 public class Tracker {
     private Item[] items = new Item[100];
     private int position = 0;
-    private boolean run = true;
 
     /**
      * добавить элемент
@@ -100,20 +99,5 @@ public class Tracker {
             }
         }
         return finded;
-    }
-
-    /**
-     * выйти
-     */
-    public void setRun(boolean run) {
-        this.run = run;
-    }
-
-    /**
-     * геттер для переменной run
-     * @return boolean
-     */
-    public boolean getRun() {
-       return this.run;
     }
 }

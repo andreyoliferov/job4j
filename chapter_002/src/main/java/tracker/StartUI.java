@@ -12,6 +12,8 @@ public class StartUI {
     /**Хранилище заявок*/
     private final Tracker tracker;
 
+    private boolean run = true;
+
     /**
      * Конструтор инициализирующий поля.
      * @param input ввод данных.
@@ -27,8 +29,8 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        menu.fillActions();
-        while (tracker.getRun()) {
+        menu.fillActions(this);
+        while (this.run) {
             menu.show();
             menu.select(this.input.ask("Введите пункт меню : ", menu.range()));
         }
@@ -40,5 +42,12 @@ public class StartUI {
      */
     public static void main(String[] args) {
         new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
+    }
+
+    /**
+     * метод останавливает работу цикла в init
+     */
+    public void stop() {
+        this.run = false;
     }
 }

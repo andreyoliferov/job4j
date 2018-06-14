@@ -50,14 +50,14 @@ public class MenuTracker {
         return Arrays.copyOf(temp, i + 1);
     }
 
-    public void fillActions() {
+    public void fillActions(StartUI ui) {
         actions[0] = new CreateItem();
         actions[1] = new MenuTracker.ShowAllItem();
         actions[2] = this.new EditItem();
         actions[3] = new DeleteItem();
         actions[4] = new FindByNameItem();
         actions[5] = new FindByIdItem();
-        actions[6] = new Out();
+        actions[6] = new Out(ui);
     }
 
     public void select(int key) {
@@ -194,14 +194,17 @@ public class MenuTracker {
     /**
      * Выйти
      */
-    public class Out  extends BaseAction {
-        public Out() {
+    public class Out extends BaseAction {
+        public Out(StartUI ui) {
             super(6, "Выйти");
+            this.ui = ui;
         }
+
+        private StartUI ui;
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            tracker.setRun(false);
+            ui.stop();
         }
     }
 }
