@@ -16,7 +16,7 @@ public class PriorityQueue {
      */
     public void put(Task task) {
         for (int i = 0; i <= tasks.size(); i++) {
-            if(tasks.size() == i) {
+            if (tasks.size() == i) {
                 tasks.add(task);
                 break;
             }
