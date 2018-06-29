@@ -1,13 +1,15 @@
 package tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Класс обертка для массива заявок
  * @autor Андрей Олиферов
  * @since 18.05.2018
  */
 public class Tracker {
-    private Item[] items = new Item[100];
-    private int position = 0;
+    private List<Item> items = new ArrayList<>();
 
     /**
      * добавить элемент
@@ -15,7 +17,7 @@ public class Tracker {
      * @return
      */
     public Item add(Item item) {
-        this.items[this.position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -26,10 +28,10 @@ public class Tracker {
      */
     public boolean replace(String id, Item newItem) {
         boolean repl = false;
-        for (int i = 0; i < position; i++) {
-            if (this.items[i].getId().equals(id)) {
-                newItem.setId(this.items[i].getId());
-                this.items[i] = newItem;
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                newItem.setId(item.getId());
+                this.items.set(items.indexOf(item), newItem);
                 repl = true;
                 break;
             }
@@ -43,12 +45,9 @@ public class Tracker {
      */
     public boolean delete(String id) {
         boolean del = false;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(id)) {
-                Item[] temp = items;
-                System.arraycopy(temp, i + 1, items, i,  position - (i + 1));
-                position--;
-                items[position] = null;
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                items.remove(item);
                 del = true;
                 break;
             }
@@ -60,10 +59,8 @@ public class Tracker {
      * найти и вернуть все элементы
      * @return
      */
-    public Item[] findAll() {
-        Item[] all = new Item[position];
-        System.arraycopy(items, 0, all, 0, position);
-        return all;
+    public List<Item> findAll() {
+        return new ArrayList<>(items);
     }
 
     /**
@@ -71,18 +68,14 @@ public class Tracker {
      * @param key
      * @return
      */
-    public Item[] findByName(String key) {
-        Item[] temp = new Item[position];
-        int count = 0;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getName().equals(key)) {
-                temp[count] = items[i];
-                count++;
+    public List<Item> findByName(String key) {
+        List<Item> temp = new ArrayList<>();
+        for (Item item : items) {
+            if (item.getName().equals(key)) {
+                temp.add(item);
             }
         }
-        Item[] finded = new Item[count];
-        System.arraycopy(temp, 0, finded, 0, count);
-        return finded;
+        return temp;
     }
 
     /**
@@ -92,9 +85,9 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item finded = null;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(id)) {
-                finded = items[i];
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                finded = item;
                 break;
             }
         }

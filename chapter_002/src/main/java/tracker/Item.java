@@ -1,6 +1,7 @@
 package tracker;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public class Item {
     private String name;
     private String desc;
     private String created;
-    private String[] comments;
+    private ArrayList<String> comments;
 
     public Item(String name, String desc) {
         this.name = name;

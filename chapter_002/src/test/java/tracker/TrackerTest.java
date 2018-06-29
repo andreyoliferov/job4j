@@ -2,6 +2,9 @@ package tracker;
 
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -16,7 +19,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1", "testDescription");
         tracker.add(item);
-        assertThat(tracker.findAll()[0], is(item));
+        assertThat(tracker.findAll().get(0), is(item));
     }
 
     @Test
@@ -41,7 +44,7 @@ public class TrackerTest {
         tracker.add(two);
         tracker.add(three);
         tracker.delete(two.getId());
-        assertThat(tracker.findAll(), is(new Item[] {one, three}));
+        assertThat(tracker.findAll(), is(Arrays.asList(one, three)));
     }
 
     @Test
@@ -53,6 +56,6 @@ public class TrackerTest {
         tracker.add(item);
         tracker.add(itemTwo);
         tracker.add(itemTree);
-        assertThat(tracker.findByName("test1"), is(new Item[] {item, itemTree}));
+        assertThat(tracker.findByName("test1"), is(Arrays.asList(item, itemTree)));
     }
 }

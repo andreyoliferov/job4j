@@ -1,6 +1,8 @@
 package tracker;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Создать заявку
@@ -32,36 +34,34 @@ public class MenuTracker {
 
     /**Хранилище заявок*/
     private Tracker tracker;
-    private static final int QTY = 15;
 
-    private UserAction[] actions = new UserAction[QTY];
+    private List<UserAction> actions = new ArrayList<>();
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
-    public int[] range() {
-        int[] temp = new int[QTY];
-        int i;
-        for (i = 0; actions[i] != null && i < actions.length; i++) {
-            temp[i] = actions[i].key();
+    public List<Integer> range() {
+        List<Integer> temp = new ArrayList<>();
+        for (UserAction action : actions) {
+            temp.add(action.key());
         }
-        return Arrays.copyOf(temp, i + 1);
+        return temp;
     }
 
     public void fillActions(StartUI ui) {
-        actions[0] = new CreateItem();
-        actions[1] = new MenuTracker.ShowAllItem();
-        actions[2] = this.new EditItem();
-        actions[3] = new DeleteItem();
-        actions[4] = new FindByNameItem();
-        actions[5] = new FindByIdItem();
-        actions[6] = new Out(ui);
+        actions.add(new CreateItem());
+        actions.add(new MenuTracker.ShowAllItem());
+        actions.add(this.new EditItem());
+        actions.add(new DeleteItem());
+        actions.add(new FindByNameItem());
+        actions.add(new FindByIdItem());
+        actions.add(new Out(ui));
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {
@@ -82,15 +82,16 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            Item[] finded = tracker.findAll();
-            for (int i = 0; i < finded.length; i++) {
-                System.out.println("--------Заявка №" + (i + 1) + "----------");
-                System.out.println(finded[i].getName());
-                System.out.println(finded[i].getDesc());
-                System.out.println(finded[i].getId());
-                System.out.println(finded[i].getCreated());
+            List<Item> finded = tracker.findAll();
+            int i = 1;
+            for (Item item : finded) {
+                System.out.println("--------Заявка №" + i++ + "----------");
+                System.out.println(item.getName());
+                System.out.println(item.getDesc());
+                System.out.println(item.getId());
+                System.out.println(item.getCreated());
             }
-            if (finded.length == 0) {
+            if (finded.size() == 0) {
                 System.out.println("------------ Заявок нет --------------");
             }
         }
@@ -154,14 +155,14 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Найти заявку по имени --------------");
             String name = input.ask("Введите имя заявки");
-            Item[] finded = tracker.findByName(name);
+            List<Item> finded = tracker.findByName(name);
             for (Item item : finded) {
                 System.out.println("--------Заявка: " + name);
                 System.out.println("ID: " + item.getId());
                 System.out.println("Дата создания: " + item.getCreated());
                 System.out.println(item.getDesc());
             }
-            if (finded.length == 0) {
+            if (finded.size() == 0) {
                 System.out.println("------------ Заявки не найдены --------------");
             }
         }

@@ -1,5 +1,7 @@
 package tracker;
 
+import java.util.List;
+
 /**
  * @autor Андрей
  * @since 27.05.2018
@@ -17,7 +19,7 @@ public class ValidateInput implements Input {
         return this.input.ask(question);
     }
 
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         Boolean invalid = true;
         int value = -1;
         do {

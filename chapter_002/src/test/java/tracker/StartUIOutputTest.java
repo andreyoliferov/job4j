@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -60,12 +62,12 @@ public class StartUIOutputTest {
     public void whenUserSelectShowAllItem() {
         tracker.add(new Item("заявка1", "Описание1"));
         tracker.add(new Item("заявка2", "Описание2"));
-        Input stubInput = new StubInput(new String[] {"1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[]
-                {"заявка1", "Описание1", tracker.findAll()[0].getId(), tracker.findAll()[0].getCreated()});
+                {"заявка1", "Описание1", tracker.findAll().get(0).getId(), tracker.findAll().get(0).getCreated()});
         checkOutput(true, new String[]
-                {"заявка2", "Описание2", tracker.findAll()[1].getId(), tracker.findAll()[1].getCreated()});
+                {"заявка2", "Описание2", tracker.findAll().get(1).getId(), tracker.findAll().get(1).getCreated()});
     }
 
     @Test
@@ -73,17 +75,17 @@ public class StartUIOutputTest {
         tracker.add(new Item("заявка1", "Описание1"));
         tracker.add(new Item("заявка2", "Описание2"));
         tracker.add(new Item("заявка3", "Описание3"));
-        String id = tracker.findAll()[1].getId();
-        Input stubInput = new StubInput(new String[] {"5", id, "6"});
+        String id = tracker.findAll().get(1).getId();
+        Input stubInput = new StubInput(Arrays.asList("5", id, "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true,
-                new String[] {"Заявка: " + id, "Имя: заявка2", "Дата создания: " + tracker.findAll()[1].getCreated(),
-                        tracker.findAll()[1].getDesc()});
+                new String[] {"Заявка: " + id, "Имя: заявка2", "Дата создания: " + tracker.findAll().get(1).getCreated(),
+                        tracker.findAll().get(1).getDesc()});
         checkOutput(false, new String[] {
-                "Заявка: " + tracker.findAll()[0].getId(),
+                "Заявка: " + tracker.findAll().get(0).getId(),
                 "Имя: заявка1",
-                "Дата создания: " + tracker.findAll()[0].getCreated(),
-                tracker.findAll()[0].getDesc()});
+                "Дата создания: " + tracker.findAll().get(0).getCreated(),
+                tracker.findAll().get(0).getDesc()});
     }
 
     @Test
@@ -92,28 +94,28 @@ public class StartUIOutputTest {
         tracker.add(new Item("заявка1", "Описание1"));
         tracker.add(new Item(name, "Описание2"));
         tracker.add(new Item(name, "Описание3"));
-        Input stubInput = new StubInput(new String[] {"4", name, "6"});
+        Input stubInput = new StubInput(Arrays.asList("4", name, "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {
                 "Заявка: " + name,
-                "ID: " + tracker.findAll()[1].getId(),
-                "Дата создания: " + tracker.findAll()[1].getCreated(),
-                tracker.findAll()[1].getDesc()});
+                "ID: " + tracker.findAll().get(1).getId(),
+                "Дата создания: " + tracker.findAll().get(1).getCreated(),
+                tracker.findAll().get(1).getDesc()});
         checkOutput(true, new String[] {
                 "Заявка: " + name,
-                "ID: " + tracker.findAll()[2].getId(),
-                "Дата создания: " + tracker.findAll()[2].getCreated(),
-                tracker.findAll()[2].getDesc()});
+                "ID: " + tracker.findAll().get(2).getId(),
+                "Дата создания: " + tracker.findAll().get(2).getCreated(),
+                tracker.findAll().get(2).getDesc()});
         checkOutput(false, new String[] {
                 "Заявка: " + name,
-                "ID: " + tracker.findAll()[0].getId(),
-                "Дата создания: " + tracker.findAll()[0].getCreated(),
-                tracker.findAll()[0].getDesc()});
+                "ID: " + tracker.findAll().get(0).getId(),
+                "Дата создания: " + tracker.findAll().get(0).getCreated(),
+                tracker.findAll().get(0).getDesc()});
     }
 
     @Test
     public void whenUserShowMenu() {
-        Input stubInput = new StubInput(new String[] {"6"});
+        Input stubInput = new StubInput(Arrays.asList("6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {
                 "0. Добавить новую заявку",
@@ -127,35 +129,35 @@ public class StartUIOutputTest {
 
     @Test
     public void whenHaveNotOrdersShowAll() {
-        Input stubInput = new StubInput(new String[] {"1", "1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("1", "1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {"------------ Заявок нет --------------"});
     }
 
     @Test
     public void whenHaveNotOrdersEditItem() {
-        Input stubInput = new StubInput(new String[] {"2", "1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("2", "1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
     }
 
     @Test
     public void whenHaveNotOrdersDeleteItem() {
-        Input stubInput = new StubInput(new String[] {"3", "1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("3", "1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
     }
 
     @Test
     public void whenHaveNotOrdersFindByName() {
-        Input stubInput = new StubInput(new String[] {"4", "1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("4", "1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {"------------ Заявки не найдены --------------"});
     }
 
     @Test
     public void whenHaveNotOrdersFindById() {
-        Input stubInput = new StubInput(new String[] {"5", "1", "6"});
+        Input stubInput = new StubInput(Arrays.asList("5", "1", "6"));
         new StartUI(stubInput, tracker).init();
         checkOutput(true, new String[] {"------------ Заявка не найдена --------------"});
     }
