@@ -91,7 +91,7 @@ public class Chess extends Application {
         return rect;
     }
 
-    Group buildGrid() {
+    private Group buildGrid() {
         Group panel = new Group();
         for (int y = 0; y != this.size; y++) {
             for (int x = 0; x != this.size; x++) {
@@ -132,7 +132,7 @@ public class Chess extends Application {
         this.buildBlackTeam(grid);
     }
 
-    void buildBlackTeam(Group grid) {
+    private void buildBlackTeam(Group grid) {
         this.add(new PawnBlack(Cell.A7), grid);
         this.add(new PawnBlack(Cell.B7), grid);
         this.add(new PawnBlack(Cell.C7), grid);
@@ -151,7 +151,7 @@ public class Chess extends Application {
         this.add(new RookBlack(Cell.H8), grid);
     }
 
-    void buildWhiteTeam(Group grid) {
+    private void buildWhiteTeam(Group grid) {
         this.add(new PawnWhite(Cell.A2), grid);
         this.add(new PawnWhite(Cell.B2), grid);
         this.add(new PawnWhite(Cell.C2), grid);
@@ -170,7 +170,7 @@ public class Chess extends Application {
         this.add(new RookWhite(Cell.H1), grid);
     }
 
-    public void add(Figure figure, Group grid) {
+    private void add(Figure figure, Group grid) {
         this.logic.add(figure);
         Cell position = figure.position();
         grid.getChildren().add(
