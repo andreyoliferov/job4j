@@ -85,11 +85,7 @@ public class MenuTracker {
             List<Item> finded = tracker.findAll();
             int i = 1;
             for (Item item : finded) {
-                System.out.println("--------Заявка №" + i++ + "----------");
-                System.out.println(item.getName());
-                System.out.println(item.getDesc());
-                System.out.println(item.getId());
-                System.out.println(item.getCreated());
+                System.out.println(i++ + ") " + item);
             }
             if (finded.size() == 0) {
                 System.out.println("------------ Заявок нет --------------");
@@ -157,10 +153,7 @@ public class MenuTracker {
             String name = input.ask("Введите имя заявки");
             List<Item> finded = tracker.findByName(name);
             for (Item item : finded) {
-                System.out.println("--------Заявка: " + name);
-                System.out.println("ID: " + item.getId());
-                System.out.println("Дата создания: " + item.getCreated());
-                System.out.println(item.getDesc());
+                System.out.println(item);
             }
             if (finded.size() == 0) {
                 System.out.println("------------ Заявки не найдены --------------");
@@ -182,10 +175,7 @@ public class MenuTracker {
             String id = input.ask("Введите ID заявки");
             Item finded = tracker.findById(id);
             if (finded != null) {
-                System.out.println("--------Заявка: " + id);
-                System.out.println("Имя: " + finded.getName());
-                System.out.println("Дата создания: " + finded.getCreated());
-                System.out.println(finded.getDesc());
+                System.out.println(finded);
             } else {
                 System.out.println("------------ Заявка не найдена --------------");
             }

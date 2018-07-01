@@ -50,4 +50,14 @@ public class Item {
     public String getCreated() {
         return this.created;
     }
+
+    @Override
+    public String toString() {
+        return "Заявка{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", desc='" + desc + '\''
+                + ", created='" + created + '\''
+                + '}';
+    }
 }
