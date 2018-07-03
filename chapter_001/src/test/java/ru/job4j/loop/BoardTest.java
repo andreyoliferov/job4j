@@ -1,9 +1,9 @@
 package ru.job4j.loop;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование класса Board

@@ -1,6 +1,6 @@
 package ru.job4j.list;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.Matchers.greaterThan;

@@ -1,15 +1,15 @@
 package tracker;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * @autor Андрей
@@ -20,12 +20,12 @@ public class ValidateInputTest {
     private final ByteArrayOutputStream mem = new ByteArrayOutputStream();
     private final PrintStream out = System.out;
 
-    @Before
+    @BeforeMethod
     public void loadMem() {
         System.setOut(new PrintStream(this.mem));
     }
 
-    @After
+    @AfterMethod
     public void loadSys() {
         System.setOut(this.out);
     }

@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite2" verbose="1" >
+    <test name="Regression2">
+        <classes>
+            <class name="strategy.PaintTest"/>
+            <class name="strategy.SquareTest"/>
+            <class name="strategy.TriangleTest"/>
+
+            <class name="tracker.StartUIOutputTest"/>
+            <class name="tracker.StartUITest"/>
+            <class name="tracker.TrackerTest"/>
+            <class name="tracker.ValidateInputTest"/>
+        </classes>
+    </test>
+</suite>

@@ -1,13 +1,16 @@
 package tracker;
 
-import org.junit.Test;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @autor Андрей Олиферов
@@ -15,7 +18,12 @@ import static org.junit.Assert.*;
  */
 public class StartUITest {
 
-    private Tracker tracker = new Tracker();
+    private Tracker tracker;
+
+    @BeforeMethod
+    private void init() {
+        tracker = new Tracker();
+    }
 
     @Test
     public void whenUserAddItemThenTrackerHasItem() {

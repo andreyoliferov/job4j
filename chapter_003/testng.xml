@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite3" verbose="1" >
+    <test name="Regression3">
+        <classes>
+            <class name="ru.job4j.list.ConvertList2Array"/>
+            <class name="ru.job4j.list.ConvertMatrix2ListTest"/>
+            <class name="ru.job4j.list.ListCompareTest"/>
+
+            <class name="ru.job4j.search.PhoneDictionaryTest"/>
+            <class name="ru.job4j.search.PriorityQueueTest"/>
+
+            <class name="ru.job4j.user.SortUserTest"/>
+            <class name="ru.job4j.user.UserConvertTest"/>
+            <class name="ru.job4j.user.UserTest"/>
+        </classes>
+    </test>
+</suite>

@@ -1,15 +1,15 @@
 package tracker;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * @autor Андрей Олиферов
@@ -18,18 +18,20 @@ import static org.junit.Assert.assertThat;
 public class StartUIOutputTest {
 
     /** стрекер */
-    private Tracker tracker = new Tracker();
+    private Tracker tracker;
     /** переменная для хранения данных вывода на консоль */
-    private ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private ByteArrayOutputStream out;
     /** стандартный вывод на консоль */
     private PrintStream stdout = System.out;
 
-    @Before
+    @BeforeMethod
     public void loadOutput() {
+        tracker = new Tracker();
+        out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(this.out));
     }
 
-    @After
+    @AfterMethod
     public void backOutput() {
         System.setOut(this.stdout);
     }

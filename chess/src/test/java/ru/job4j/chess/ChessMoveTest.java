@@ -10,8 +10,8 @@ import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.*;
 import ru.job4j.chess.firuges.white.*;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static ru.job4j.chess.firuges.Cell.*;
 
 /**

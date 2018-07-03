@@ -1,8 +1,7 @@
 package ru.job4j.user;
 
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.*;
 
