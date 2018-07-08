@@ -3,7 +3,6 @@ package ru.job4j.bank;
 import java.util.*;
 
 /**
- * Базовый класс задания Bank
  * Банковские переводы. [#10038]
  * @autor Андрей
  * @since 05.07.2018

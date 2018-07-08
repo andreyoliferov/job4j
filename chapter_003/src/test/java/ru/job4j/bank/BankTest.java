@@ -8,7 +8,6 @@ import static org.hamcrest.core.Is.is;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Тестирование класса Bank
  * @autor Андрей
  * @since 08.07.2018
  */
