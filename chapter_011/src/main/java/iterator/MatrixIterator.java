@@ -25,11 +25,13 @@ public class MatrixIterator implements Iterator {
 
     @Override
     public Object next() {
-        try {
-            return matrixList.get(index++);
-        } catch (IndexOutOfBoundsException e) {
+        Object o;
+        if (this.hasNext()) {
+            o = matrixList.get(index++);
+        } else {
             throw new NoSuchElementException();
         }
+        return o;
     }
 
     private List<Integer> toList(int[][] array) {

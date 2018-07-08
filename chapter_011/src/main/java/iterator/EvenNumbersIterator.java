@@ -25,11 +25,13 @@ public class EvenNumbersIterator implements Iterator {
 
     @Override
     public Object next() {
-        try {
-            return even.get(index++);
-        } catch (IndexOutOfBoundsException e) {
+        Object o;
+        if (this.hasNext()) {
+            o = even.get(index++);
+        } else {
             throw new NoSuchElementException();
         }
+        return o;
     }
 
     private List<Integer> returnEven(int[] array) {
