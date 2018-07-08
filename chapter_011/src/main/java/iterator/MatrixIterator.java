@@ -3,6 +3,7 @@ package iterator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * @autor Андрей
@@ -24,7 +25,11 @@ public class MatrixIterator implements Iterator {
 
     @Override
     public Object next() {
-        return matrixList.get(index++);
+        try {
+            return matrixList.get(index++);
+        } catch (IndexOutOfBoundsException e) {
+            throw new NoSuchElementException();
+        }
     }
 
     private List<Integer> toList(int[][] array) {

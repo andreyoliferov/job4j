@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -59,7 +60,7 @@ public class MatrixIteratorTest {
         assertThat(it.next(), is(6));
     }
 
-    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    @Test(expectedExceptions = NoSuchElementException.class)
     public void shoulThrowNoSuchElementException() {
         it = new MatrixIterator(new int[][]{});
         it.next();
