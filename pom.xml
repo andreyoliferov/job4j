@@ -16,9 +16,10 @@
     <modules>
         <module>chapter_001</module>
         <module>chapter_002</module>
-        <module>chess</module>
+        <module>chapter_002_chess</module>
         <module>chapter_003</module>
         <module>jaCoCoReport</module>
+        <module>chapter_011</module>
     </modules>
 	
 	<build>
