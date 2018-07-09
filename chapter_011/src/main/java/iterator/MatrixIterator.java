@@ -1,8 +1,6 @@
 package iterator;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -12,35 +10,30 @@ import java.util.NoSuchElementException;
 public class MatrixIterator implements Iterator {
 
     public MatrixIterator(int[][] matrix) {
-        this.matrixList = this.toList(matrix);
+        this.matrix = matrix;
     }
 
-    private List<Integer> matrixList;
-    private int index = 0;
+    private int[][] matrix;
+    private int indexIn = 0;
+    private int indexOut = 0;
 
     @Override
     public boolean hasNext() {
-        return matrixList.size() > index;
+        return matrix.length > indexOut && matrix[indexOut].length > indexIn;
     }
 
     @Override
     public Object next() {
         Object o;
         if (this.hasNext()) {
-            o = matrixList.get(index++);
+            o = matrix[indexOut][indexIn++];
+            if (!this.hasNext()) {
+                indexOut++;
+                indexIn = 0;
+            }
         } else {
             throw new NoSuchElementException();
         }
         return o;
-    }
-
-    private List<Integer> toList(int[][] array) {
-        List<Integer> list = new ArrayList<>();
-        for (int[] out : array) {
-            for (int in : out) {
-                list.add(in);
-            }
-        }
-        return list;
     }
 }
