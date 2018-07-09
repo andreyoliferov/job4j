@@ -19,7 +19,7 @@ public class MatrixIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return matrix.length > indexOut && matrix[indexOut].length > indexIn;
+        return matrix.length > indexOut;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MatrixIterator implements Iterator {
         Object o;
         if (this.hasNext()) {
             o = matrix[indexOut][indexIn++];
-            if (!this.hasNext()) {
+            if (!(matrix[indexOut].length > indexIn)) {
                 indexOut++;
                 indexIn = 0;
             }
