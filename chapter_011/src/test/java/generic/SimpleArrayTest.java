@@ -56,4 +56,18 @@ public class SimpleArrayTest {
         assertThat(iterator.hasNext(), is(false));
         iterator.next();
     }
+
+    @Test(expectedExceptions = ArrayIndexOutOfBoundsException.class)
+    public void whenOutArrayThenException() {
+        SimpleArray<Integer> sint = new SimpleArray<>(1);
+        sint.add(1);
+        sint.add(2);
+    }
+
+    @Test
+    public void whenAddModelInt() {
+        SimpleArray<Integer> sint = new SimpleArray<>(1);
+        sint.add(1);
+        assertThat(sint.get(0), is(1));
+    }
 }
