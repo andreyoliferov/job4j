@@ -25,14 +25,13 @@ public class MatrixIterator implements Iterator {
     @Override
     public Object next() {
         Object o;
-        if (this.hasNext()) {
-            o = matrix[indexOut][indexIn++];
-            if (!(matrix[indexOut].length > indexIn)) {
-                indexOut++;
-                indexIn = 0;
-            }
-        } else {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
+        }
+        o = matrix[indexOut][indexIn++];
+        while (matrix.length != indexOut && !(matrix[indexOut].length > indexIn)) {
+            indexOut++;
+            indexIn = 0;
         }
         return o;
     }
