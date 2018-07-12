@@ -1,5 +1,6 @@
 package generic;
 
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -16,16 +17,54 @@ public class SimpleArray<T> implements Iterable<T> {
     private Object[] objects;
     private int index = 0;
 
+    private void checkIndexOut(int position) {
+        if (position >= this.index) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
     public void add(T model) {
         this.objects[this.index++] = model;
     }
 
     public void set(int position, T model) {
+        this.checkIndexOut(position);
         this.objects[position] = model;
     }
 
+    public boolean set(Object obj, T model) {
+        boolean done = false;
+        for (int i = 0; i < index; i++) {
+            if (this.objects[i].equals(obj)) {
+                this.set(i, model);
+                done = true;
+                break;
+            }
+        }
+        return done;
+    }
+
     public void delete(int position) {
-        this.objects[position] = this.objects[this.index-- - 1];
+        this.checkIndexOut(position);
+        Object[] temp = objects;
+        System.arraycopy(temp, position + 1, objects, position,  index - (position + 1));
+        index--;
+        objects[index] = null;
+    }
+
+    public boolean delete(Object obj) {
+        boolean done = false;
+        for (int i = 0; i < index; i++) {
+            if (objects[i].equals(obj)) {
+                Object[] temp = objects;
+                System.arraycopy(temp, i + 1, objects, i,  index - (i + 1));
+                index--;
+                objects[index] = null;
+                done = true;
+                break;
+            }
+        }
+        return done;
     }
 
     public T get(int position) {

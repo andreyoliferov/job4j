@@ -70,4 +70,16 @@ public class SimpleArrayTest {
         sint.add(1);
         assertThat(sint.get(0), is(1));
     }
+
+    @Test(expectedExceptions = ArrayIndexOutOfBoundsException.class)
+    public void whenDeleteOutOfIndex() {
+        SimpleArray<Integer> sint = new SimpleArray<>(1);
+        sint.delete(3);
+    }
+
+    @Test(expectedExceptions = ArrayIndexOutOfBoundsException.class)
+    public void whenSetOutOfIndex() {
+        SimpleArray<String> sint = new SimpleArray<>(1);
+        sint.set(3, "test");
+    }
 }
