@@ -21,13 +21,13 @@ public class DinamicArrayListTest {
     @BeforeMethod
     public void testStart() {
         dal = new DinamicArrayList<>(3);
-        assertThat(dal.getSizeArray(), is(3));
         dal.add(1);
         dal.add(2);
     }
 
     @Test
     public void whenAddElementsThenArrayEnlarge() {
+        assertThat(dal.getSizeArray(), is(3));
         dal.add(3);
         assertThat(dal.getSizeArray(), is(6));
     }

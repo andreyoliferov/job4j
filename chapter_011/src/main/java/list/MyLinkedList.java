@@ -42,6 +42,9 @@ public class MyLinkedList<E> implements Iterable<E> {
      * @return элемент
      */
     public E get(int position) {
+        if (position >= size) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         Node<E> temp = this.first;
         for (int i = 0; i < position; i++) {
             temp = temp.next;
@@ -60,7 +63,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                return i < size;
+                return i <= size;
             }
 
             @Override
