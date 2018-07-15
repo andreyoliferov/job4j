@@ -59,4 +59,24 @@ public class MyLinkedListTest {
         dal.add(3);
         it.next();
     }
+
+    @Test
+    public void whenDeleteLast() {
+        assertThat(dal.deleteLast(), is(1));
+        assertThat(dal.get(0), is(2));
+    }
+
+    @Test
+    public void whenDeleteFirst() {
+        assertThat(dal.deleteFirst(), is(2));
+        assertThat(dal.get(0), is(1));
+    }
+
+    @Test
+    public void whenDeleteOfIndex() {
+        dal.add(3);
+        assertThat(dal.delete(1), is(2));
+        assertThat(dal.get(0), is(3));
+        assertThat(dal.get(1), is(1));
+    }
 }

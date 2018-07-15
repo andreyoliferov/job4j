@@ -10,8 +10,8 @@ import java.util.NoSuchElementException;
  */
 public class MyLinkedList<E> implements Iterable<E> {
 
-    public Node<E> first;
-    public int size = 0;
+    private Node<E> first;
+    private int size = 0;
     private int mode = 0;
 
     private static class Node<E> {
@@ -34,6 +34,44 @@ public class MyLinkedList<E> implements Iterable<E> {
         this.first = newNode;
         size++;
         mode++;
+    }
+
+    /**
+     * удалить первый элемент
+     */
+    public E deleteFirst() {
+        return delete(0);
+    }
+
+    /**
+     * удалить последний элемент
+     */
+    public E deleteLast() {
+        return delete(size - 1);
+    }
+
+    /**
+     * удалить последний элемент
+     */
+    public E delete(int position) {
+        if (position >= size) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        Node<E> temp = this.first;
+        Node<E> delete;
+        if (position == 0) {
+            delete = this.first;
+            this.first = first.next;
+        } else {
+            for (int i = 0; i < position - 1; i++) {
+                temp = temp.next;
+            }
+            delete = temp.next;
+            temp.next = temp.next.next;
+        }
+        size--;
+        mode++;
+        return delete.data;
     }
 
     /**
