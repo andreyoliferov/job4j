@@ -29,7 +29,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
     private Object[] container;
     private int index = 0;
     private int size = 10;
-    private double multiplier = 0.75;
+    private static final double MULTIPLIER = 0.75;
     private int modCount = 0;
 
     public int getSizeArray() {
@@ -45,7 +45,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
      * увеличить размер массива
      */
     private void enlargeSize() {
-        if (index > multiplier * size) {
+        if (index > MULTIPLIER * size) {
             Object[] temp = container;
             size *= 2;
             container = new Object[size];
