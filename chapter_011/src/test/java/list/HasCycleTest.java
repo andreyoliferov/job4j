@@ -2,6 +2,9 @@ package list;
 
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+
 import static list.HasCycle.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

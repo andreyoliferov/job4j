@@ -2,7 +2,6 @@ package list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
@@ -74,7 +73,6 @@ public class DinamicArrayList<E> implements Iterable<E> {
         }
         return (E) container[position];
     }
-
 
     @Override
     public Iterator<E> iterator() {
