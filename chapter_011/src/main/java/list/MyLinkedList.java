@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * @autor Андрей
  * @since 15.07.2018
  */
-public class MyLinkedList<E> implements Iterable<E> {
+public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
 
     private Node<E> first;
     private int size = 0;
@@ -28,6 +28,7 @@ public class MyLinkedList<E> implements Iterable<E> {
      * добавить элемент
      * @param value элемент
      */
+    @Override
     public void add(E value) {
         Node<E> newNode = new Node<>(value);
         newNode.next = this.first;
@@ -79,6 +80,7 @@ public class MyLinkedList<E> implements Iterable<E> {
      * @param position позиция элемента
      * @return элемент
      */
+    @Override
     public E get(int position) {
         if (position >= size) {
             throw new ArrayIndexOutOfBoundsException();
@@ -88,6 +90,11 @@ public class MyLinkedList<E> implements Iterable<E> {
             temp = temp.next;
         }
         return temp.data;
+    }
+
+    @Override
+    public int getSize() {
+        return this.size;
     }
 
 
@@ -101,7 +108,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
             @Override
             public boolean hasNext() {
-                return i <= size;
+                return i < size;
             }
 
             @Override
@@ -114,6 +121,7 @@ public class MyLinkedList<E> implements Iterable<E> {
                 }
                 Node result = temp;
                 temp = temp.next;
+                i++;
                 return (E) result.data;
             }
         };

@@ -1,7 +1,6 @@
 package set;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,13 +11,13 @@ import static org.testng.Assert.assertTrue;
  * @autor Андрей
  * @since 16.07.2018
  */
-public class SimpleSetTest {
+public class SimpleLinkedSetTest {
 
-    private SimpleSet<Integer> simpleSet;
+    private SimpleLinkedSet<Integer> simpleSet;
 
     @BeforeMethod
     public void startTest() {
-        simpleSet = new SimpleSet<>();
+        simpleSet = new SimpleLinkedSet<>();
         simpleSet.add(1);
         simpleSet.add(2);
     }

@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * @autor Андрей
  * @since 15.07.2018
  */
-public class DinamicArrayList<E> implements Iterable<E> {
+public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
 
     /**
      * конструктор для массива произвольного размера
@@ -36,6 +36,7 @@ public class DinamicArrayList<E> implements Iterable<E> {
         return this.size;
     }
 
+    @Override
     public int getSize() {
         return this.index;
     }
@@ -56,6 +57,7 @@ public class DinamicArrayList<E> implements Iterable<E> {
      * добавить элемент
      * @param value элемент
      */
+    @Override
     public void add(E value) {
         this.container[index++] = value;
         this.enlargeSize();
@@ -67,6 +69,7 @@ public class DinamicArrayList<E> implements Iterable<E> {
      * @param position позиция в массиве
      * @return элемент
      */
+    @Override
     public E get(int position) {
         if (position >= this.index) {
             throw new ArrayIndexOutOfBoundsException();
