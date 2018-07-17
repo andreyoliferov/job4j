@@ -22,19 +22,14 @@ public class HasCycle {
      */
     boolean hasCycle(Node first) {
         boolean result = false;
-        Node temp = first;
-        int out = 0;
-        while (!(temp.next == null || result)) {
-            temp = temp.next;
-            Node tempIn = first;
-            for (int i = 0; i <= out; i++) {
-                if (tempIn.equals(temp.next)) {
-                    result = true;
-                    break;
-                }
-                tempIn = tempIn.next;
+        Node slow = first;
+        Node fast = first;
+        while (fast != null && fast.next != null && !result) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                result = true;
             }
-            out++;
         }
         return result;
     }
