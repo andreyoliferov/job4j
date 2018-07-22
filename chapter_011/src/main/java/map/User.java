@@ -1,6 +1,7 @@
 package map;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * @autor Андрей
@@ -18,6 +19,10 @@ public class User {
     private int children;
     private Calendar birthday;
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
+    }
 
     @Override
     public String toString() {
