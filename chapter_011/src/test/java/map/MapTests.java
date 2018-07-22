@@ -2,14 +2,7 @@ package map;
 
 import org.testng.annotations.Test;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.testng.Assert.assertTrue;
+import java.util.*;
 
 /**
  * @autor Андрей
@@ -30,9 +23,15 @@ public class MapTests {
         calendar3.set(1985, 6, 12);
 
         Map<User, Object> map = new HashMap<>();
-        map.put(new User("Andrey", 0, calendar1), new Object());
         map.put(new User("Katya", 1, calendar2), new Object());
         map.put(new User("Boris", 3, calendar3), new Object());
+        map.put(new User("Andrey", 0, calendar1), new Object());
+        map.put(new User("Boris", 3, calendar3), new Object());
+
+        Set<User> users =  map.keySet();
+        for (User user : users) {
+            System.out.println(user + " " + user.hashCode() + " " + user.hashCode());
+        }
 
         System.out.println(map);
     }
