@@ -8,7 +8,7 @@ import java.util.Calendar;
  */
 public class User {
 
-    public User(String name, int children, Calendar bithday){
+    public User(String name, int children, Calendar bithday) {
         this.name = name;
         this.children = children;
         this.birthday = bithday;
@@ -21,10 +21,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", children=" + children +
-                ", birthday=" + birthday.getTime() +
-                '}';
+        return "User{"
+                + "name='" + name + '\''
+                + ", children=" + children
+                + ", birthday=" + birthday.getTime()
+                + '}';
     }
 }
