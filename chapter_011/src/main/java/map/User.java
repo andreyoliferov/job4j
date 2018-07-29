@@ -18,6 +18,7 @@ public class User {
     private String name;
     private int children;
     private Calendar birthday;
+    private double weight;
 
     @Override
     public boolean equals(Object o) {
@@ -33,9 +34,20 @@ public class User {
                 && Objects.equals(birthday, user.birthday);
     }
 
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(name, children, birthday);
+//    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(name, children, birthday);
+        int result = 31;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + children;
+        result = 31 * result + birthday.hashCode();
+        long temp = Double.doubleToLongBits(weight);
+        result =  31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 
     @Override
