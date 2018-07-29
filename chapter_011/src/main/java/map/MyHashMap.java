@@ -1,0 +1,109 @@
+package map;
+
+import java.util.Map;
+
+/**
+ * @autor Андрей
+ * @since 29.07.2018
+ */
+public class MyHashMap<K, V> {
+
+    public MyHashMap() {
+        this.table = new Node[length];
+    }
+
+    public MyHashMap(int length) {
+        this.length = length;
+        this.table = new Node[length];
+    }
+
+    private Node[] table;
+    private double fillFactor = 0.75;
+    private int length = 16;
+    private int quantity = 0;
+
+    boolean insert(K key, V value) {
+        boolean result = false;
+        Node node = this.getNode(key);
+        if (node == null) {
+            table[this.indexFor(key.hashCode(), this.length)] = new Node<>(key, value);
+            result = true;
+            quantity++;
+        }
+
+        double d = (double) quantity / length;
+        if (d >= fillFactor) {
+            this.resize();
+        }
+        return result;
+    }
+
+    public V get(K key) {
+        V result = null;
+        Node node = this.getNode(key);
+        if (node != null) {
+            result = (V) node.getValue();
+        }
+        return result;
+    }
+
+    public boolean delete(K key) {
+        boolean result = false;
+        Node node = this.getNode(key);
+        if (node != null && node.getKey().equals(key)) {
+            table[this.indexFor(key.hashCode(), this.length)] = null;
+            result = true;
+        }
+        return result;
+    }
+
+    private int indexFor(int hash, int length) {
+        return hash % (length - 1);
+    }
+
+
+    private void resize() {
+        Node[] temp = this.table;
+        this.length *= 2;
+        this.table = new Node[this.length];
+        this.quantity = 0;
+        for (Node node : temp) {
+            if (node != null) {
+                this.insert((K) node.getKey(), (V) node.getValue());
+            }
+        }
+    }
+
+    private Node getNode(K key) {
+        int index = indexFor(key.hashCode(), this.length);
+        return table[index];
+    }
+
+    public class Node<K, V> implements Map.Entry<K, V> {
+        private final K key;
+        private V value;
+
+        public Node(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public K getKey() {
+            return this.key;
+        }
+
+        @Override
+        public V getValue() {
+            return this.value;
+        }
+
+        @Override
+        public V setValue(V value) {
+            V temp = this.value;
+            this.value = value;
+            return temp;
+        }
+    }
+}
+

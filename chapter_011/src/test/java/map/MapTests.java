@@ -23,8 +23,8 @@ public class MapTests {
         calendar3.set(1985, 6, 12);
 
         Map<User, Object> map = new HashMap<>();
-        map.put(new User("Katya", 1, calendar2), new Object());
         map.put(new User("Boris", 3, calendar3), new Object());
+        map.put(new User("Katya", 1, calendar2), new Object());
         map.put(new User("Andrey", 0, calendar1), new Object());
         map.put(new User("Boris", 3, calendar3), new Object());
 
