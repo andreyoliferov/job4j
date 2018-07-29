@@ -1,12 +1,14 @@
 package map;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * @autor Андрей
  * @since 29.07.2018
  */
-public class MyHashMap<K, V> {
+public class MyHashMap<K, V>  implements Iterable<MyHashMap.Node> {
 
     public MyHashMap() {
         this.table = new Node[length];
@@ -77,6 +79,34 @@ public class MyHashMap<K, V> {
     private Node getNode(K key) {
         int index = indexFor(key.hashCode(), this.length);
         return table[index];
+    }
+
+    @Override
+    public Iterator<Node> iterator() {
+        return new Iterator<Node>() {
+
+            int index = 0;
+            int position = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < quantity;
+            }
+
+            @Override
+            public Node next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                while (table[position] == null) {
+                    position++;
+                }
+                Node finded = table[position];
+                position++;
+                index++;
+                return finded;
+            }
+        };
     }
 
     public class Node<K, V> implements Map.Entry<K, V> {
