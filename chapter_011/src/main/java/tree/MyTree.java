@@ -1,9 +1,6 @@
 package tree;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @autor Андрей
@@ -13,7 +10,10 @@ public class MyTree<E extends Comparable<E>> implements SimpleTree<E> {
 
     public MyTree(E e) {
         this.root = new Node<>(e);
+        this.size = 1;
     }
+
+    private int size;
 
     private Node<E> root;
 
@@ -24,6 +24,8 @@ public class MyTree<E extends Comparable<E>> implements SimpleTree<E> {
         if (parentNode.isPresent()) {
             parentNode.get().add(new Node<>(child));
             result = true;
+            size++;
+
         }
         return result;
     }
@@ -46,8 +48,41 @@ public class MyTree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
+    public boolean isBinary() {
+        return false;
+    }
+
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new Iterator<E>() {
+
+            {
+                queue = new LinkedList<>();
+            }
+
+            private int index = 0;
+            Queue<Node<E>> queue;
+
+            @Override
+            public boolean hasNext() {
+                return size > index;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (index == 0) {
+                    queue.add(root);
+                }
+                Node<E> elem = queue.poll();
+                for (Node<E> child : elem.leaves()) {
+                    queue.offer(child);
+                }
+                index++;
+                return elem.getValue();
+            }
+        };
     }
 }

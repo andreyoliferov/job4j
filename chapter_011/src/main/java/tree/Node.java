@@ -23,6 +23,10 @@ public class Node<E extends Comparable<E>> {
         return this.children;
     }
 
+    public E getValue() {
+        return value;
+    }
+
     public boolean eqValue(E that) {
         return this.value.compareTo(that) == 0;
     }
