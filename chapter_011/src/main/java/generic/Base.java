@@ -7,6 +7,7 @@ import java.util.Objects;
  * @since 10.07.2018
  */
 public class Base {
+
     private final String id;
 
     protected Base(final String id) {
