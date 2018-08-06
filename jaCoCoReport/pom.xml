@@ -34,7 +34,12 @@
         </dependency>
         <dependency>
             <groupId>ru.job4j</groupId>
-            <artifactId>chapter_011</artifactId>
+            <artifactId>chapter_011_Collections</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
+            <artifactId>chapter_012_Multithreading</artifactId>
             <version>2.0</version>
         </dependency>
     </dependencies>
