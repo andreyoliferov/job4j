@@ -14,13 +14,13 @@ import static org.hamcrest.Matchers.nullValue;
  * @autor Андрей
  * @since 29.07.2018
  */
-public class MyHashMapTest {
+public class ExampleHashMapTest {
 
-    private MyHashMap<Integer, String> myMap;
+    private ExampleHashMap<Integer, String> myMap;
 
     @BeforeMethod
     public void start() {
-        myMap = new MyHashMap<>(4);
+        myMap = new ExampleHashMap<>(4);
         myMap.insert(1, "один");
         myMap.insert(2, "два");
     }
@@ -65,7 +65,7 @@ public class MyHashMapTest {
 
     @Test
     public void whenIterable() {
-        Iterator<MyHashMap.Node> iterator = myMap.iterator();
+        Iterator<ExampleHashMap.Node> iterator = myMap.iterator();
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next().getKey(), is(1));
         assertThat(iterator.hasNext(), is(true));
@@ -75,7 +75,7 @@ public class MyHashMapTest {
 
     @Test(expectedExceptions = NoSuchElementException.class)
     public void whenIterableException() {
-        Iterator<MyHashMap.Node> iterator = myMap.iterator();
+        Iterator<ExampleHashMap.Node> iterator = myMap.iterator();
         assertThat(iterator.next().getKey(), is(1));
         assertThat(iterator.next().getKey(), is(2));
         iterator.next();

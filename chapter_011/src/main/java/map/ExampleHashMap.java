@@ -8,21 +8,21 @@ import java.util.NoSuchElementException;
  * @autor Андрей
  * @since 29.07.2018
  */
-public class MyHashMap<K, V>  implements Iterable<MyHashMap.Node> {
-
-    public MyHashMap() {
-        this.table = new Node[length];
-    }
-
-    public MyHashMap(int length) {
-        this.length = length;
-        this.table = new Node[length];
-    }
+public class ExampleHashMap<K, V>  implements Iterable<ExampleHashMap.Node> {
 
     private Node[] table;
     private double fillFactor = 0.75;
     private int length = 16;
     private int quantity = 0;
+
+    public ExampleHashMap() {
+        this.table = new Node[length];
+    }
+
+    public ExampleHashMap(int length) {
+        this.length = length;
+        this.table = new Node[length];
+    }
 
     boolean insert(K key, V value) {
         boolean result = false;

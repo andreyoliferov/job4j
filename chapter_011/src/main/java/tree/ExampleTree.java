@@ -6,16 +6,15 @@ import java.util.*;
  * @autor Андрей
  * @since 30.07.2018
  */
-public class MyTree<E extends Comparable<E>> implements SimpleTree<E> {
+public class ExampleTree<E extends Comparable<E>> implements SimpleTree<E> {
 
-    public MyTree(E e) {
+    private int size;
+    private Node<E> root;
+
+    public ExampleTree(E e) {
         this.root = new Node<>(e);
         this.size = 1;
     }
-
-    private int size;
-
-    private Node<E> root;
 
     @Override
     public boolean add(E parent, E child) {
