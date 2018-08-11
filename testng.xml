@@ -5,6 +5,5 @@
         <suite-file path="chapter_001/testng.xml" />
         <suite-file path="chapter_002/testng.xml" />
         <suite-file path="chapter_003/testng.xml" />
-        <suite-file path="chess/testng.xml" />
     </suite-files>
 </suite>
