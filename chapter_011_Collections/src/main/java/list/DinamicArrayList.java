@@ -1,5 +1,8 @@
 package list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,7 +11,18 @@ import java.util.NoSuchElementException;
  * @autor Андрей
  * @since 15.07.2018
  */
+@ThreadSafe
 public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
+
+    @GuardedBy("this")
+    private Object[] container;
+
+    @GuardedBy("this")
+    private int modCount = 0;
+
+    private int index = 0;
+    private int size = 10;
+    private static final double MULTIPLIER = 0.75;
 
     /**
      * конструктор для массива произвольного размера
@@ -26,12 +40,6 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
         this.container = new Object[this.size];
     }
 
-    private Object[] container;
-    private int index = 0;
-    private int size = 10;
-    private static final double MULTIPLIER = 0.75;
-    private int modCount = 0;
-
     public int getSizeArray() {
         return this.size;
     }
@@ -44,7 +52,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
     /**
      * увеличить размер массива
      */
-    private void enlargeSize() {
+    private synchronized void enlargeSize() {
         if (index > MULTIPLIER * size) {
             Object[] temp = container;
             size *= 2;
@@ -58,7 +66,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
      * @param value элемент
      */
     @Override
-    public void add(E value) {
+    public synchronized void add(E value) {
         this.container[index++] = value;
         this.enlargeSize();
         this.modCount++;
@@ -70,7 +78,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
      * @return элемент
      */
     @Override
-    public E get(int position) {
+    public synchronized E get(int position) {
         if (position >= this.index) {
             throw new ArrayIndexOutOfBoundsException();
         }

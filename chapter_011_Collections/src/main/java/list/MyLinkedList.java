@@ -1,5 +1,8 @@
 package list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,15 +11,23 @@ import java.util.NoSuchElementException;
  * @autor Андрей
  * @since 15.07.2018
  */
+@ThreadSafe
 public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
 
+    @GuardedBy("this")
     private Node<E> first;
-    private int size = 0;
+
+    @GuardedBy("this")
     private int mode = 0;
 
+    private int size = 0;
+
+    @ThreadSafe
     private static class Node<E> {
 
+        @GuardedBy("this")
         E data;
+
         Node<E> next;
 
         private Node(E data) {
@@ -29,7 +40,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
      * @param value элемент
      */
     @Override
-    public void add(E value) {
+    public synchronized void add(E value) {
         Node<E> newNode = new Node<>(value);
         newNode.next = this.first;
         this.first = newNode;
@@ -54,7 +65,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
     /**
      * удалить последний элемент
      */
-    public E delete(int position) {
+    public synchronized E delete(int position) {
         if (position >= size) {
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -81,7 +92,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
      * @return элемент
      */
     @Override
-    public E get(int position) {
+    public synchronized E get(int position) {
         if (position >= size) {
             throw new ArrayIndexOutOfBoundsException();
         }
