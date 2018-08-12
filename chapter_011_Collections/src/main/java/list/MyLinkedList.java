@@ -22,12 +22,9 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
 
     private int size = 0;
 
-    @ThreadSafe
     private static class Node<E> {
 
-        @GuardedBy("this")
         E data;
-
         Node<E> next;
 
         private Node(E data) {
