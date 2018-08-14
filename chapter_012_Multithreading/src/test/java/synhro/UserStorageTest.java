@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 import synchro.User;
 import synchro.UserStorage;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -26,7 +28,6 @@ public class UserStorageTest {
         store.add(one);
         store.add(two);
     }
-
 
     @Test
     public void whenTransfer() {
