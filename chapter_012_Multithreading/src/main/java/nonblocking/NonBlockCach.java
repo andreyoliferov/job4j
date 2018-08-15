@@ -13,10 +13,9 @@ public class NonBlockCach {
     private ConcurrentHashMap<UUID, Base> data = new ConcurrentHashMap<>();
 
     public void add(Base model) {
-        if (data.get(model.getId()) != null) {
+        if (data.get(model.getId()) != null || data.putIfAbsent(model.getId(), model) != null) {
             throw new OptimisticException("Уже существует!");
         }
-        data.putIfAbsent(model.getId(), model);
     }
 
     public void update(Base model) {
@@ -32,10 +31,9 @@ public class NonBlockCach {
 
     public void delete(Base model) {
         UUID key = model.getId();
-        if (model.getVersion() != data.get(model.getId()).getVersion()) {
+        if (model.getVersion() != data.get(model.getId()).getVersion() || !data.remove(key, model)) {
             throw new OptimisticException("Объект изменен или удален!");
         }
-        data.remove(key, model);
     }
 
     public class Base {
