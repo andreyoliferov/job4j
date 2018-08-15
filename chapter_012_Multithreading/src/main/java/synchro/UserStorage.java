@@ -42,10 +42,14 @@ public class UserStorage {
     public synchronized boolean transfer(UUID fromId, UUID toId, int amount) {
         int fromIndex = findIndexById(fromId);
         int toIndex = findIndexById(toId);
-        if (fromIndex == -1 || toIndex == -1) return false;
+        if (fromIndex == -1 || toIndex == -1) {
+            return false;
+        }
         User from = data.get(fromIndex);
         User to = data.get(toIndex);
-        if (from.getAmount() < amount) return false;
+        if (from.getAmount() < amount) {
+            return false;
+        }
         from.setAmount(from.getAmount() - amount);
         to.setAmount(to.getAmount() + amount);
         return true;
@@ -55,7 +59,9 @@ public class UserStorage {
         int index = -1;
         int i = 0;
         while (i < data.size() && index == -1) {
-            if (data.get(i).getId().equals(id)) index = i;
+            if (data.get(i).getId().equals(id)) {
+                index = i;
+            }
             i++;
         }
         return index;

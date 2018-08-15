@@ -13,13 +13,17 @@ public class NonBlockCach {
     private ConcurrentHashMap<UUID, Base> data = new ConcurrentHashMap<>();
 
     public void add(Base model) {
-        if (data.get(model.getId()) != null) throw new OptimisticException("Уже существует!");
+        if (data.get(model.getId()) != null) {
+            throw new OptimisticException("Уже существует!");
+        }
         data.put(model.getId(), model);
     }
 
     public void update(Base model) {
         BiFunction<UUID, Base, Base> function = (key, value) -> {
-            if (data.get(key).getVersion() != value.getVersion()) throw new OptimisticException("Объект изменен!");
+            if (data.get(key).getVersion() != value.getVersion()) {
+                throw new OptimisticException("Объект изменен!");
+            }
             model.setVersion(value.getVersion() + 1);
             return model;
         };
@@ -28,7 +32,9 @@ public class NonBlockCach {
 
     public void delete(Base model) {
         UUID key = model.getId();
-        if (model.getVersion() != data.get(model.getId()).getVersion()) throw new OptimisticException("Объект изменен!");
+        if (model.getVersion() != data.get(model.getId()).getVersion()) {
+            throw new OptimisticException("Объект изменен!");
+        }
         data.remove(key);
     }
 
