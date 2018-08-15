@@ -17,9 +17,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
     @GuardedBy("this")
     private Node<E> first;
 
-    @GuardedBy("this")
-    private int mode = 0;
-
+    //private int mode = 0;
     private int size = 0;
 
     private static class Node<E> {
@@ -42,20 +40,20 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
         newNode.next = this.first;
         this.first = newNode;
         size++;
-        mode++;
+        //mode++;
     }
 
     /**
      * удалить первый элемент
      */
-    public E deleteFirst() {
+    public synchronized E deleteFirst() {
         return delete(0);
     }
 
     /**
      * удалить последний элемент
      */
-    public E deleteLast() {
+    public synchronized E deleteLast() {
         return delete(size - 1);
     }
 
@@ -79,7 +77,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
             temp.next = temp.next.next;
         }
         size--;
-        mode++;
+        //mode++;
         return delete.data;
     }
 
@@ -108,22 +106,27 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
 
     @Override
     public Iterator<E> iterator() {
+        MyLinkedList copy = new MyLinkedList();
+        Node<E> temp = first;
+        for(int i = 0; i < size; i++) {
+            copy.add(temp.data);
+            temp = temp.next;
+        }
         return new Iterator<E>() {
-
             private int i = 0;
-            private int modeIt = mode;
-            Node<E> temp = first;
+//            private int modeIt = mode;
+            Node<E> temp = copy.first;
 
             @Override
             public boolean hasNext() {
-                return i < size;
+                return i < copy.size;
             }
 
             @Override
             public E next() {
-                if (mode != modeIt) {
-                 throw new ConcurrentModificationException();
-                }
+//                if (mode != modeIt) {
+//                 throw new ConcurrentModificationException();
+//                }
                 if (!this.hasNext()) {
                     throw new NoSuchElementException();
                 }

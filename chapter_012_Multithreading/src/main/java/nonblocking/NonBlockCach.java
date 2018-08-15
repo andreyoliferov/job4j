@@ -16,12 +16,12 @@ public class NonBlockCach {
         if (data.get(model.getId()) != null) {
             throw new OptimisticException("Уже существует!");
         }
-        data.put(model.getId(), model);
+        data.putIfAbsent(model.getId(), model);
     }
 
     public void update(Base model) {
         BiFunction<UUID, Base, Base> function = (key, value) -> {
-            if (data.get(key).getVersion() != value.getVersion()) {
+            if (value.getVersion() != data.get(key).getVersion()) {
                 throw new OptimisticException("Объект изменен!");
             }
             model.setVersion(value.getVersion() + 1);
@@ -33,9 +33,9 @@ public class NonBlockCach {
     public void delete(Base model) {
         UUID key = model.getId();
         if (model.getVersion() != data.get(model.getId()).getVersion()) {
-            throw new OptimisticException("Объект изменен!");
+            throw new OptimisticException("Объект изменен или удален!");
         }
-        data.remove(key);
+        data.remove(key, model);
     }
 
     public class Base {

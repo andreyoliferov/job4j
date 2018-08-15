@@ -3,9 +3,7 @@ package list;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * @autor Андрей
@@ -17,9 +15,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
     @GuardedBy("this")
     private Object[] container;
 
-    @GuardedBy("this")
-    private int modCount = 0;
-
+    //private int modCount = 0;
     private int index = 0;
     private int size = 10;
     private static final double MULTIPLIER = 0.75;
@@ -69,7 +65,7 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
     public synchronized void add(E value) {
         this.container[index++] = value;
         this.enlargeSize();
-        this.modCount++;
+        //this.modCount++;
     }
 
     /**
@@ -88,25 +84,25 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-
-            private int mode = modCount;
-
+            private List copy = Arrays.asList(container);
+            private int indexCopy = index;
             private int i = 0;
+            //private int modeIt = modCount;
 
             @Override
             public boolean hasNext() {
-                return i < index;
+                return i < indexCopy;
             }
 
             @Override
             public E next() {
-                if (this.mode != modCount) {
-                    throw new ConcurrentModificationException();
-                }
+//                if (modCount != modeIt) {
+//                    throw new ConcurrentModificationException();
+//                }
                 if (!this.hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (E) container[i++];
+                return (E) copy.get(i++);
             }
         };
     }
