@@ -1,5 +1,6 @@
 package nonblocking;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
@@ -31,8 +32,8 @@ public class NonBlockCach {
 
     public void delete(Base model) {
         UUID key = model.getId();
-        if (model.getVersion() != data.get(model.getId()).getVersion() || !data.remove(key, model)) {
-            throw new OptimisticException("Объект изменен или удален!");
+        if (!data.remove(key, model)) {
+            throw new OptimisticException("Объект не существует!");
         }
     }
 
@@ -71,6 +72,26 @@ public class NonBlockCach {
 
         public UUID getId() {
             return id;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Base base = (Base) o;
+            return version == base.version
+                    && Objects.equals(id, base.id)
+                    && Objects.equals(name, base.name)
+                    && Objects.equals(description, base.description);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, version, name, description);
         }
     }
 
