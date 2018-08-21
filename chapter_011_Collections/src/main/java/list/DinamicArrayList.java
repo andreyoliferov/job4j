@@ -36,12 +36,12 @@ public class DinamicArrayList<E> implements Iterable<E>, MySimpleList<E> {
         this.container = new Object[this.size];
     }
 
-    public int getSizeArray() {
+    public synchronized int getSizeArray() {
         return this.size;
     }
 
     @Override
-    public int getSize() {
+    public synchronized int getSize() {
         return this.index;
     }
 

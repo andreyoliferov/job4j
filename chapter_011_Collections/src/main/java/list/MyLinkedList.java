@@ -99,7 +99,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
     }
 
     @Override
-    public int getSize() {
+    public synchronized int getSize() {
         return this.size;
     }
 
