@@ -59,7 +59,8 @@ public class DinamicArrayListTest {
         it.next();
     }
 
-    @Test(expectedExceptions = ConcurrentModificationException.class)
+    /* тест не актуален, тк ConcurrentModificationException упразднен в многопоточной версии */
+    //@Test(expectedExceptions = ConcurrentModificationException.class)
     public void whenArrayOutIteratorException() {
         Iterator it = dal.iterator();
         dal.add(3);

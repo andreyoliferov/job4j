@@ -108,7 +108,7 @@ public class MyLinkedList<E> implements Iterable<E>, MySimpleList<E> {
     public Iterator<E> iterator() {
         MyLinkedList copy = new MyLinkedList();
         Node<E> temp = first;
-        for(int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             copy.add(temp.data);
             temp = temp.next;
         }
