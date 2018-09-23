@@ -6,6 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
 /**
+ * Неблокирующие кэш
+ * Выполняется алгоритм изменения данных в data
+ * если после выполнения алгоритма до записи данные изменились, алгоритм прерывается и выкидывается OptimisticException
  * @autor Андрей
  * @since 14.08.2018
  */

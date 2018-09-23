@@ -25,6 +25,10 @@ public class SimpleBlockingQueue<T> {
         return queue.size();
     }
 
+    /**
+     * Добавление элемента в очередь.
+     * @param value
+     */
     public synchronized void offer(T value) {
         while (queue.size() == maxSize) {
             try {
@@ -37,6 +41,10 @@ public class SimpleBlockingQueue<T> {
         this.notify();
     }
 
+    /**
+     * Взятие элемента из очереди.
+     * @return
+     */
     public synchronized T poll() {
         while (queue.size() == 0) {
             try {
