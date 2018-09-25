@@ -1,6 +1,5 @@
 package pool;
 
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,7 +31,7 @@ public class EmailNotification {
         String email = user.getEmail();
         String subject = String.format("Notification {%s} to email {%s}.", username, email);
         String body = String.format("Add a new event to {%s}", username);
-        pool.submit(() -> send(subject, body, email));
+        pool.execute(() -> send(subject, body, email));
     }
 
     /**
