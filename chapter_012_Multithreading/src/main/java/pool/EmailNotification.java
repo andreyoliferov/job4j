@@ -14,7 +14,7 @@ public class EmailNotification {
     /**
      * Пул задач.
      */
-    private ExecutorService pool;
+    private final ExecutorService pool;
 
     public EmailNotification() {
         pool = Executors.newFixedThreadPool(
