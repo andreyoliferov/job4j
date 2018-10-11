@@ -20,7 +20,7 @@
         <module>chapter_003</module>
         <module>chapter_011_Collections</module>
         <module>chapter_012_Multithreading</module>
-
+        <module>chapter_013_SQL</module>
         <module>jaCoCoReport</module>
     </modules>
 	
