@@ -28,6 +28,8 @@ select * from product
 		where price = (select max(price) from product) 
 		limit 1;
 
+select * from product having max(price);
+
 --5. Написать запрос, который выводит количество всех продуктов определенного типа.		
 select type_id, count(*) from product group type_id;
 
@@ -37,8 +39,16 @@ select * from product
 			select id from type where name = 'СЫР',
 			select id from type where name = 'МОЛОКО'
 		);
+
+select p.id, p.name from product as p
+		inner join type as t
+		on p.type_id = t.id
+		where t.name = 'СЫР' or t.name = 'МОЛОКО';
 	
---7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук. 	
+--7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
+select t.name from type as t inner join product as p on t.id = p.type_id
+    group by t.name having count(*) < 10;
+
 with temp as(
 			select type_id, count(*) as total_count from product group by type_id
 		)
