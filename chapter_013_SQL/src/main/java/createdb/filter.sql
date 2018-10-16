@@ -1,19 +1,16 @@
 --1. Написать запрос получение всех продуктов с типом "СЫР"
-select * from product 
-		where type_id in (
-			select id from type where name = 'СЫР'
-		);
-		
-select p.id, p.name from product as p 
+select p.id, p.name from product as p
 		inner join type as t
 		on p.type_id = t.id
 		where t.name = 'СЫР';
 
---2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженное"
-select * from product
+select * from product 
 		where type_id in (
-			select if from type where name like = '%мороженое%'
+			select id from type where name = 'СЫР'
 		);
+
+--2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженное"
+select * from product where name like = '%мороженое%';
 	
 --3. Написать запрос, который выводит все продукты, срок годности которых заканчивается в следующем месяце.	
 select * from product
@@ -23,27 +20,27 @@ select * from product
 			date_trunc('month', current_timestamp + interval '2 month') - interval '1 day';
 		);
 
---4. Написать запрос, который выводит самый дорогой продукт.		
+--4. Написать запрос, который выводит самый дорогой продукт.
+select * from product having max(price);
+
 select * from product
 		where price = (select max(price) from product) 
 		limit 1;
-
-select * from product having max(price);
 
 --5. Написать запрос, который выводит количество всех продуктов определенного типа.		
 select type_id, count(*) from product group type_id;
 
 --6. Написать запрос получение всех продуктов с типом "СЫР" и "МОЛОКО"
+select p.id, p.name from product as p
+		inner join type as t
+		on p.type_id = t.id
+		where t.name = 'СЫР' or t.name = 'МОЛОКО';
+
 select * from product 
 		where type_id in (
 			select id from type where name = 'СЫР',
 			select id from type where name = 'МОЛОКО'
 		);
-
-select p.id, p.name from product as p
-		inner join type as t
-		on p.type_id = t.id
-		where t.name = 'СЫР' or t.name = 'МОЛОКО';
 	
 --7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
 select t.name from type as t inner join product as p on t.id = p.type_id
