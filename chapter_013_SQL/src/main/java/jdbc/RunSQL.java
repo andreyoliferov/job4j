@@ -12,7 +12,7 @@ public class RunSQL {
 
     public static void main(String[] args) throws SQLException, IOException {
         /* try-with-resources */
-        try(SQLStorage storage = new SQLStorage()) {
+        try (SQLStorage storage = new SQLStorage()) {
             storage.request();
         }
     }
