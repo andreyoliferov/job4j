@@ -5,6 +5,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -31,7 +33,8 @@ public class StartUITest {
         new StartUI(stubInput, tracker).init();
         assertThat(tracker.findAll().get(0).getName(), is("имя1"));
         assertThat(tracker.findAll().get(0).getDesc(), is("описание1"));
-        assertTrue(tracker.findAll().get(0).getCreated().contains(DateFormat.getDateInstance().format(new Date())));
+        assertTrue(tracker.findAll().get(0).getCreated()
+                .contains(LocalDateTime.now().withNano(0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
     }
 
     @Test

@@ -1,8 +1,8 @@
 package tracker;
 
-import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -13,14 +13,14 @@ public class Item {
     private String id;
     private String name;
     private String desc;
-    private String created;
+    private LocalDateTime created;
     private ArrayList<String> comments;
 
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;
         this.id = UUID.randomUUID().toString();
-        this.created = DateFormat.getDateTimeInstance().format(new Date());
+        this.created = LocalDateTime.now().withNano(0); // DateFormat.getDateTimeInstance(); //.format(new Date());
     }
 
     public String getId() {
@@ -48,7 +48,11 @@ public class Item {
     }
 
     public String getCreated() {
-        return this.created;
+        return created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public LocalDateTime getCreatedLocalDate() {
+        return created;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class Item {
                 + "id='" + id + '\''
                 + ", name='" + name + '\''
                 + ", desc='" + desc + '\''
-                + ", created='" + created + '\''
+                + ", created='" + getCreated() + '\''
                 + '}';
     }
 }

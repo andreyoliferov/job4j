@@ -40,7 +40,7 @@ public class StartUI {
      * Запуск программы.
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 

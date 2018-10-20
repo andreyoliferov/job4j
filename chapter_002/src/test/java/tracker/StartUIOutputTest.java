@@ -50,8 +50,7 @@ public class StartUIOutputTest {
      * @param data заявка toString
      */
     private void checkOutput(Boolean expect, String data) {
-        assertThat(new String(out.toByteArray())
-                .contains(data), is(expect));
+        assertThat(new String(out.toByteArray()).contains(data), is(expect));
     }
 
     @Test
