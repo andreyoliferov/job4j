@@ -9,6 +9,7 @@ import tracker.Item;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -62,7 +63,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
      * Создание таблицы
      */
     private void createTable() throws SQLException {
-        try(Statement st = connection.createStatement()){
+        try (Statement st = connection.createStatement()) {
             st.execute(
                     new StringBuilder()
                             .append("CREATE TABLE IF NOT EXISTS orders (")
@@ -92,31 +93,85 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public boolean replace(String id, Item item) {
-        return false;
+        String sql = "UPDATE orders SET name = ?, description = ?, date_created = date_trunc('second', current_timestamp) WHERE id = ?";
+        boolean result = false;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, item.getName());
+            ps.setString(2, item.getDesc());
+            ps.setObject(3, UUID.fromString(id));
+            result = ps.execute();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return result;
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+        String sql = "DELETE FROM orders WHERE id = ?";
+        int result = 0;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, UUID.fromString(id));
+            result = ps.executeUpdate();
+        } catch (SQLException | IllegalArgumentException e) {
+            LOG.error(e.getMessage());
+        }
+        return result != 0;
     }
 
     @Override
     public List<Item> findAll() {
-        return null;
+        List<Item> items = new ArrayList<>();
+        try (Statement st = connection.createStatement()) {
+            try (ResultSet result = st.executeQuery("SELECT * FROM orders")) {
+                while (result.next()) {
+                    items.add(new Item(result.getObject("id").toString(),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getTimestamp("date_created").toLocalDateTime()));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return items;
     }
 
     @Override
     public List<Item> findByName(String key) {
-        return null;
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE name = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, key);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    items.add(new Item(result.getObject("id").toString(),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getTimestamp("date_created").toLocalDateTime()));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        return items;
     }
 
     @Override
     public Item findById(String id) {
-        return null;
-    }
-
-
-    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        ITracker tr = new TrackerSQL();
+        Item old = null;
+        String sql = "SELECT * FROM orders WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, UUID.fromString(id));
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    old = new Item(result.getObject("id").toString(), result.getString("name"),
+                            result.getString("description"), result.getTimestamp("date_created").toLocalDateTime());
+                }
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            LOG.error(e.getMessage());
+        }
+        return old;
     }
 }
