@@ -1,4 +1,4 @@
-package jdbc;
+package example;
 
 import java.io.IOException;
 import java.sql.*;
@@ -10,7 +10,7 @@ import java.sql.*;
  */
 public class RunSQL {
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
         /* try-with-resources */
         try (SQLStorage storage = new SQLStorage()) {
             storage.request();

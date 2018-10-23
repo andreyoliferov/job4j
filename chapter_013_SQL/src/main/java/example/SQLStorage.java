@@ -1,4 +1,4 @@
-package jdbc;
+package example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +20,13 @@ public class SQLStorage implements AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(SQLStorage.class);
     private Connection conn;
 
-    public SQLStorage() throws IOException, SQLException {
+    public SQLStorage() throws IOException, SQLException, ClassNotFoundException {
         /* Данные для логина  */
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream("chapter_013_SQL/src/main/resources/config.properties")) {
             properties.load(fis);
         }
+        Class.forName("org.postgresql.Driver");
         /* Объект подключения */
         conn = DriverManager.getConnection(properties.getProperty("url"), properties);
     }

@@ -1,13 +1,13 @@
 package trackersql;
 
-import jdbc.SQLStorage;
+import example.SQLStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tracker.ITracker;
 import tracker.Item;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     public TrackerSQL() throws ClassNotFoundException, SQLException, IOException {
         prop = new Properties();
-        try (FileInputStream fis =
-                     new FileInputStream("chapter_013_SQL/src/main/resources/configTracker.properties")) {
-            prop.load(fis);
+        try (InputStream is = TrackerSQL.class.getClassLoader().getResourceAsStream("configTracker.properties")) {
+            prop.load(is);
         }
         Class.forName(prop.getProperty("driver-class-name"));
         try {
