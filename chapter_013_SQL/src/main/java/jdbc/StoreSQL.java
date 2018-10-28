@@ -3,6 +3,8 @@ package jdbc;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -11,8 +13,17 @@ import java.util.Properties;
  */
 public class StoreSQL {
 
+    /**
+     * Поле - объект подключения
+     */
     private Connection conn;
 
+    /**
+     * Конструктор - создает подключение к БД. Создает таблицу, если она отсутствует.
+     * @throws IOException
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public StoreSQL() throws IOException, SQLException, ClassNotFoundException {
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream("chapter_013_SQL/src/main/resources/storeSqlConfig.properties")) {
@@ -24,7 +35,7 @@ public class StoreSQL {
     }
 
     /**
-     * Создание таблицы
+     * Процедура создания таблицы
      */
     private void prepareTable() throws SQLException {
         try (Statement st = conn.createStatement()) {
@@ -40,7 +51,10 @@ public class StoreSQL {
         }
     }
 
-    private void generate(int n) throws SQLException {
+    /**
+     * Процедура добавления данных в БД
+     */
+    public void generate(int n) throws SQLException {
         int i = 1;
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO entry (field) VALUES (?)")) {
             while (i <= n) {
@@ -52,18 +66,18 @@ public class StoreSQL {
         }
     }
 
-    private void print() throws SQLException {
+    /**
+     * Функция получения данных из таблицы
+     * @return List данных
+     */
+    public List<StoreXML.Entry> getData() throws SQLException {
+        List<StoreXML.Entry> data = new ArrayList<>();
         try (Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM entry")) {
             while (rs.next()) {
-                System.out.println(rs.getInt("field"));
+                data.add(new StoreXML.Entry(rs.getInt("field")));
             }
         }
-    }
-
-    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        StoreSQL st = new StoreSQL();
-        st.generate(20);
-        st.print();
+        return data;
     }
 }
