@@ -30,7 +30,7 @@ public class MainTask {
         File scheme = new File("chapter_013_SQL/src/main/resources/scheme.xsl");
         File dest = new File("chapter_013_SQL/src/main/resources/dest.xml");
         StoreSQL sql = new StoreSQL();
-        sql.generate(1000);
+        sql.generate(1000001);
         List<StoreXML.Entry> data = sql.getData();
         new StoreXML().save(data, sourse);
         new ConvertXSLT().convert(sourse, dest, scheme);

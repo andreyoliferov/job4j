@@ -1,5 +1,9 @@
 package jdbc;
 
+import example.SQLStorage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -12,6 +16,7 @@ import java.util.Properties;
  * @since 22.10.2018
  */
 public class StoreSQL {
+    private static final Logger LOG = LoggerFactory.getLogger(SQLStorage.class);
 
     /**
      * Поле - объект подключения
@@ -31,6 +36,7 @@ public class StoreSQL {
         }
         Class.forName(properties.getProperty("driver-class-name"));
         conn = DriverManager.getConnection(properties.getProperty("url"));
+        conn.setAutoCommit(false);
         prepareTable();
     }
 
@@ -48,6 +54,10 @@ public class StoreSQL {
             st.execute(
                     "DELETE FROM entry"
             );
+            conn.commit();
+        } catch (SQLException e) {
+            LOG.error(e.getSQLState());
+            conn.rollback();
         }
     }
 
@@ -63,6 +73,10 @@ public class StoreSQL {
                 i++;
             }
             ps.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            LOG.error(e.getSQLState());
+            conn.rollback();
         }
     }
 
