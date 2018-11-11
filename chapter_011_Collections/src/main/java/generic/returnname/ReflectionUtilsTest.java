@@ -1,4 +1,4 @@
-package generic.returnNameGeneric;
+package generic.returnname;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -8,16 +8,23 @@ import java.lang.reflect.ParameterizedType;
  */
 public class ReflectionUtilsTest {
 
-    private class A<T> {}
+    private class A<T> {
+        //
+    }
 
-    private class B extends A<String> {}
+    private class B extends A<String> {
+        //
+    }
 
-    private class C<T> extends B {}
+    private class C<T> extends B {
+        //
+    }
 
-    private class D extends C<Object> {}
+    private class D extends C<Object> {
+        //
+    }
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         Class<?> clazz = C.class;
         System.out.println(clazz.getGenericSuperclass() instanceof ParameterizedType);
 

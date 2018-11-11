@@ -1,4 +1,4 @@
-package generic.returnNameGeneric;
+package generic.returnname;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class EasyExample<T> extends ArrayList<String> {
      * Необходимое условие - в родителе должен явно быть указан генерик.
      */
     public void getGeneric() throws IllegalAccessException, InstantiationException {
-        Class <T> t = (Class <T>) ((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Class<T> t = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         T value = t.newInstance();
         boolean b = value instanceof String;
         System.out.println(b);

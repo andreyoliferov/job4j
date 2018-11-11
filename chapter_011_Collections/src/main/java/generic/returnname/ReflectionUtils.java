@@ -1,4 +1,4 @@
-package generic.returnNameGeneric;
+package generic.returnname;
 
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
