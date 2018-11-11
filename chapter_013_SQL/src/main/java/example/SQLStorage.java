@@ -23,7 +23,7 @@ public class SQLStorage implements AutoCloseable {
     public SQLStorage() throws IOException, SQLException, ClassNotFoundException {
         /* Данные для логина  */
         Properties properties = new Properties();
-        try (FileInputStream fis = new FileInputStream("chapter_013_SQL/src/main/resources/config.properties")) {
+        try (InputStream fis = SQLStorage.class.getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(fis);
         }
         Class.forName("org.postgresql.Driver");
