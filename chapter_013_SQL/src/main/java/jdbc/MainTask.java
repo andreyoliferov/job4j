@@ -26,9 +26,10 @@ public class MainTask {
      */
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException, JAXBException,
             TransformerException, ParserConfigurationException, SAXException {
-        File sourse = new File("chapter_013_SQL/src/main/resources/source.xml");
-        File scheme = new File("chapter_013_SQL/src/main/resources/scheme.xsl");
-        File dest = new File("chapter_013_SQL/src/main/resources/dest.xml");
+        ClassLoader loader = MainTask.class.getClassLoader();
+        File sourse = new File(loader.getResource("source.xml").getPath());
+        File scheme = new File(loader.getResource("scheme.xsl").getPath());
+        File dest = new File(loader.getResource("dest.xml").getPath());
         StoreSQL sql = new StoreSQL();
         sql.generate(1000001);
         List<StoreXML.Entry> data = sql.getData();
