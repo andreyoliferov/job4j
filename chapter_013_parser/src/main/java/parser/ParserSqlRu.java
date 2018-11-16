@@ -78,6 +78,11 @@ public class ParserSqlRu extends Hunter {
         return date;
     }
 
+    /**
+     * Взвращает булево условие перехода к следующей вакансии при парсинге.
+     * @param name имя вакансии
+     * @return true если вакансия не подходит по параметрам.
+     */
     private boolean toNext(String name) {
         String nameToLower = name.toLowerCase();
         return (name.contains("Важно:") || name.length() == 0)
@@ -85,6 +90,11 @@ public class ParserSqlRu extends Hunter {
                     && !nameToLower.contains("java script"));
     }
 
+    /**
+     * Взвращает булево условие прекращения работы функции.
+     * @param date дата последней активности по вакансии.
+     * @return true если вакансия не подходит по параметрам.
+     */
     private boolean stop(LocalDateTime date) {
         return date.getYear() != LocalDate.now().getYear() || date.isBefore(last);
     }

@@ -1,14 +1,12 @@
 package parser;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.Properties;
 
 import static parser.HunterApp.LOG;
+import static parser.HunterApp.properties;
 
 /**
  * @autor aoliferov
@@ -16,26 +14,22 @@ import static parser.HunterApp.LOG;
  */
 public class StoreSQL implements AutoCloseable {
 
-
     /**
      * Поле - объект подключения
      */
     private Connection conn;
-    private Properties prop;
 
     /**
-     * Конструктор - создает подключение к БД. Создает таблицу, если она отсутствует.
+     * Конструктор - создает подключение к БД. Создает бд и таблицу, если они отсутствуют.
      */
     public StoreSQL() {
-        prop = new Properties();
-        try (InputStream is = StoreSQL.class.getClassLoader().getResourceAsStream("config.properties")) {
-            prop.load(is);
-            Class.forName(prop.getProperty("driver-class-name"));
-            conn = DriverManager.getConnection(prop.getProperty("url").concat(prop.getProperty("namedb")), prop);
+        try {
+            Class.forName(properties.getProperty("driver-class-name"));
+            conn = DriverManager.getConnection(properties.getProperty("url").concat(properties.getProperty("namedb")), properties);
         } catch (SQLException e) {
             LOG.error(e.getMessage());
             createDb();
-        } catch (ClassNotFoundException | IOException  e) {
+        } catch (ClassNotFoundException e) {
             LOG.error(e.getMessage());
         }
         createTable();
@@ -50,11 +44,11 @@ public class StoreSQL implements AutoCloseable {
      * Создание БД
      */
     private void createDb() {
-        try (Connection newBase = DriverManager.getConnection(prop.getProperty("url"), prop);
+        try (Connection newBase = DriverManager.getConnection(properties.getProperty("url"), properties);
              Statement st = newBase.createStatement()) {
-            st.execute(String.format("CREATE database %s", prop.getProperty("namedb")));
-            conn = DriverManager.getConnection(prop.getProperty("url")
-                    .concat(prop.getProperty("namedb")), prop);
+            st.execute(String.format("CREATE database %s", properties.getProperty("namedb")));
+            conn = DriverManager.getConnection(properties.getProperty("url")
+                    .concat(properties.getProperty("namedb")), properties);
         } catch (SQLException e) {
             LOG.error(e.getMessage());
         }
@@ -83,13 +77,19 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
+    /**
+     * Метод добавляет вакансию в БД
+     * если вакансия существует (constraint un_name_auth) и vacancies.date < excluded.date
+     * поля link, description, date обновляются
+     * @param v вакансия
+     * @return
+     */
     public int addVacancy(Vacancy v) {
         int id = -1;
-        String sql =
-                "INSERT INTO vacancies (name, author, link, date, description, source) VALUES (?, ?, ?, ?, ?, ?) " +
-                "ON conflict ON CONSTRAINT un_name_auth " +
-                "DO UPDATE SET link = excluded.link, date = excluded.date, description = excluded.description " +
-                "WHERE vacancies.date < excluded.date";
+        String sql = "INSERT INTO vacancies (name, author, link, date, description, source) VALUES (?, ?, ?, ?, ?, ?) "
+                + "ON conflict ON CONSTRAINT un_name_auth "
+                + "DO UPDATE SET link = excluded.link, date = excluded.date, description = excluded.description "
+                + "WHERE vacancies.date < excluded.date";
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, v.getName());
             ps.setString(2, v.getAuthor());
@@ -109,6 +109,11 @@ public class StoreSQL implements AutoCloseable {
         return id;
     }
 
+    /**
+     * Метод возвращает актуальную дату для начала поиска вакансий
+     * @param source ресурс, где расположена вакансия
+     * @return дата последней записи для ресурса
+     */
     public LocalDateTime getLastDate(String source) {
         LocalDateTime last = LocalDateTime.now().minus(Period.ofYears(1)).truncatedTo(ChronoUnit.MINUTES);
         String sql = "SELECT MAX(date) as date FROM vacancies WHERE source = ?";

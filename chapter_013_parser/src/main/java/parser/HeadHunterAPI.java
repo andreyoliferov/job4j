@@ -19,12 +19,15 @@ import static parser.HunterApp.LOG;
  */
 public class HeadHunterAPI extends Hunter {
 
-    private String metod = "https://api.hh.ru/vacancies";
+    private String method = "https://api.hh.ru/vacancies";
 
     protected HeadHunterAPI(StoreSQL store) {
         super(store, "hh.ru");
     }
 
+    /**
+     * Поиск на hh.ru и запись вакансий в бд.
+     */
     @Override
     public void perform() {
         String req = createRequest();
@@ -41,15 +44,19 @@ public class HeadHunterAPI extends Hunter {
                 String dateStr = vacancy.getString("created_at").split("\\+")[0];
                 LocalDateTime date = LocalDateTime.parse(dateStr).truncatedTo(ChronoUnit.MINUTES);
                 String link = vacancy.getString("alternate_url");
-                String responseFull = requestGet(new StringBuilder(metod).append("/").append(id).toString());
+                String responseFull = requestGet(new StringBuilder(method).append("/").append(id).toString());
                 String desc = new JSONObject(responseFull).getString("description");
                 store.addVacancy(new Vacancy(name, author, link, date, desc, source));
             }
         }
     }
 
+    /**
+     * Формирование GET запроса к методу API.
+     * @return строка запроса.
+     */
     private String createRequest() {
-        return new StringBuilder(metod)
+        return new StringBuilder(method)
                 .append("?area=2")
                 .append("&text=NAME:(java+NOT+script+NOT+android)")
                 .append("&employment=full")
@@ -59,6 +66,11 @@ public class HeadHunterAPI extends Hunter {
                 .toString();
     }
 
+    /**
+     * Базовый метод выполнения GET запроса
+     * @param urlToRead запрос
+     * @return ответ
+     */
     public static String requestGet(String urlToRead) {
         StringBuilder result = new StringBuilder();
         try {
