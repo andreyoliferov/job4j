@@ -64,7 +64,7 @@ public class StoreSQL implements AutoCloseable {
                             .append("CREATE TABLE IF NOT EXISTS vacancies (")
                             .append("id serial primary key,")
                             .append("name varchar(500),")
-                            .append("author varchar(100),")
+                            .append("author varchar(300),")
                             .append("link varchar(500),")
                             .append("date timestamp,")
                             .append("description text,")
