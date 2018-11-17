@@ -23,6 +23,7 @@
         <module>chapter_013_SQL</module>
         <module>jaCoCoReport</module>
         <module>chapter_013_parser</module>
+        <module>chapter_014_Serlvet_JSP</module>
     </modules>
 	
 	<build>
