@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Properties;
+import java.util.*;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
@@ -28,12 +28,15 @@ public class HunterApp implements Job {
 
     public static final Logger LOG = LoggerFactory.getLogger(HunterApp.class);
     public static Properties properties;
+    private static List<String> sources = new ArrayList<>();
+    private Map<String, Hunter> tasks = new HashMap<>();
 
     /**
      * Точка запуска основного приложения по поиску вакансий на сайтах
      * sql.ru(парсинг) и hh.ru(get запросы через публичный api)
      */
     public static void main(String[] args) throws Exception {
+        setSources(args);
         properties = new Properties();
         try (InputStream is = StoreSQL.class.getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(is);
@@ -52,7 +55,6 @@ public class HunterApp implements Job {
         /* Триггер, в котором можно указать расписание, выполнение строго по расписанию */
 //        CronTrigger trigger = newTrigger()
 //                 .withIdentity("Расписание поиска вакансий Java")
-
 //                 .withSchedule(cronSchedule(properties.getProperty("cron.time")))
 //                 .forJob("Поиск вакансий Java")
 //                 .build();
@@ -60,16 +62,31 @@ public class HunterApp implements Job {
         scheduler.scheduleJob(job, trigger);
     }
 
+    private static void setSources(String[] args) {
+        for (String arg : args) {
+            if (arg.contains("source")) {
+                sources.add(arg.split("=")[1]);
+            }
+        }
+    }
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         LOG.info("Поиск вакансий начат! {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         try (StoreSQL store = new StoreSQL()) {
-            Thread tSql = new Thread(() -> new HeadHunterAPI(store).perform());
-            Thread tHh = new Thread(() -> new ParserSqlRu(store).perform());
-            tSql.start();
-            tHh.start();
-            tSql.join();
-            tHh.join();
+            tasks.put("hhru", new HeadHunterAPI(store));
+            tasks.put("sqlru", new ParserSqlRu(store));
+            List<Thread> listThreads = new ArrayList<>();
+            for (Map.Entry<String, Hunter> t : tasks.entrySet()) {
+                if (sources.size() == 0 || sources.contains(t.getKey())) {
+                    Thread thread = new Thread(() -> t.getValue().perform());
+                    thread.start();
+                    listThreads.add(thread);
+                }
+            }
+            for (Thread thread : listThreads) {
+                thread.join();
+            }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
