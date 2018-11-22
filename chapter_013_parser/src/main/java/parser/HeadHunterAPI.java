@@ -84,7 +84,7 @@ public class HeadHunterAPI extends Hunter {
                 }
             }
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return result.toString();
     }

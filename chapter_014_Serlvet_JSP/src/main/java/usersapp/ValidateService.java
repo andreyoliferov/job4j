@@ -62,7 +62,7 @@ public class ValidateService implements Validate {
         }
     }
 
-    private User userIsExist(UUID id) {
+    private User userIsExist(UUID id) throws UserException {
         User temp = store.findById(id);
         if (store.findById(id) == null) {
             throw new UserException("User does not exist");
@@ -70,7 +70,7 @@ public class ValidateService implements Validate {
         return temp;
     }
 
-    private void userIsNotExist(UUID id) {
+    private void userIsNotExist(UUID id) throws UserException {
         if (store.findById(id) != null) {
             throw new UserException("User already exists");
         }

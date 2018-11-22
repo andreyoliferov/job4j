@@ -35,7 +35,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         try {
             connection = DriverManager.getConnection(prop.getProperty("url").concat(prop.getProperty("namedb")), prop);
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
             createDb();
         }
         createTable();
@@ -85,7 +85,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ps.setTimestamp(4, Timestamp.valueOf(item.getCreatedLocalDate()));
             ps.execute();
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return item;
     }
@@ -100,7 +100,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ps.setObject(3, UUID.fromString(id));
             result = ps.execute();
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return result;
     }
@@ -113,7 +113,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             ps.setObject(1, UUID.fromString(id));
             result = ps.executeUpdate();
         } catch (SQLException | IllegalArgumentException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return result != 0;
     }
@@ -131,7 +131,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 }
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return items;
     }
@@ -151,7 +151,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 }
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return items;
     }
@@ -169,7 +169,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                 }
             }
         } catch (SQLException | IllegalArgumentException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return old;
     }

@@ -53,7 +53,7 @@ public class ParserSqlRu extends Hunter {
                 }
             }
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
     }
 

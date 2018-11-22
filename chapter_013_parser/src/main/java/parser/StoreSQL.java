@@ -27,10 +27,10 @@ public class StoreSQL implements AutoCloseable {
             Class.forName(properties.getProperty("driver-class-name"));
             conn = DriverManager.getConnection(properties.getProperty("url").concat(properties.getProperty("namedb")), properties);
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
             createDb();
         } catch (ClassNotFoundException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         createTable();
     }
@@ -50,7 +50,7 @@ public class StoreSQL implements AutoCloseable {
             conn = DriverManager.getConnection(properties.getProperty("url")
                     .concat(properties.getProperty("namedb")), properties);
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -73,7 +73,7 @@ public class StoreSQL implements AutoCloseable {
                             .toString()
             );
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -104,7 +104,7 @@ public class StoreSQL implements AutoCloseable {
                 }
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
         return id;
     }
@@ -121,11 +121,14 @@ public class StoreSQL implements AutoCloseable {
             ps.setString(1, source);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    last = rs.getTimestamp("date").toLocalDateTime();
+                    Timestamp temp = rs.getTimestamp("date");
+                    if (temp != null) {
+                        last = temp.toLocalDateTime();
+                    }
                 }
             }
-        } catch (SQLException | NullPointerException e) {
-            LOG.error(e.getMessage());
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
         }
         return last;
     }

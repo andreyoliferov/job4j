@@ -62,7 +62,7 @@ public class HunterApp implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        LOG.info("Поиск вакансий начат! " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        LOG.info("Поиск вакансий начат! {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         try (StoreSQL store = new StoreSQL()) {
             Thread tSql = new Thread(() -> new HeadHunterAPI(store).perform());
             Thread tHh = new Thread(() -> new ParserSqlRu(store).perform());
@@ -71,8 +71,8 @@ public class HunterApp implements Job {
             tSql.join();
             tHh.join();
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+            LOG.error(e.getMessage(), e);
         }
-        LOG.info("Поиск вакансий завершен успешно! " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        LOG.info("Поиск вакансий завершен успешно! {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 }
