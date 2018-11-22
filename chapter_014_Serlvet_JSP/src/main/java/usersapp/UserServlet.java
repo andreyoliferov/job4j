@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -50,52 +49,26 @@ public class UserServlet extends HttpServlet {
         private DispatchActions() {
             dispatch.put(
                     "add",
-                    (value)-> {
-                        valideRequest(value, "name", "login", "email");
-                        logic.add(
-                                new User(
-                                        value.get("name")[0],
-                                        value.get("login")[0],
-                                        value.get("email")[0]
-                                ));
+                    (parameters)-> {
+                        logic.add(parameters);
                         return "User created successfully!";
                     });
             dispatch.put(
                     "update",
-                    (value)-> {
-                        valideRequest(value, "id");
-                        logic.update(
-                                new User(
-                                        UUID.fromString(value.get("id")[0]),
-                                        getValue(value, "name"),
-                                        getValue(value, "login"),
-                                        getValue(value, "email")
-                                ));
+                    (parameters)-> {
+                        logic.update(parameters);
                         return "User successfully updated!";
                     });
             dispatch.put(
                     "delete",
-                    (value)-> {
-                        valideRequest(value, "id");
-                        logic.delete(UUID.fromString(value.get("id")[0]));
+                    (parameters)-> {
+                        logic.delete(parameters);
                         return "User successfully deleted!";
                     });
         }
 
         private String execute(String name, Map<String, String[]> param) {
             return dispatch.get(name).apply(param);
-        }
-
-        private String getValue(Map<String, String[]> value, String key) {
-            return value.containsKey(key) ? value.get(key)[0] : null;
-        }
-
-        private void valideRequest(Map value, String ... keys) {
-            for (String key : keys) {
-                if (!value.containsKey(key)) {
-                    throw new UserException("incorrect request");
-                }
-            }
         }
     }
 }

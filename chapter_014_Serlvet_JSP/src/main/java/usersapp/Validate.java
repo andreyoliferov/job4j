@@ -1,6 +1,7 @@
 package usersapp;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -9,14 +10,14 @@ import java.util.UUID;
  */
 public interface Validate {
 
-    UUID add(User user);
+    UUID add(Map<String, String[]> parameters);
 
-    User update(User user);
+    User update(Map<String, String[]> parameters);
 
-    User delete(UUID id);
+    User delete(Map<String, String[]> parameters);
 
     List<User> findAll();
 
-    User findById(UUID id);
+    User findById(Map<String, String[]> parameters);
 
 }

@@ -1,6 +1,7 @@
 package usersapp;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -21,14 +22,27 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public UUID add(User user) throws UserException {
+    public UUID add(Map<String, String[]> parameters) throws UserException {
+        hasRequiredParameters(parameters, "name", "login", "email");
+        User user = new User(
+                parameters.get("name")[0],
+                parameters.get("login")[0],
+                parameters.get("email")[0]
+        );
         this.validateEmail(user.getEmail());
         this.userIsNotExist(user.getId());
         return store.add(user);
     }
 
     @Override
-    public User update(User user) throws UserException {
+    public User update(Map<String, String[]> parameters) throws UserException {
+        hasRequiredParameters(parameters, "id");
+        User user = new User(
+                UUID.fromString(parameters.get("id")[0]),
+                getOptionalParameter(parameters, "name"),
+                getOptionalParameter(parameters, "login"),
+                getOptionalParameter(parameters, "email")
+        );
         User old = this.userIsExist(user.getId());
         if (user.getName() == null) {
             user.setName(old.getName());
@@ -44,7 +58,9 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public User delete(UUID id) throws UserException {
+    public User delete(Map<String, String[]> parameters) throws UserException {
+        hasRequiredParameters(parameters, "id");
+        UUID id = UUID.fromString(parameters.get("id")[0]);
         this.userIsExist(id);
         return store.delete(id);
     }
@@ -59,8 +75,9 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public User findById(UUID id) throws UserException {
-        return userIsExist(id);
+    public User findById(Map<String, String[]> parameters) throws UserException {
+        hasRequiredParameters(parameters, "id");
+        return userIsExist(UUID.fromString(parameters.get("id")[0]));
     }
 
     private void validateEmail(String email) throws UserException {
@@ -82,6 +99,18 @@ public class ValidateService implements Validate {
     private void userIsNotExist(UUID id) throws UserException {
         if (store.findById(id) != null) {
             throw new UserException("User already exists");
+        }
+    }
+
+    private String getOptionalParameter(Map<String, String[]> value, String key) {
+        return value.containsKey(key) ? value.get(key)[0] : null;
+    }
+
+    private void hasRequiredParameters(Map value, String ... keys) {
+        for (String key : keys) {
+            if (!value.containsKey(key)) {
+                throw new UserException(String.format("incorrect request, has no parameter [%s]", key));
+            }
         }
     }
 }
