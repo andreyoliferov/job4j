@@ -29,8 +29,17 @@ public class ValidateService implements Validate {
 
     @Override
     public User update(User user) throws UserException {
+        User old = this.userIsExist(user.getId());
+        if (user.getName() == null) {
+            user.setName(old.getName());
+        }
+        if (user.getLogin() == null) {
+            user.setLogin(old.getLogin());
+        }
+        if (user.getEmail() == null) {
+            user.setEmail(old.getEmail());
+        }
         this.validateEmail(user.getEmail());
-        this.userIsExist(user.getId());
         return store.update(user);
     }
 

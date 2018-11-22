@@ -75,7 +75,7 @@ public class HunterApp implements Job {
         LOG.info("Поиск вакансий начат! {}", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         try (StoreSQL store = new StoreSQL()) {
             tasks.put("hhru", new HeadHunterAPI(store));
-            tasks.put("sqlru", new ParserSqlRu(store));
+            tasks.put("sqlorg", new ParserSqlRu(store));
             List<Thread> listThreads = new ArrayList<>();
             for (Map.Entry<String, Hunter> t : tasks.entrySet()) {
                 if (sources.size() == 0 || sources.contains(t.getKey())) {

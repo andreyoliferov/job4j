@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryStore implements Store {
 
     private static MemoryStore ourInstance = new MemoryStore();
-    private ConcurrentHashMap<UUID, User> store = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, User> store = new ConcurrentHashMap<>();
 
     private MemoryStore() {
     }

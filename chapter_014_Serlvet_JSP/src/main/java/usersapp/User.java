@@ -22,7 +22,10 @@ public class User {
 
     public User(UUID id, String name, String login, String email) {
         this.id = id;
-        new User(name, login, email);
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = LocalDate.now();
     }
 
     public User(String name, String login, String email) {
@@ -66,5 +69,25 @@ public class User {
                 + ", email='" + email + '\''
                 + ", createDate=" + createDate
                 + '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

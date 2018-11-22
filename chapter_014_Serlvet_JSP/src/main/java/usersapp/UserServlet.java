@@ -35,8 +35,6 @@ public class UserServlet extends HttpServlet {
         String result;
         try {
             result = actions.execute(action, parameters);
-        } catch (NullPointerException e) {
-            result = "error: incorrect request";
         } catch (UserException e) {
             result = e.getMessage();
         }
@@ -53,6 +51,7 @@ public class UserServlet extends HttpServlet {
             dispatch.put(
                     "add",
                     (value)-> {
+                        valideRequest(value, "name", "login", "email");
                         logic.add(
                                 new User(
                                         value.get("name")[0],
@@ -64,18 +63,20 @@ public class UserServlet extends HttpServlet {
             dispatch.put(
                     "update",
                     (value)-> {
+                        valideRequest(value, "id");
                         logic.update(
                                 new User(
                                         UUID.fromString(value.get("id")[0]),
-                                        value.get("name")[0],
-                                        value.get("login")[0],
-                                        value.get("email")[0]
+                                        getValue(value, "name"),
+                                        getValue(value, "login"),
+                                        getValue(value, "email")
                                 ));
                         return "User successfully updated!";
                     });
             dispatch.put(
                     "delete",
                     (value)-> {
+                        valideRequest(value, "id");
                         logic.delete(UUID.fromString(value.get("id")[0]));
                         return "User successfully deleted!";
                     });
@@ -83,6 +84,18 @@ public class UserServlet extends HttpServlet {
 
         private String execute(String name, Map<String, String[]> param) {
             return dispatch.get(name).apply(param);
+        }
+
+        private String getValue(Map<String, String[]> value, String key) {
+            return value.containsKey(key) ? value.get(key)[0] : null;
+        }
+
+        private void valideRequest(Map value, String ... keys) {
+            for (String key : keys) {
+                if (!value.containsKey(key)) {
+                    throw new UserException("incorrect request");
+                }
+            }
         }
     }
 }
