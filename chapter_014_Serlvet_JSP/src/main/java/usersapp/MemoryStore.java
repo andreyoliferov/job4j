@@ -3,6 +3,7 @@ package usersapp;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,13 +42,26 @@ public class MemoryStore implements Store {
         return store.remove(id);
     }
 
+    /**
+     * @return лист пользователей
+     */
     @Override
     public List<User> findAll() {
         return new ArrayList<>(store.values());
     }
 
+    /**
+     * Поиск пользователя по id
+     * @param id id
+     * @return копия существующего пользователя, null если не сущетсвует
+     */
     @Override
     public User findById(UUID id) {
-        return store.get(id);
+        User result = null;
+        User temp = store.get(id);
+        if (temp != null) {
+            result = new User(temp);
+        }
+        return result;
     }
 }

@@ -21,11 +21,12 @@ public class User {
     }
 
     public User(UUID id, String name, String login, String email) {
+        this(name, login, email);
         this.id = id;
-        this.name = name;
-        this.login = login;
-        this.email = email;
-        this.createDate = LocalDate.now();
+    }
+
+    public User(User user) {
+        this(user.getId(), user.getName(), user.getLogin(), user.getEmail());
     }
 
     public User(String name, String login, String email) {
@@ -89,5 +90,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
     }
 }

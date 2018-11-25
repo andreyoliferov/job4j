@@ -1,4 +1,8 @@
-package usersapp;
+package usersapp.servlets;
+
+import usersapp.UserException;
+import usersapp.Validate;
+import usersapp.ValidateService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
