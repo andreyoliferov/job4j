@@ -147,5 +147,12 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
     </dependencies>
 </project>

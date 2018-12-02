@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ValidateService implements Validate {
 
     private static ValidateService ourInstance = new ValidateService();
-    private final Store store = MemoryStore.getInstance();
+    private final Store store = DBStore.getInstance();
 
     private ValidateService() {
     }
@@ -128,7 +128,7 @@ public class ValidateService implements Validate {
      */
     private User userIsExist(UUID id) throws UserException {
         User temp = store.findById(id);
-        if (store.findById(id) == null) {
+        if (temp == null) {
             throw new UserException("User does not exist");
         }
         return temp;

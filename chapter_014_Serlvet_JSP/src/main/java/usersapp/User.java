@@ -1,6 +1,7 @@
 package usersapp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,27 +15,26 @@ public class User {
     private String name;
     private String login;
     private String email;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 
     public String getEmail() {
         return email;
     }
 
-    public User(UUID id, String name, String login, String email) {
-        this(name, login, email);
+    public User(UUID id, String name, String login, String email, LocalDateTime createDate) {
         this.id = id;
-    }
-
-    public User(User user) {
-        this(user.getId(), user.getName(), user.getLogin(), user.getEmail());
-    }
-
-    public User(String name, String login, String email) {
-        this.id = UUID.randomUUID();
         this.name = name;
         this.login = login;
         this.email = email;
-        this.createDate = LocalDate.now();
+        this.createDate = createDate;
+    }
+
+    public User(String name, String login, String email) {
+        this (UUID.randomUUID(), name, login, email, LocalDateTime.now());
+    }
+
+    public User(User user) {
+        this(user.getId(), user.getName(), user.getLogin(), user.getEmail(), user.getCreateDate());
     }
 
     public UUID getId() {
@@ -92,7 +92,7 @@ public class User {
         this.email = email;
     }
 
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 }
