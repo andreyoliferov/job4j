@@ -4,6 +4,7 @@ import usersapp.UserException;
 import usersapp.Validate;
 import usersapp.ValidateService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,8 @@ public class UserCreateServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String html = createHtml(req.getContextPath(), "");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(html);
-        writer.flush();
+        req.setAttribute("result", "");
+        req.getRequestDispatcher("WEB-INF/pages/createPage.jsp").forward(req, resp);
     }
 
     /**
@@ -45,39 +44,7 @@ public class UserCreateServlet extends HttpServlet {
         } catch (UserException e) {
             result = e.getMessage();
         }
-        String html = createHtml(req.getContextPath(), result);
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(html);
-        writer.flush();
-    }
-
-    /**
-     * Создание html страницы
-     * @param contexPath contexPath
-     * @param result результат запроса
-     * @return html страница
-     */
-    private String createHtml(String contexPath, String result) {
-        return "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <title>List users</title>\n"
-                + "    <style type=\"text/css\">"
-                + "    TD, TH {\n"
-                + "    border: 2px solid black; } "
-                + "    </style>"
-                + "</head>\n"
-                + "<body>\n"
-                + "   <form action='" + contexPath +  "/create' method='post'>"
-                + "       Name: <input type='text' name='name'/>"
-                + "       Login: <input type='text' name='login'/>"
-                + "       Email: <input type='text' name='email'/>"
-                + "       <input type='submit' value='create'></input>"
-                + "       </br>"
-                +         result
-                + "   </form>"
-                + "</body>\n"
-                + "</html>";
+        req.setAttribute("result", result);
+        req.getRequestDispatcher("WEB-INF/pages/createPage.jsp").forward(req, resp);
     }
 }
