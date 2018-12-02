@@ -44,20 +44,18 @@ public class DBStore implements Store {
      * Процедура создания таблицы
      */
     private void prepareTable() {
-        try {
-            Connection conn = SOURCE.getConnection();
-            try (Statement st = conn.createStatement()) {
-                st.execute(
-                        new StringBuilder()
-                                .append("CREATE TABLE IF NOT EXISTS users (")
-                                .append("id uuid primary key,")
-                                .append("name varchar(300),")
-                                .append("login varchar(300),")
-                                .append("email varchar(300),")
-                                .append("date_created timestamp)")
-                                .toString()
-                );
-            }
+        try(Connection conn = SOURCE.getConnection();
+            Statement st = conn.createStatement()) {
+            st.execute(
+                    new StringBuilder()
+                            .append("CREATE TABLE IF NOT EXISTS users (")
+                            .append("id uuid primary key,")
+                            .append("name varchar(300),")
+                            .append("login varchar(300),")
+                            .append("email varchar(300),")
+                            .append("date_created timestamp)")
+                            .toString()
+            );
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -71,7 +69,8 @@ public class DBStore implements Store {
     public UUID add(User user) {
         UUID result = user.getId();
         String sql = "INSERT INTO users (id, name, login, email, date_created) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = SOURCE.getConnection().prepareStatement(sql)) {
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setObject(1, user.getId());
             ps.setString(2, user.getName());
             ps.setString(3, user.getLogin());
@@ -89,7 +88,8 @@ public class DBStore implements Store {
     public User update(User user) {
         User userOld = findById(user.getId());
         String sql = "UPDATE users SET name = ?, login = ?, email = ? WHERE id = ?";
-        try (PreparedStatement ps = SOURCE.getConnection().prepareStatement(sql)) {
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getLogin());
             ps.setObject(3, user.getEmail());
@@ -106,7 +106,8 @@ public class DBStore implements Store {
     public User delete(UUID id) {
         User user = findById(id);
         String sql = "DELETE FROM users WHERE id = ?";
-        try (PreparedStatement ps = SOURCE.getConnection().prepareStatement(sql)) {
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setObject(1, id);
             ps.execute();
         } catch (SQLException e) {
@@ -119,16 +120,16 @@ public class DBStore implements Store {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        try (Statement st = SOURCE.getConnection().createStatement()) {
-            try (ResultSet result = st.executeQuery("SELECT * FROM users")) {
-                while (result.next()) {
-                    users.add(new User(
-                            (UUID) result.getObject("id"),
-                            result.getString("name"),
-                            result.getString("login"),
-                            result.getString("email"),
-                            result.getTimestamp("date_created").toLocalDateTime()));
-                }
+        try (Connection conn = SOURCE.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet result = st.executeQuery("SELECT * FROM users")) {
+            while (result.next()) {
+                users.add(new User(
+                        (UUID) result.getObject("id"),
+                        result.getString("name"),
+                        result.getString("login"),
+                        result.getString("email"),
+                        result.getTimestamp("date_created").toLocalDateTime()));
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -141,7 +142,8 @@ public class DBStore implements Store {
     public User findById(UUID id) {
         User resultUser = null;
         String sql = "SELECT * FROM users WHERE id = ?";
-        try (PreparedStatement ps = SOURCE.getConnection().prepareStatement(sql)) {
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setObject(1, id);
             try (ResultSet result = ps.executeQuery()) {
                 while (result.next()) {
