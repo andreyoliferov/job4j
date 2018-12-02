@@ -4,9 +4,8 @@ Date: 02.12.2018
 Time: 12:56
 To change this template use File | Settings | File Templates.
 -->
-<%@ page import="usersapp.User" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>List</title>
@@ -16,8 +15,7 @@ To change this template use File | Settings | File Templates.
     </style>
 </head>
 <body>
-<% List<User> users = (List<User>) request.getAttribute("users"); %>
-<% if (users != null) {%>
+<c:if test="${users != null}">
 <table>
     <tr>
         <th>id</th>
@@ -25,22 +23,22 @@ To change this template use File | Settings | File Templates.
         <th>login</th>
         <th>email</th>
     </tr>
-    <% for (User user : users) {%>
+    <c:forEach var="user" items="${users}">
     <tr>
-        <td><%= user.getId()%></td>
-        <td><%= user.getName()%></td>
-        <td><%= user.getLogin()%></td>
-        <td><%= user.getEmail()%></td>
+        <td><c:out value="${user.id}"/></td>
+        <td><c:out value="${user.name}"/></td>
+        <td><c:out value="${user.login}"/></td>
+        <td><c:out value="${user.email}"/></td>
     </tr>
-    <% } %>
+    </c:forEach>
 </table>
-<% } else { %>
+</c:if>
+<c:if test="${users == null}">
 <table>
     <tr>
         <td>List is empty</td>
     </tr>
 </table>
-<% } %>
+</c:if>
 </body>
 </html>
-

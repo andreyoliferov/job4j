@@ -20,7 +20,7 @@ public class DBStore implements Store {
 
     private static final Logger LOG = LoggerFactory.getLogger(DBStore.class);
     private static final BasicDataSource SOURCE = new BasicDataSource();
-    private static DBStore INSTANCE = new DBStore();
+    private static final DBStore INSTANCE = new DBStore();
     private static Properties properties;
 
     public DBStore() {
@@ -44,7 +44,7 @@ public class DBStore implements Store {
      * Процедура создания таблицы
      */
     private void prepareTable() {
-        try(Connection conn = SOURCE.getConnection();
+        try (Connection conn = SOURCE.getConnection();
             Statement st = conn.createStatement()) {
             st.execute(
                     new StringBuilder()
