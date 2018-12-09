@@ -1,9 +1,10 @@
 package usersapp;
 
 import net.jcip.annotations.ThreadSafe;
+import usersapp.items.Role;
+import usersapp.items.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,6 +49,21 @@ public class MemoryStore implements Store {
     @Override
     public List<User> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        return null;
+    }
+
+    @Override
+    public Role findRoleById(UUID id) {
+        return null;
+    }
+
+    @Override
+    public User auth(String login, String password) {
+        return null;
     }
 
     /**

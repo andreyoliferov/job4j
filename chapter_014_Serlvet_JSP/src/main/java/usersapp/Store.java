@@ -1,5 +1,8 @@
 package usersapp;
 
+import usersapp.items.Role;
+import usersapp.items.User;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -18,4 +21,11 @@ public interface Store {
     List<User> findAll();
 
     User findById(UUID id);
+
+    List<Role> findAllRoles();
+
+    Role findRoleById(UUID id);
+
+    User auth(String login, String password);
+
 }

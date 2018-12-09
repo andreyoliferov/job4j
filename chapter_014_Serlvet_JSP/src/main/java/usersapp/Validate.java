@@ -1,5 +1,8 @@
 package usersapp;
 
+import usersapp.items.Role;
+import usersapp.items.User;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,6 +21,10 @@ public interface Validate {
 
     List<User> findAll();
 
+    List<Role> findAllRoles();
+
     User findById(Map<String, String[]> parameters);
+
+    User auth(String login, String password);
 
 }

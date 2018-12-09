@@ -1,6 +1,6 @@
 package usersapp.servlets;
 
-import usersapp.User;
+import usersapp.items.User;
 import usersapp.UserException;
 import usersapp.Validate;
 import usersapp.ValidateService;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 /**
@@ -36,6 +35,7 @@ public class UserUpdateServlet extends HttpServlet {
         }
         req.setAttribute("user", user);
         req.setAttribute("result", result);
+        req.setAttribute("roles", logic.findAllRoles());
         req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
     }
 
@@ -56,6 +56,7 @@ public class UserUpdateServlet extends HttpServlet {
         }
         req.setAttribute("user", user);
         req.setAttribute("result", result);
+        req.setAttribute("roles", logic.findAllRoles());
         req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
     }
 }

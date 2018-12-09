@@ -18,7 +18,15 @@
 <form action='${pageContext.servletContext.contextPath}/create' method='post'>
     Name: <input type='text' name='name'/>
     Login: <input type='text' name='login'/>
+    Password: <input type='password' name='password'/>
     Email: <input type='text' name='email'/>
+    Role:
+    <select name="role">
+        <option selected disabled>choose role</option>
+        <c:forEach var="role" items="${roles}">
+            <option value="${role.id}"><c:out value="${role.name}"/></option>
+        </c:forEach>
+    </select>
     <input type='submit' value='create'/>
     </br>
     <c:out value="${result}"/>

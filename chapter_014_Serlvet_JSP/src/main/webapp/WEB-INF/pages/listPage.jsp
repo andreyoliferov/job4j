@@ -22,6 +22,7 @@ To change this template use File | Settings | File Templates.
         <th>name</th>
         <th>login</th>
         <th>email</th>
+        <th>role</th>
     </tr>
     <c:forEach var="user" items="${users}">
     <tr>
@@ -29,6 +30,7 @@ To change this template use File | Settings | File Templates.
         <td><c:out value="${user.name}"/></td>
         <td><c:out value="${user.login}"/></td>
         <td><c:out value="${user.email}"/></td>
+        <td><c:out value="${user.role.name}"/></td>
     </tr>
     </c:forEach>
 </table>

@@ -27,7 +27,7 @@ public class UserCreateServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("result", "");
+        req.setAttribute("roles", logic.findAllRoles());
         req.getRequestDispatcher("WEB-INF/pages/createPage.jsp").forward(req, resp);
     }
 

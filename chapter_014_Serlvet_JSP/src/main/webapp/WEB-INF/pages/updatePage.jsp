@@ -21,7 +21,17 @@
       <input name='id' type='hidden' value='${user.id}'/>
       Name: <input type='text' name='name' value='${user.name}'/>
       Login: <input type='text' name='login' value='${user.login}'/>
+      Password: <input type='password' name='password' value='${user.password}'/>
       Email: <input type='text' name='email' value='${user.email}'/>
+      Role:
+      <select name="role">
+          <option value="${user.role.id}" selected><c:out value="${user.role.name}"/></option>
+          <c:forEach var="role" items="${roles}">
+              <c:if test="${user.role.id != role.id}">
+                <option value="${role.id}"><c:out value="${role.name}"/></option>
+              </c:if>
+          </c:forEach>
+      </select>
       <input type='submit' value='edit'/>
       </br>
       <c:out value="${result}"/>
