@@ -44,7 +44,7 @@ public class DBStore implements Store {
         }
     }
 
-    public static DBStore getInstance() {
+    public static Store getInstance() {
         return INSTANCE;
     }
 
@@ -236,6 +236,7 @@ public class DBStore implements Store {
         return user;
     }
 
+    @Override
     public HashMap<String, List<Rule>> accessData() {
         HashMap<String, List<Rule>> result = new HashMap<>();
         try (Connection conn = SOURCE.getConnection();

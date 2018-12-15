@@ -3,7 +3,6 @@ package usersapp.servlets;
 import usersapp.Validate;
 import usersapp.ValidateService;
 import usersapp.items.User;
-import usersapp.servlets.filters.RuleFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

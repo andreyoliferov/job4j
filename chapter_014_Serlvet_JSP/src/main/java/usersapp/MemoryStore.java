@@ -2,9 +2,11 @@ package usersapp;
 
 import net.jcip.annotations.ThreadSafe;
 import usersapp.items.Role;
+import usersapp.items.Rule;
 import usersapp.items.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +24,7 @@ public class MemoryStore implements Store {
     private MemoryStore() {
     }
 
-    public static MemoryStore getInstance() {
+    public static Store getInstance() {
         return ourInstance;
     }
 
@@ -63,6 +65,11 @@ public class MemoryStore implements Store {
 
     @Override
     public User auth(String login, String password) {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, List<Rule>> accessData() {
         return null;
     }
 

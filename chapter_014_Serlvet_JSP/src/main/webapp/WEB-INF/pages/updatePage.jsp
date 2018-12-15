@@ -24,7 +24,7 @@
       Password: <input type='password' name='password' value='${user.password}'/>
       Email: <input type='text' name='email' value='${user.email}'/>
       Role:
-      <select name="role">
+      <select <c:if test="${self != null}">disabled=""</c:if> name="role">
           <option value="${user.role.id}" selected><c:out value="${user.role.name}"/></option>
           <c:forEach var="role" items="${roles}">
               <c:if test="${user.role.id != role.id}">

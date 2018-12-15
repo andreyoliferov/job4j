@@ -1,21 +1,18 @@
 package usersapp.servlets;
 
+
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-
+import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.annotations.Test;
-import usersapp.DBStore;
-import usersapp.MemoryStore;
-import usersapp.Store;
+import usersapp.*;
 import usersapp.items.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.List;
-
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,30 +24,22 @@ import static org.mockito.Mockito.when;
  * @autor aoliferov
  * @since 10.12.2018
  */
-//@RunWith(PowerMockRunner.class)
-@PrepareForTest(DBStore.class)
-public class SignInControllerTest {
-
-    @Test
-    public void whenAddUserThenStoreIt1() throws ServletException, IOException {
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        when(req.getParameter("name")).thenReturn("Petr Arsentev");
-        new UserServlet().doPost(req, resp);
-    }
-
+@PrepareForTest({ValidateService.class})
+public class SignInControllerTest extends PowerMockTestCase {
 
     @Test
     public void whenAddUserThenStoreIt() throws ServletException, IOException {
-        Store store = MemoryStore.getInstance();
-        PowerMockito.mockStatic(DBStore.class);
-        when((Store) DBStore.getInstance()).thenReturn(store);
+        Validate validate = ValidateMock.getInstance();
+        PowerMockito.mockStatic(ValidateService.class);
+        when(ValidateService.getInstance()).thenReturn(validate);
+
+
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("name")).thenReturn("Petr Arsentev");
         new UserCreateServlet().doPost(req, resp);
 
-        List<User> list = store.findAll();
+        List<User> list = validate.findAll();
  //       assertThat(store.findAll().iterator().next().getName(), is("Petr Arsentev"));
     }
 }

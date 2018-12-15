@@ -1,8 +1,10 @@
 package usersapp;
 
 import usersapp.items.Role;
+import usersapp.items.Rule;
 import usersapp.items.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,5 +29,7 @@ public interface Store {
     Role findRoleById(UUID id);
 
     User auth(String login, String password);
+
+    HashMap<String, List<Rule>> accessData();
 
 }
