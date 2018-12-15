@@ -38,14 +38,11 @@ public class RuleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String path = req.getServletPath();
         HttpSession session = req.getSession();
-        User user;
-        synchronized (session) {
-            user = (User) session.getAttribute("currentUser");
-            Boolean reload = (Boolean) session.getAttribute("dataAccessReload");
-            if (reload != null && reload) {
-                dispatchAccess.reload();
-                session.setAttribute("dataAccessReload", false);
-            }
+        User user = (User) session.getAttribute("currentUser");
+        Boolean reload = (Boolean) session.getAttribute("dataAccessReload");
+        if (reload != null && reload) {
+            dispatchAccess.reload();
+            session.setAttribute("dataAccessReload", false);
         }
         List<Rule> lacks = dispatchAccess.checkAccess(path, user);
         if (lacks.size() == 0 || limitedAccess.checkLimited(req)) {
@@ -105,10 +102,7 @@ public class RuleFilter implements Filter {
                     "/edit",
                     (req) -> {
                         HttpSession session = req.getSession();
-                        User user;
-                        synchronized (session) {
-                            user = (User) session.getAttribute("currentUser");
-                        }
+                        User user = (User) session.getAttribute("currentUser");
                         boolean limited = user.getId().toString().equals(req.getParameter("id"));
                         if (limited) {
                             req.setAttribute("self", true);

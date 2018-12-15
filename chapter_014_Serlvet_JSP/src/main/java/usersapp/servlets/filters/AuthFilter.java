@@ -17,7 +17,7 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        //
     }
 
     /**
@@ -29,19 +29,16 @@ public class AuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpSession session = req.getSession();
-        User user;
-        synchronized (session) {
-            user = (User) session.getAttribute("currentUser");
-            if (user == null && !req.getRequestURI().contains("/login")) {
-                ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/login", req.getContextPath()));
-                return;
-            }
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null && !req.getRequestURI().contains("/login")) {
+            ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/login", req.getContextPath()));
+            return;
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
-
+        //
     }
 }

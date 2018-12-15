@@ -34,10 +34,8 @@ public class SignInController extends HttpServlet {
         User user = logic.auth(login, password);
         if (user != null) {
             HttpSession session = req.getSession();
-            synchronized (session) {
-                session.setAttribute("currentUser", user);
-                session.setAttribute("dataAccessReload", true);
-            }
+            session.setAttribute("currentUser", user);
+            session.setAttribute("dataAccessReload", true);
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
             req.setAttribute("error", "incorrect data");
