@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Users list</h1>
+    <h2>Bootstrap Page dinamic users page</h2>
+    <p>This page is intended to dynamically add and display users without refreshing the page.</p>
+
+    <form action="/json">
+        <div class="form-group">
+            <label for="login">Login:</label>
+            <input type="text" class="form-control" id="login" placeholder="Enter login" name="login">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="first_name">Name:</label>
+            <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
+        </div>
+        <div class="form-group">
+            <label for="second_name">Second name:</label>
+            <input type="text" class="form-control" id="second_name" placeholder="Enter second name" name="second_name">
+        </div>
+        <label class="radio-inline">
+            <input type="radio" name="sex">
+            Male
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="sex">
+            Female
+        </label>
+        <div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </form>
+
+    <table class="table my-lg-5">
+        <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+        </tr>
+        <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
