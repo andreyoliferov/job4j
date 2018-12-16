@@ -81,7 +81,7 @@ public class UserCreateServletTest extends PowerMockTestCase {
                                 .add("exception", "test exception")
                                 .get());
 
-        new UserCreateServlet().doGet(req, resp);
+        new UserCreateServlet().doPost(req, resp);
 
         User user = validate.auth("testLogin", "testPassword");
         assert user == null;
