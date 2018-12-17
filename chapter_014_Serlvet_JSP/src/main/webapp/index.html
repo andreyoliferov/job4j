@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        input:focus:invalid {
+            border: 2px solid red;
+        }
+    </style>
+    <script>
+        function validate() {
+//            var result = true;
+//            var fields = document.getElementsByClassName('valide');
+//            for (var i = 0; i < fields.length; i++) {
+//                if (fields[i].value == "") {
+//                    alert("Write in all required fields");
+//                    result = false;
+//                    break;
+//                }
+//            }
+//            return result;
+        }
+    </script>
 </head>
 <body>
 
@@ -16,28 +35,28 @@
     <p>This page is intended to dynamically add and display users without refreshing the page.</p>
 
     <form action="/json">
-        <div class="form-group">
+        <div class="form-group ">
             <label for="login">Login:</label>
-            <input type="text" class="form-control" id="login" placeholder="Enter login" name="login">
+            <input type="text" class="form-control valide" id="login" placeholder="Enter login" name="login" required>
         </div>
         <div class="form-group">
             <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            <input type="password" class="form-control valide" id="pwd" placeholder="Enter password" name="pwd" required>
         </div>
         <div class="form-group">
             <label for="email">Email address:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            <input type="email" class="form-control valide" id="email" placeholder="Enter email" name="email" required>
         </div>
         <div class="form-group">
             <label for="first_name">Name:</label>
-            <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
+            <input type="text" class="form-control valide" id="first_name" placeholder="Enter first name" name="first_name" required>
         </div>
         <div class="form-group">
             <label for="second_name">Second name:</label>
-            <input type="text" class="form-control" id="second_name" placeholder="Enter second name" name="second_name">
+            <input type="text" class="form-control valide" id="second_name" placeholder="Enter second name" name="second_name" required>
         </div>
         <label class="radio-inline">
-            <input type="radio" name="sex">
+            <input type="radio" name="sex" checked>
             Male
         </label>
         <label class="radio-inline">
@@ -45,7 +64,7 @@
             Female
         </label>
         <div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
         </div>
     </form>
 
