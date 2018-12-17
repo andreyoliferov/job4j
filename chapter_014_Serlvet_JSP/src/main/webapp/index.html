@@ -13,17 +13,29 @@
         }
     </style>
     <script>
+        function func() {
+            if (validate()) {
+                addRow();
+            }
+        }
         function validate() {
-//            var result = true;
-//            var fields = document.getElementsByClassName('valide');
-//            for (var i = 0; i < fields.length; i++) {
-//                if (fields[i].value == "") {
-//                    alert("Write in all required fields");
-//                    result = false;
-//                    break;
-//                }
-//            }
-//            return result;
+            var result = true;
+            var fields = document.getElementsByClassName('valide');
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].value == "") {
+                    alert("Write in all required fields");
+                    fields[i].focus();
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+        function addRow() {
+            var firstname = $('#first_name').val();
+            var secondname = $('#second_name').val();
+            var email = $('#email').val();
+            $('#table tr:last').after('<tr><td>' + firstname + '</td><td>' + secondname +'</td><td>' + email + '</td></tr>');
         }
     </script>
 </head>
@@ -64,11 +76,12 @@
             Female
         </label>
         <div>
-            <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
+            <input type="button" class="btn btn-default" onclick="return func();" value="Add">
+            <input type="submit" class="btn btn-default" onclick="return validate()" value="Submit">
         </div>
     </form>
 
-    <table class="table my-lg-5">
+    <table class="table my-lg-5" id="table">
         <thead>
         <tr>
             <th>Firstname</th>
