@@ -9,6 +9,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>JsonController</servlet-name>
+        <servlet-class>usersapp.servlets.JsonController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JsonController</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>usersapp.servlets.UserServlet</servlet-class>
     </servlet>
