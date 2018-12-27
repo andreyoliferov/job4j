@@ -1,4 +1,6 @@
 <web-app>
+
+    <!-- SERVLETS -->
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
         <servlet-class>example.servlets.ExampleServlet</servlet-class>
@@ -6,15 +8,6 @@
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>JsonController</servlet-name>
-        <servlet-class>usersapp.servlets.JsonController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>JsonController</servlet-name>
-        <url-pattern>/json</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -62,6 +55,16 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Clients</servlet-name>
+        <servlet-class>usersapp.servlets.ClientsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Clients</servlet-name>
+        <url-pattern>/clients</url-pattern>
+    </servlet-mapping>
+
+    <!-- FILTERS -->
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>usersapp.servlets.filters.AuthFilter</filter-class>
@@ -70,7 +73,6 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>*</url-pattern>
     </filter-mapping>
-
     <filter>
         <filter-name>RuleFilter</filter-name>
         <filter-class>usersapp.servlets.filters.RuleFilter</filter-class>
@@ -79,4 +81,24 @@
         <filter-name>RuleFilter</filter-name>
         <url-pattern>*</url-pattern>
     </filter-mapping>
+
+    <!-- REST FUL API -->
+    <servlet>
+        <servlet-name>rest_api</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>usersapp.servlets.rest</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.jackson.JacksonFeature</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>rest_api</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>

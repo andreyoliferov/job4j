@@ -10,28 +10,41 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-<c:if test="${param.unlogin == true}">
-    <c:set scope="session" var="currentUser" value="${null}"/>
-    <c:set scope="request" var="error" value="unlogin"/>
-</c:if>
-<c:if test="${currentUser == null}">
-<form action='${pageContext.servletContext.contextPath}/login' method='post'>
-    Login: <input type='text' name='login'/>
-    Password: <input type='password' name='password'/>
-    <input type='submit' value='login'/>
-</form>
-</c:if>
-<c:if test="${currentUser != null}">
-    <form name="authorized" method="get">
-        <div>Authorized: <c:out value="${currentUser.name}"/></div>
-        <input type="hidden" name="unlogin" value="${true}"/>
-        <input type="submit" value="unlogin"/>
+<div class="container">
+    <c:if test="${param.unlogin == true}">
+        <c:set scope="session" var="currentUser" value="${null}"/>
+        <c:set scope="request" var="error" value="unlogin"/>
+    </c:if>
+    <c:if test="${currentUser == null}">
+    <form action='${pageContext.servletContext.contextPath}/login' method='post'>
+        <div class="form-group ">
+            <label for="login">Login:</label>
+            <input class="form-control" type='text' id='login' name='login' placeholder="Enter login" required/>
+        </div>
+        <div class="form-group ">
+            <label for="password">Password:</label>
+            <input class="form-control" type='password' id='password' name='password' placeholder="Enter password" required/>
+        </div>
+        <div class="form-group">
+            <input  class="btn btn-default" type='submit' value='sign in'/>
+        </div>
     </form>
-</c:if>
-<c:if test="${error != null}">
-    <div><c:out value="${error}"/></div>
-</c:if>
+    </c:if>
+    <c:if test="${currentUser != null}">
+        <form name="authorized" method="get">
+            <div>Authorized: <c:out value="${currentUser.name}"/></div>
+            <input type="hidden" name="unlogin" value="${true}"/>
+            <input class="btn btn-danger" type="submit" value="unlogin"/>
+        </form>
+    </c:if>
+    <c:if test="${error != null}">
+        <div style="color: red" ><c:out value="${error}"/></div>
+    </c:if>
+</div>
 </body>
 </html>

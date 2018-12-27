@@ -3,118 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Start page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="plagin/jquery.serializejson.js"></script>
-    <style type="text/css">
-        input:focus:invalid {
-            border: 2px solid red;
-        }
-    </style>
-    <script>
-        $.ajax({
-            type: "GET",
-            url: './json',
-            complete: function (data) {
-                console.log(data.responseText);
-                var clients = JSON.parse(data.responseText);
-                var result = "";
-                for (var i = 0; i < clients.length; i++) {
-                    result = result.concat('<tr><td>' + clients[i].first_name + '</td><td>' + clients[i].second_name +'</td><td>' + clients[i].email + '</td></tr>');
-                }
-                $('#table thead').after('<tbody>' + result + '</tbody>');
-            }
-        });
-        function summary() {
-            if (validate()) {
-                ajaxReq();
-            }
-        }
-        function ajaxReq() {
-            $.ajax({
-                type: "POST",
-                url: './json',
-                data: JSON.stringify($('#clientForm').serializeJSON()), /*'{fName1:value1, fName2:value2}', /*'данные, которые будут отправлены на сервер. Они должны быть представлены в объектом, в формате json:*/
-                success: addRow(), /*'пользовательская функция, которая будет вызвана после ответа сервера'*/
-                dataType: 'json'
-            });
-        }
-        function validate() {
-            var result = true;
-            var fields = document.getElementsByClassName('valide');
-            for (var i = 0; i < fields.length; i++) {
-                if (fields[i].value == "") {
-                    alert("Write in all required fields");
-                    fields[i].focus();
-                    result = false;
-                    break;
-                }
-            }
-            return result;
-        }
-        function addRow() {
-            var firstname = $('#first_name').val();
-            var secondname = $('#second_name').val();
-            var email = $('#email').val();
-            $('#table tr:last').after('<tr><td>' + firstname + '</td><td>' + secondname +'</td><td>' + email + '</td></tr>');
-        }
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-
-<div class="container">
-    <h1>Client list</h1>
-    <h2>Bootstrap Page dinamic client page</h2>
-    <p>This page is intended to dynamically add and display client without refreshing the page.</p>
-
-    <form id="clientForm" action="/json">
-        <div class="form-group ">
-            <label for="login">Login:</label>
-            <input type="text" class="form-control valide" id="login" placeholder="Enter login" name="login" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control valide" id="password" placeholder="Enter password" name="password" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email address:</label>
-            <input type="email" class="form-control valide" id="email" placeholder="Enter email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="first_name">Name:</label>
-            <input type="text" class="form-control valide" id="first_name" placeholder="Enter first name" name="first_name" required>
-        </div>
-        <div class="form-group">
-            <label for="second_name">Second name:</label>
-            <input type="text" class="form-control valide" id="second_name" placeholder="Enter second name" name="second_name" required>
-        </div>
-        <label class="radio-inline">
-            <input type="radio" name="sex" value="male" checked>
-            Male
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="sex" value="female" >
-            Female
-        </label>
-        <div>
-            <input type="button" class="btn btn-default" onclick="return summary();" value="Add (ajax req)">
-            <input type="submit" class="btn btn-default" onclick="return validate()" value="Submit">
-        </div>
-    </form>
-
-    <table class="table my-lg-5" id="table">
-        <thead>
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-    </table>
-
-</div>
-
+<a class="nav-link" href="./login" >login page</a>
+<a class="nav-link" href="./clients" >clients page</a>
+<a class="nav-link" href="./create" >create page</a>
+<a class="nav-link" href="./list" >list page</a>
+<a class="nav-link" href="./edit" >edit page</a>
 </body>
 </html>

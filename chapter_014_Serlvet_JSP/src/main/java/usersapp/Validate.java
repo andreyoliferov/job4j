@@ -1,7 +1,10 @@
 package usersapp;
 
+import usersapp.items.Client;
 import usersapp.items.Role;
 import usersapp.items.User;
+import usersapp.items.address.City;
+import usersapp.items.address.Country;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +29,13 @@ public interface Validate {
     User findById(Map<String, String[]> parameters);
 
     User auth(String login, String password);
+
+    List<Client> getClients(UUID user);
+
+    List<Country> getCountries();
+
+    UUID addClient(Client client);
+
+    List<City> getCitiesOfCountry(UUID id);
 
 }

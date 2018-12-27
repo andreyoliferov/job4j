@@ -2,9 +2,12 @@ package util;
 
 import usersapp.UserException;
 import usersapp.Validate;
+import usersapp.items.Client;
 import usersapp.items.Role;
 import usersapp.items.Rule;
 import usersapp.items.User;
+import usersapp.items.address.City;
+import usersapp.items.address.Country;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -136,6 +139,26 @@ public class ValidateMock implements Validate {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<Client> getClients(UUID user) {
+        return null;
+    }
+
+    @Override
+    public List<Country> getCountries() {
+        return null;
+    }
+
+    @Override
+    public UUID addClient(Client client) {
+        return null;
+    }
+
+    @Override
+    public List<City> getCitiesOfCountry(UUID id) {
+        return null;
     }
 
     private User userIsExist(UUID id) throws UserException {

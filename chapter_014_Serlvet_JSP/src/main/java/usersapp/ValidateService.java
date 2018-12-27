@@ -1,7 +1,11 @@
 package usersapp;
 
+import usersapp.items.Client;
 import usersapp.items.Role;
 import usersapp.items.User;
+import usersapp.items.address.Address;
+import usersapp.items.address.City;
+import usersapp.items.address.Country;
 
 import java.util.List;
 import java.util.Map;
@@ -46,6 +50,7 @@ public class ValidateService implements Validate {
         this.validateEmail(user.getEmail());
         this.validatePassword(user.getPassword());
         this.userIsNotExist(user.getId());
+        this.loginIsNotExist(user.getLogin());
         return store.add(user);
     }
 
@@ -60,30 +65,33 @@ public class ValidateService implements Validate {
         hasRequiredParameters(parameters, "id");
         notEmptyOptionalParameters(parameters, "name", "login", "password", "email", "role");
         UUID id = validateId(parameters.get("id")[0], "user");
-        UUID roleId = validateId(parameters.get("role")[0], "role");
         User user = userIsExist(id);
-        if (parameters.containsKey("name")) {
+        if (parameters.containsKey("name") && !parameters.get("name")[0].equals(user.getName())) {
             user.setName(parameters.get("name")[0]);
         }
-        if (parameters.containsKey("login")) {
+        if (parameters.containsKey("login") && !parameters.get("login")[0].equals(user.getLogin())) {
             String login = parameters.get("login")[0];
+            loginIsNotExist(login);
             validateLogin(login);
             user.setLogin(login);
         }
-        if (parameters.containsKey("password")) {
+        if (parameters.containsKey("password") && !parameters.get("password")[0].equals(user.getPassword())) {
             String password = parameters.get("password")[0];
             validatePassword(password);
             user.setPassword(password);
         }
-        if (parameters.containsKey("email")) {
+        if (parameters.containsKey("email") && !parameters.get("email")[0].equals(user.getEmail())) {
             String email = parameters.get("email")[0];
             validateEmail(email);
             user.setEmail(email);
         }
-        if (parameters.containsKey("role")) {
+        if (parameters.containsKey("role") && !parameters.get("role")[0].equals(user.getRole().getId().toString())) {
+            UUID roleId = validateId(parameters.get("role")[0], "role");
             user.setRole(findRoleById(roleId));
         }
-        store.update(user);
+        if (store.update(user) == null) {
+            throw new UserException("error");
+        }
         return user;
     }
 
@@ -114,6 +122,9 @@ public class ValidateService implements Validate {
         return temp;
     }
 
+    /**
+     * @return все роли в системе
+     */
     public List<Role> findAllRoles() throws UserException {
         List<Role> temp = store.findAllRoles();
         if (temp.size() == 0) {
@@ -122,6 +133,9 @@ public class ValidateService implements Validate {
         return temp;
     }
 
+    /**
+     * @return роль пользователя с id
+     */
     public Role findRoleById(UUID id) {
         Role temp = store.findRoleById(id);
         if (temp == null) {
@@ -141,6 +155,50 @@ public class ValidateService implements Validate {
         hasRequiredParameters(parameters, "id");
         UUID id = validateId(parameters.get("id")[0], "user");
         return userIsExist(id);
+    }
+
+    /**
+     * @return список клиентов
+     */
+    @Override
+    public List<Client> getClients(UUID user) {
+        return store.getClients(user);
+    }
+
+    /**
+     * @return список стран
+     */
+    @Override
+    public List<Country> getCountries() {
+        return store.getCountries();
+    }
+
+    public List<City> getCitiesOfCountry(UUID id) {
+        return store.getCitiesOfCountry(id);
+    }
+
+    /**
+     * Добавить клиента
+     */
+    @Override
+    public UUID addClient(Client client) {
+        UUID result;
+        Address address = client.getAddress();
+        UUID idAddress = store.findAddress(address.getCountry().getId(), address.getCity().getId(), address.getData());
+        if (idAddress == null) {
+            address.setId(UUID.randomUUID());
+            idAddress = store.addAddress(address);
+        } else {
+            address.setId(idAddress);
+        }
+        if (idAddress == null) {
+            throw new RuntimeException("creation client address error");
+        }
+        if (!store.addClient(client)) {
+            throw new RuntimeException("creation client error");
+        }
+        result = client.getId();
+        return result;
     }
 
     /**
@@ -209,6 +267,15 @@ public class ValidateService implements Validate {
     }
 
     /**
+     * Проверка существования логина
+     */
+    private void loginIsNotExist(String login) throws UserException {
+        if (store.findByLogin(login) != null) {
+            throw new UserException("Login already exists");
+        }
+    }
+
+    /**
      * Проверка на обязательные поля
      * Поле должно присутствовать в запросе и не быть пустым
      * @param value параметры запроса
@@ -254,6 +321,9 @@ public class ValidateService implements Validate {
         return id;
     }
 
+    /**
+     * Запрос авторизации
+     */
     public User auth(String login, String password) {
         return store.auth(login, password);
     }

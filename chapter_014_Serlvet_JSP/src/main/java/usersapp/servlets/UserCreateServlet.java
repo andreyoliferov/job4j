@@ -44,6 +44,7 @@ public class UserCreateServlet extends HttpServlet {
         } catch (UserException e) {
             result = e.getMessage();
         }
+        req.setAttribute("roles", logic.findAllRoles());
         req.setAttribute("result", result);
         req.getRequestDispatcher("WEB-INF/pages/createPage.jsp").forward(req, resp);
     }

@@ -1,9 +1,13 @@
 package usersapp;
 
 import net.jcip.annotations.ThreadSafe;
+import usersapp.items.Client;
 import usersapp.items.Role;
 import usersapp.items.Rule;
 import usersapp.items.User;
+import usersapp.items.address.Address;
+import usersapp.items.address.City;
+import usersapp.items.address.Country;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +77,36 @@ public class MemoryStore implements Store {
         return null;
     }
 
+    @Override
+    public List<Client> getClients(UUID user) {
+        return null;
+    }
+
+    @Override
+    public List<Country> getCountries() {
+        return null;
+    }
+
+    @Override
+    public List<City> getCitiesOfCountry(UUID id) {
+        return null;
+    }
+
+    @Override
+    public boolean addClient(Client client) {
+        return false;
+    }
+
+    @Override
+    public UUID findAddress(UUID country, UUID city, String data) {
+        return null;
+    }
+
+    @Override
+    public UUID addAddress(Address address) {
+        return null;
+    }
+
     /**
      * Поиск пользователя по id
      * @param id id
@@ -86,5 +120,10 @@ public class MemoryStore implements Store {
             result = new User(temp);
         }
         return result;
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return null;
     }
 }

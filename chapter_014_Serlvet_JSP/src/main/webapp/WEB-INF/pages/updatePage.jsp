@@ -10,31 +10,52 @@
 <html>
 <head>
     <title>Update</title>
-    <style type="text/css">
-        table { border-collapse: collapse; }
-        th, td { border: 1px solid black; }
-    </style>
+    <%--<style type="text/css">--%>
+        <%--table { border-collapse: collapse; }--%>
+        <%--th, td { border: 1px solid black; }--%>
+    <%--</style>--%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 
 <body>
+<div class="container">
   <form action='${pageContext.servletContext.contextPath}/edit' method='post'>
       <input name='id' type='hidden' value='${user.id}'/>
-      Name: <input type='text' name='name' value='${user.name}'/>
-      Login: <input type='text' name='login' value='${user.login}'/>
-      Password: <input type='password' name='password' value='${user.password}'/>
-      Email: <input type='text' name='email' value='${user.email}'/>
-      Role:
-      <select <c:if test="${self != null}">disabled=""</c:if> name="role">
-          <option value="${user.role.id}" selected><c:out value="${user.role.name}"/></option>
-          <c:forEach var="role" items="${roles}">
-              <c:if test="${user.role.id != role.id}">
-                <option value="${role.id}"><c:out value="${role.name}"/></option>
-              </c:if>
-          </c:forEach>
-      </select>
-      <input type='submit' value='edit'/>
-      </br>
-      <c:out value="${result}"/>
+      <div class="form-group ">
+          Name:
+          <input class="form-control" type='text' name='name' value='${user.name}' required/>
+      </div>
+      <div class="form-group ">
+          Login:
+          <input class="form-control" type='text' name='login' value='${user.login}' required/>
+      </div>
+      <div class="form-group ">
+          Password:
+          <input class="form-control" type='password' name='password' value='${user.password}' required/>
+      </div>
+      <div class="form-group ">
+          Email:
+          <input class="form-control" type='email' name='email' value='${user.email}' required/>
+      </div>
+      <div class="form-group ">
+          Role:
+          <select class="form-control" <c:if test="${self != null}">disabled=""</c:if> name="role">
+              <option value="${user.role.id}" selected><c:out value="${user.role.name}"/></option>
+              <c:forEach var="role" items="${roles}">
+                  <c:if test="${user.role.id != role.id}">
+                      <option value="${role.id}"><c:out value="${role.name}"/></option>
+                  </c:if>
+              </c:forEach>
+          </select>
+      </div>
+      <div class="form-group ">
+          <input class="btn btn-primary btn-lg" type='submit' value='edit'/>
+          </br>
+          <c:out value="${result}"/>
+      </div>
    </form>
+</div>
 </body>
 </html>

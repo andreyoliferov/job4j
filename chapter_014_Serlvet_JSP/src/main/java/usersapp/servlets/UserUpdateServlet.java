@@ -26,7 +26,7 @@ public class UserUpdateServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String result = "";
+        String result = (String) req.getAttribute("result");
         User user = null;
         try {
             user = logic.findById(req.getParameterMap());
@@ -57,6 +57,7 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("user", user);
         req.setAttribute("result", result);
         req.setAttribute("roles", logic.findAllRoles());
-        req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
+        doGet(req, resp);
+        //req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
     }
 }

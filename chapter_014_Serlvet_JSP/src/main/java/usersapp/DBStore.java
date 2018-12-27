@@ -3,9 +3,10 @@ package usersapp;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import usersapp.items.Role;
-import usersapp.items.Rule;
-import usersapp.items.User;
+import usersapp.items.*;
+import usersapp.items.address.Address;
+import usersapp.items.address.City;
+import usersapp.items.address.Country;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -129,11 +130,20 @@ public class DBStore implements Store {
 
     @Override
     public User findById(UUID id) {
+        return findByData("id", id);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return findByData("login", login);
+    }
+
+    private User findByData(String name, Object object) {
         User resultUser = null;
-        String sql = "SELECT * FROM users WHERE id = ?";
+        String sql = String.format("SELECT * FROM users WHERE %s = ?", name);
         try (Connection conn = SOURCE.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setObject(1, id);
+            ps.setObject(1, object);
             try (ResultSet result = ps.executeQuery()) {
                 while (result.next()) {
                     resultUser = new User((UUID) result.getObject("id"),
@@ -254,6 +264,223 @@ public class DBStore implements Store {
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    /**
+     * @return список клиентов
+     */
+    @Override
+    public List<Client> getClients(UUID user) {
+        List<Client> clients = new ArrayList<>();
+        String sql = "SELECT * FROM clients WHERE owner = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, user);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    clients.add(new Client(
+                            (UUID) result.getObject("id"),
+                            result.getString("first_name"),
+                            result.getString("second_name"),
+                            new Contact(
+                                    result.getString("phone"),
+                                    result.getString("email"),
+                                    findAddressById((UUID) result.getObject("address"))),
+                            result.getString("sex"),
+                            result.getTimestamp("date_created").toLocalDateTime(),
+                            (UUID) result.getObject("owner")));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            clients = null;
+        }
+        return clients;
+    }
+
+    /**
+     * @return адрес с id
+     */
+    public Address findAddressById(UUID id) {
+        Address address = null;
+        String sql = "SELECT * FROM addresses WHERE id = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    address = new Address(
+                            id,
+                            getCountry((UUID) result.getObject("country")),
+                            getCity((UUID) result.getObject("city")),
+                            result.getString("data")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return address;
+    }
+
+    /**
+     * @return адрес с id
+     */
+    public UUID findAddress(UUID country, UUID city, String data) {
+        UUID address = null;
+        String sql = "SELECT id FROM addresses WHERE country = ? AND city = ? AND data = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, country);
+            ps.setObject(2, city);
+            ps.setString(3, data);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    address = (UUID) result.getObject("id");
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return address;
+    }
+
+    public UUID addAddress(Address address) {
+        UUID result = address.getId();
+        String sql = "INSERT INTO addresses (id, country, city, data) VALUES (?, ?, ?, ?)";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, address.getId());
+            ps.setObject(2, address.getCountry().getId());
+            ps.setObject(3, address.getCity().getId());
+            ps.setString(4, address.getData());
+            ps.execute();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            result = null;
+        }
+        return result;
+    }
+
+    /**
+     * @return страну с id
+     */
+    public Country getCountry(UUID id) {
+        Country country = null;
+        String sql = "SELECT * FROM countries WHERE id = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    country = new Country(
+                            id,
+                            result.getString("name")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return country;
+    }
+
+    /**
+     * @return список стран
+     */
+    @Override
+    public List<Country> getCountries() {
+        List<Country> countries = new ArrayList<>();
+        try (Connection conn = SOURCE.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet result = st.executeQuery("SELECT * FROM countries")) {
+            while (result.next()) {
+                UUID id = (UUID) result.getObject("id");
+                countries.add(new Country(
+                        id,
+                        result.getString("name")
+                ));
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            countries = null;
+        }
+        return countries;
+    }
+
+    /**
+     * @return список городов для страны
+     */
+    public List<City> getCitiesOfCountry(UUID id) {
+        List<City> cities = new ArrayList<>();
+        String sql = "SELECT * FROM cities WHERE country = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    cities.add(
+                            new City(
+                                    (UUID) result.getObject("id"),
+                                    result.getString("name")
+                            ));
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            cities = null;
+        }
+        return cities;
+    }
+
+    /**
+     * @return город с id
+     */
+    public City getCity(UUID id) {
+        City city = null;
+        String sql = "SELECT * FROM cities WHERE id = ?";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, id);
+            try (ResultSet result = ps.executeQuery()) {
+                while (result.next()) {
+                    city = new City(
+                            id,
+                            result.getString("name")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return city;
+    }
+
+    /**
+     * Добавить клиента в систему
+     * @return результат
+     */
+    @Override
+    public boolean addClient(Client client) {
+        boolean result = true;
+        String sql = "INSERT INTO clients (id, first_name, second_name, phone, email, sex, address, date_created, owner) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = SOURCE.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setObject(1, client.getId());
+            ps.setString(2, client.getFirstName());
+            ps.setString(3, client.getSecondName());
+            ps.setString(4, client.getPhone());
+            ps.setString(5, client.getEmail());
+            ps.setObject(6, client.getSex());
+            ps.setObject(7, client.getAddress().getId());
+            ps.setTimestamp(8, Timestamp.valueOf(client.getCreateDate()));
+            ps.setObject(9, client.getOwner());
+            ps.execute();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            result = false;
         }
         return result;
     }
