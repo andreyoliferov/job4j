@@ -2,6 +2,8 @@ package trackersql;
 
 import tracker.*;
 
+import java.util.function.Consumer;
+
 /**
  * @autor aoliferov
  * @since 20.10.2018
@@ -13,8 +15,8 @@ public class StartSQL extends StartUI {
      * @param input   ввод данных.
      * @param tracker хранилище заявок.
      */
-    public StartSQL(Input input, ITracker tracker) {
-        super(input, tracker);
+    public StartSQL(Input input, ITracker tracker, Consumer<String> output) {
+        super(input, tracker, output);
     }
 
     /**
@@ -23,7 +25,7 @@ public class StartSQL extends StartUI {
      */
     public static void main(String[] args) throws Exception {
         try (TrackerSQL tracker = new TrackerSQL()) {
-            new StartUI(new ValidateInput(new ConsoleInput()), tracker).init();
+            new StartSQL(new ValidateInput(new ConsoleInput()), tracker, System.out::println).init();
         }
     }
 }
