@@ -57,7 +57,7 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("user", user);
         req.setAttribute("result", result);
         req.setAttribute("roles", logic.findAllRoles());
-        doGet(req, resp);
-        //req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
+        //doGet(req, resp);
+        req.getRequestDispatcher("WEB-INF/pages/updatePage.jsp").forward(req, resp);
     }
 }

@@ -116,6 +116,7 @@ public class UserUpdateServletTest extends PowerMockTestCase {
                                 .add("role", "7b642c55-7b3f-4e8c-964a-e8b5a5286ec2")
                                 .get());
 
+
         new UserUpdateServlet().doPost(req, resp);
 
         User user = validate.auth("testLogin", "testPassword");
