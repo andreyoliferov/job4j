@@ -3,7 +3,7 @@ package notify;
 import org.testng.annotations.Test;
 
 /**
- * Тест реализует шаблон проектирования Producer Consumer
+ * Тест реализует pattern Producer Consumer
  * @autor Андрей
  * @since 12.08.2018
  */

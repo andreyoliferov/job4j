@@ -20,6 +20,8 @@ import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.*;
 import ru.job4j.chess.firuges.white.*;
 
+import java.util.function.Consumer;
+
 /**
  * @autor Андрей
  * @since 31.05.2018
@@ -30,6 +32,10 @@ public class Chess extends Application {
     private final Logic logic = new Logic();
 
     private Rectangle buildRectangle(int x, int y, int size, boolean white) {
+
+        Consumer<String> sos = System.out::println;
+        sos.accept("");
+
         Rectangle rect = new Rectangle();
         rect.setX(x * size);
         rect.setY(y * size);

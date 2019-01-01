@@ -6,6 +6,10 @@ import tracker.Tracker;
  * @autor aoliferov
  * @since 31.12.2018
  */
+
+/**
+ * Pattern Singleton
+ */
 public enum SingleEagerEnumTracker {
 
     INSTANCE;

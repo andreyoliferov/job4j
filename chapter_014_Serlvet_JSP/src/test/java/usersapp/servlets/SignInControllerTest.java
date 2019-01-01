@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**

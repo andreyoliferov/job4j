@@ -29,6 +29,11 @@
         </dependency>
         <dependency>
             <groupId>ru.job4j</groupId>
+            <artifactId>chapter_004_FP</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.job4j</groupId>
             <artifactId>chapter_002_chess</artifactId>
             <version>2.0</version>
         </dependency>

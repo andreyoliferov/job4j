@@ -3,6 +3,7 @@ package tracker;
 import java.util.List;
 
 /**
+ * Pattern Decorator
  * @autor Андрей
  * @since 27.05.2018
  */
