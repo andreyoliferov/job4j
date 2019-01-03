@@ -65,14 +65,10 @@ public class Bank {
      * @return найденный пользователь
      */
     private User findUser(String passport) {
-        Set<User> users = data.keySet();
-        User finded = null;
-        for (User user : users) {
-            if (user.getPassport().equals(passport)) {
-                finded = user;
-            }
-        }
-        return finded;
+        Optional<User> finded = data.keySet().stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst();
+        return finded.orElse(null);
     }
 
     /**
@@ -82,21 +78,17 @@ public class Bank {
      * @return найденный аккаунт
      */
     private Account findAccount(User user, String requisite) {
-        LinkedHashSet<Account> all = data.get(user);
-        Account finded = null;
-        for (Account account : all) {
-            if (account.getRequisites().equals(requisite)) {
-                finded = account;
-            }
-        }
-        return finded;
+        Optional<Account> finded = data.get(user).stream()
+                .filter(account -> account.getRequisites().equals(requisite))
+                .findFirst();
+        return finded.orElse(null);
     }
 
     /**
      * метод перемещает средства с одного аккаунта на другой
      * @param srcPassport паспорт первого пользователя
      * @param srcRequisite реквизиты аккаунта первого пользователя
-     * @param destPassport павспорт второго пользователя
+     * @param destPassport паспорт второго пользователя
      * @param destRequisite реквизиты аккаунта второго пользователя
      * @param amount сумма перевода от первого второму пользователю
      * @return булево - успешный перевод
