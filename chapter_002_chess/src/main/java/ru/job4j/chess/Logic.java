@@ -6,6 +6,8 @@ import ru.job4j.chess.exceptions.OccupiedWayException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 
+import java.util.stream.IntStream;
+
 /**
  * @autor Андрей
  * @since 31.05.2018
@@ -64,14 +66,9 @@ public class Logic {
     }
 
     private int findBy(Cell cell) {
-        int rst = -1;
-        for (int index = 0; index != this.figures.length; index++) {
-            if (this.figures[index] != null && this.figures[index].position().equals(cell)) {
-                rst = index;
-                break;
-            }
-        }
-        return rst;
+        return IntStream.range(0, figures.length)
+                .filter(i -> this.figures[i] != null && this.figures[i].position().equals(cell))
+                .findFirst().orElse(-1);
     }
 
     public Figure[] getFigures() {

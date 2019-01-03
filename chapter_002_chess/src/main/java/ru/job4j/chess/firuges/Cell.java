@@ -1,5 +1,7 @@
 package ru.job4j.chess.firuges;
 
+import java.util.Arrays;
+
 /**
  * @autor Андрей
  * @since 31.05.2018
@@ -24,16 +26,8 @@ public enum Cell {
     }
 
     public static Cell find(int x, int y) {
-        Cell[] all = Cell.values();
-        Cell finded = null;
-        for (Cell cell : all) {
-            if (cell.x == x) {
-                if (cell.y == y) {
-                    finded = cell;
-                    break;
-                }
-            }
-        }
-        return finded;
+        return Arrays.stream(Cell.values())
+                .filter(cell -> cell.x == x && cell.y == y)
+                .findFirst().orElse(null);
     }
 }
