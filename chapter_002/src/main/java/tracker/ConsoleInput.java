@@ -39,15 +39,8 @@ public class ConsoleInput implements Input {
     @Override
     public int ask(String question, List<Integer> range) {
         int key = Integer.valueOf(this.ask(question));
-        boolean exist = false;
-        for (int n : range) {
-            if (n == key) {
-                exist = true;
-                break;
-            }
-        }
-        boolean finalExist = exist;
-        this.valid.forEach(action -> action.accept(finalExist));
+        boolean exist = range.stream().anyMatch(n -> n == key);
+        this.valid.forEach(action -> action.accept(exist));
         return key;
     }
 }

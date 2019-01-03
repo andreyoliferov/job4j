@@ -2,6 +2,7 @@ package tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Класс обертка для массива заявок
@@ -27,16 +28,13 @@ public class Tracker implements ITracker {
      * @param newItem
      */
     public boolean replace(String id, Item newItem) {
-        boolean repl = false;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                newItem.setId(item.getId());
-                this.items.set(items.indexOf(item), newItem);
-                repl = true;
-                break;
-            }
-        }
-        return repl;
+        return items.stream().filter(item -> item.getId().equals(id))
+                .peek(item -> {
+                    newItem.setId(item.getId());
+                    this.items.set(items.indexOf(item), newItem);
+                })
+                .findFirst()
+                .isPresent();
     }
 
     /**
@@ -69,13 +67,9 @@ public class Tracker implements ITracker {
      * @return
      */
     public List<Item> findByName(String key) {
-        List<Item> temp = new ArrayList<>();
-        for (Item item : items) {
-            if (item.getName().equals(key)) {
-                temp.add(item);
-            }
-        }
-        return temp;
+        return items.stream()
+                .filter(item -> item.getName().equals(key))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -84,13 +78,8 @@ public class Tracker implements ITracker {
      * @return
      */
     public Item findById(String id) {
-        Item finded = null;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                finded = item;
-                break;
-            }
-        }
-        return finded;
+        return items.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst().orElse(null);
     }
 }
