@@ -26,7 +26,7 @@ public class PhoneDictionaryTest {
     }
     @Test(dataProvider = "data")
     public void whenFindValid(String find) {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(new Person("Petr", "Arsentev", "534872", "Bryansk"));
         phones.add(new Person("PetrPetr", "ArsentevArsentev", "664872", "Saransk"));
         phones.add(new Person("Andrey", "Oliferov", "234888", "Omsk"));
@@ -39,7 +39,7 @@ public class PhoneDictionaryTest {
 
     @Test(dataProvider = "data")
     public void whenInvalidFind(String find) {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(new Person("Maksim", "Orlov", "276752", "Novosibirsk"));
         phones.add(new Person("Andrey", "Oliferov", "234888", "Omsk"));
         List<Person> persons = phones.find(find);
