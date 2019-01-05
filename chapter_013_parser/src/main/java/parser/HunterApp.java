@@ -1,11 +1,10 @@
 package parser;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -26,7 +25,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
  */
 public class HunterApp implements Job {
 
-    public static final Logger LOG = LoggerFactory.getLogger(HunterApp.class);
+    public static final Logger LOG = LogManager.getLogger(HunterApp.class);
     public static Properties properties;
     private static List<String> sources = new ArrayList<>();
     private Map<String, Hunter> tasks = new HashMap<>();

@@ -1,8 +1,8 @@
 package usersapp;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import usersapp.items.*;
 import usersapp.items.address.Address;
 import usersapp.items.address.City;
@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class DBStore implements Store {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DBStore.class);
+    private static final Logger LOG = LogManager.getLogger(DBStore.class);
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private static final DBStore INSTANCE = new DBStore();
     private static Properties properties;

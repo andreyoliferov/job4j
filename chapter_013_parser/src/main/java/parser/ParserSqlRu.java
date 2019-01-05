@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 import static parser.HunterApp.LOG;
@@ -29,7 +30,6 @@ public class ParserSqlRu extends Hunter {
         boolean parse = true;
         Document html;
         Elements vacancies;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yy, HH:mm", Locale.forLanguageTag("ru"));
         int i = 1;
         try {
             while (parse) {
@@ -41,7 +41,7 @@ public class ParserSqlRu extends Hunter {
                     if (toNext(name)) {
                         continue;
                     }
-                    LocalDateTime date = parseDate(e, formatter);
+                    LocalDateTime date = parseDate(e);
                     if (stop(date)) {
                         parse = false;
                         break;
@@ -60,22 +60,47 @@ public class ParserSqlRu extends Hunter {
     /**
      * Распарсить дату последней активности в вакансии.
      * @param e html элемент
-     * @param formatter формат даты
      * @return дата
      */
-    private LocalDateTime parseDate(Element e, DateTimeFormatter formatter) {
+    private LocalDateTime parseDate(Element e) {
+        var lookup = lookupMonth();
+        DateTimeFormatterBuilder baseBilder = new DateTimeFormatterBuilder()
+                .appendPattern("d ")
+                .appendText(ChronoField.MONTH_OF_YEAR, lookup)
+                .appendPattern(" yy");
+        DateTimeFormatterBuilder fullBilder = new DateTimeFormatterBuilder()
+                .appendPattern("d ")
+                .appendText(ChronoField.MONTH_OF_YEAR, lookup)
+                .appendPattern(" yy, HH:mm");
         String dateText = e.getElementsByClass("altCol").get(1).text().replace("май", "мая");
         LocalDateTime date;
         if (dateText.contains("сегодня")) {
             dateText = dateText.replace("сегодня",
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("d MMM yy", Locale.forLanguageTag("ru"))));
+                    LocalDateTime.now().format(baseBilder.toFormatter()));
         } else if (dateText.contains("вчера")) {
             dateText = dateText.replace("вчера",
                     LocalDateTime.now().minus(Period.ofDays(1))
-                            .format(DateTimeFormatter.ofPattern("d MMM yy", Locale.forLanguageTag("ru"))));
+                            .format(baseBilder.toFormatter()));
         }
-        date = LocalDateTime.parse(dateText, formatter);
+        date = LocalDateTime.parse(dateText, fullBilder.toFormatter());
         return date;
+    }
+
+    private Map<Long, String> lookupMonth() {
+        Map<Long, String> lookup = new HashMap<>();
+        lookup.put(1L, "янв");
+        lookup.put(2L, "фев");
+        lookup.put(3L, "мар");
+        lookup.put(4L, "апр");
+        lookup.put(5L, "мая");
+        lookup.put(6L, "июн");
+        lookup.put(7L, "июл");
+        lookup.put(8L, "авг");
+        lookup.put(9L, "сен");
+        lookup.put(10L, "окт");
+        lookup.put(11L, "ноя");
+        lookup.put(12L, "дек");
+        return lookup;
     }
 
     /**

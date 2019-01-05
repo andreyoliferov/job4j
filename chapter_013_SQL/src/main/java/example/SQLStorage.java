@@ -1,7 +1,7 @@
 package example;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @since 15.10.2018
  */
 public class SQLStorage implements AutoCloseable {
-    private static final Logger LOG = LoggerFactory.getLogger(SQLStorage.class);
+    private static final Logger LOG = LogManager.getLogger(SQLStorage.class);
     private Connection conn;
 
     public SQLStorage() throws IOException, SQLException, ClassNotFoundException {

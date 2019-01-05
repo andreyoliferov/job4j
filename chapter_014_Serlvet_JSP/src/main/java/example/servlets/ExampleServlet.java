@@ -1,7 +1,7 @@
 package example.servlets;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
  * @since 17.11.2018
  */
 public class ExampleServlet extends HttpServlet {
-    private static final Logger LOG = LoggerFactory.getLogger(ExampleServlet.class);
+    private static final Logger LOG = LogManager.getLogger(ExampleServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

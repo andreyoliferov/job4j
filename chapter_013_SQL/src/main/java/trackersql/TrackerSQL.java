@@ -1,8 +1,8 @@
 package trackersql;
 
 import example.SQLStorage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import tracker.ITracker;
 import tracker.Item;
 
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class TrackerSQL implements ITracker, AutoCloseable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SQLStorage.class);
+    private static final Logger LOG = LogManager.getLogger(SQLStorage.class);
     private Connection connection;
     private Properties prop;
 
