@@ -16,5 +16,4 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-jdk:
-  - oraclejdk11
+jdk: oraclejdk11
