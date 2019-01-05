@@ -33,10 +33,11 @@ public class ConvertList2ArrayTest {
 
     @Test
     public void when3ArrayConvertArrayList() {
-        List<int[]> list = new ArrayList<>();
-        list.add(new int[]{1, 2});
-        list.add(new int[]{3, 4, 5, 6});
-        list.add(new int[]{7, 8, 9});
+        List<int[]> list = List.of(
+                new int[]{1, 2},
+                new int[]{3, 4, 5, 6},
+                new int[]{7, 8, 9}
+        );
         List<Integer> result = convertList.convert(list);
         assertThat(result, is(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9)));
     }
