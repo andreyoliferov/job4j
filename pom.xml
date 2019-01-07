@@ -22,9 +22,9 @@
         <module>chapter_011_Collections</module>
         <module>chapter_012_Multithreading</module>
         <module>chapter_013_SQL</module>
-        <module>jaCoCoReport</module>
         <module>chapter_013_parser</module>
         <module>chapter_014_Serlvet_JSP</module>
+        <module>jaCoCoReport</module>
     </modules>
 	
 	<build>
@@ -120,7 +120,7 @@
             <version>3.21.0.1</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
@@ -129,7 +129,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.4</version>
-        </dependency>
+        </dependency-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
@@ -137,13 +137,19 @@
             <artifactId>log4j-api</artifactId>
             <version>2.11.1</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.11.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+
 
 
 
