@@ -38,7 +38,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             LOG.error(e.getMessage(), e);
             createDb();
         }
-        createTable();
+        //createTable();
+    }
+
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
     }
 
     @Override
@@ -61,19 +65,20 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     /**
      * Создание таблицы
      */
-    private void createTable() throws SQLException {
-        try (Statement st = connection.createStatement()) {
-            st.execute(
-                    new StringBuilder()
-                            .append("CREATE TABLE IF NOT EXISTS orders (")
-                            .append("id uuid primary key,")
-                            .append("name varchar(300),")
-                            .append("description text,")
-                            .append("date_created timestamp)")
-                            .toString()
-            );
-        }
-    }
+    /* механизм заменен на liquibase */
+//    private void createTable() throws SQLException {
+//        try (Statement st = connection.createStatement()) {
+//            st.execute(
+//                    new StringBuilder()
+//                            .append("CREATE TABLE IF NOT EXISTS orders (")
+//                            .append("id uuid primary key,")
+//                            .append("name varchar(300),")
+//                            .append("description text,")
+//                            .append("date_created timestamp)")
+//                            .toString()
+//            );
+//        }
+//    }
 
     @Override
     public Item add(Item item) {
