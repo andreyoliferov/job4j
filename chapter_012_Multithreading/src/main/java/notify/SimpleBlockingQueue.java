@@ -29,9 +29,13 @@ public class SimpleBlockingQueue<T> {
      * Добавление элемента в очередь.
      * @param value
      */
-    public synchronized void offer(T value) throws InterruptedException {
+    public synchronized void offer(T value) {
         while (queue.size() == maxSize) {
-            this.wait();
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         queue.offer(value);
         this.notify();
@@ -48,5 +52,9 @@ public class SimpleBlockingQueue<T> {
         T elem =  queue.poll();
         this.notify();
         return elem;
+    }
+
+    public boolean isEmpty() {
+        return this.size() == 0;
     }
 }
