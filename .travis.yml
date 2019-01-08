@@ -17,3 +17,9 @@ notifications:
     on_failure: always # default: always
 
 jdk: oraclejdk11
+
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database tracker_base_task;' -U postgres
