@@ -13,14 +13,14 @@ public class EasyExample<T> extends ArrayList<String> {
      * В методе происходит выяснение обобщения у текущего класса после компиляции.
      * Необходимое условие - в родителе должен явно быть указан генерик.
      */
-    public void getGeneric() throws IllegalAccessException, InstantiationException {
+    public void getGeneric() throws Exception {
         Class<T> t = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        T value = t.newInstance();
+        T value = t.getDeclaredConstructor().newInstance();
         boolean b = value instanceof String;
         System.out.println(b);
     }
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         EasyExample f = new EasyExample();
         f.getGeneric();
     }
