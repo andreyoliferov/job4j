@@ -24,7 +24,7 @@ public class ThreadPool {
         }
     }
 
-    public void work(Runnable job) {
+    public void work(Runnable job) throws InterruptedException {
         tasks.offer(job);
     }
 
@@ -43,16 +43,18 @@ public class ThreadPool {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
-                if (tasks.size() != 0) {
-                    tasks.poll().run();
-                } else {
-                    try {
+                try {
+                    if (tasks.size() != 0) {
+                        tasks.poll().run();
+                    } else {
                         tasks.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
+
     }
+
 }

@@ -15,13 +15,21 @@ public class SimpleBlockingQueueTest {
 
         Thread producer = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                queue.offer(i);
+                try {
+                    queue.offer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println(String.format("Поставщик[элемент : %s][размер : %s]", i, queue.size()));
             }
         });
         Thread consumer = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
-                System.out.println(String.format("Потребитель[элемент : %s][размер : %s]", queue.poll(), queue.size()));
+                try {
+                    System.out.println(String.format("Потребитель[элемент : %s][размер : %s]", queue.poll(), queue.size()));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
