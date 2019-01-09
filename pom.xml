@@ -25,6 +25,7 @@
         <module>chapter_013_parser</module>
         <module>chapter_014_Serlvet_JSP</module>
         <module>jaCoCoReport</module>
+        <module>chapter_015_IO</module>
     </modules>
 	
 	<build>
