@@ -1,6 +1,7 @@
 package io;
 
-import java.io.InputStream;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -21,5 +22,18 @@ public class ServiceIO {
             }
         }
         return result;
+    }
+
+    public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
+        try (Scanner sc = new Scanner(in);
+            OutputStreamWriter ow = new OutputStreamWriter(out)) {
+            while (sc.hasNext()) {
+                String s = sc.next();
+                if (!Arrays.asList(abuse).contains(s)) {
+                    ow.append(s).append(" ");
+                }
+            }
+            ow.flush();
+        }
     }
 }

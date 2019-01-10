@@ -3,7 +3,7 @@ package io;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -35,4 +35,13 @@ public class ServiceIOTest {
         assertThat(result, is(except));
     }
 
+    @Test
+    public void whenInThenFilter() throws IOException {
+        ServiceIO io = new ServiceIO();
+        try (ByteArrayInputStream bf = new ByteArrayInputStream("1 2 3 4 5".getBytes());
+             ByteArrayOutputStream bs = new ByteArrayOutputStream()) {
+            io.dropAbuses(bf, bs, new String[]{"3", "5"});
+            assertThat(bs.toString(), is("1 2 4 "));
+        }
+    }
 }
