@@ -1,6 +1,7 @@
 package io;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -24,19 +25,15 @@ public class ServiceIO {
     }
 
     public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
-        try (Scanner sc = new Scanner(in);
-            OutputStreamWriter ow = new OutputStreamWriter(out)) {
-            StringBuilder sb = new StringBuilder();
-            while (sc.hasNext()) {
-                sb.append(sc.nextLine());
-            }
-            String temp = sb.toString();
-            for (String s1 : abuse) {
-                temp = temp.replaceAll(s1, "");
-            }
-            temp = temp.replaceAll(" {2}", " ");
-            ow.append(temp);
-            ow.flush();
+        try (final PrintStream writer = new PrintStream(out);
+             final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            reader.lines()
+                    .map(s -> Arrays.stream(abuse)
+                            .reduce(s, (s1, s2) -> s1.replaceAll(s2, "")
+                                    .replaceAll(" {2}", " ")
+                            )
+                    )
+                    .forEach(writer::print);
         }
     }
 }
