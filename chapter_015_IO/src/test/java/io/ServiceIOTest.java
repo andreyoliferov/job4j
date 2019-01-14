@@ -2,9 +2,9 @@ package io;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 

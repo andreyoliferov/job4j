@@ -1,8 +1,11 @@
 package io;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import java.io.*;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @autor aoliferov
@@ -10,6 +13,11 @@ import java.util.Scanner;
  */
 public class ServiceIO {
 
+    /**
+     * true если в потоке есть четное число
+     * @param in входящий поток
+     * @return
+     */
     public boolean isEvenNumber(InputStream in) {
         boolean result = false;
         try (Scanner sc = new Scanner(in)) {
@@ -24,6 +32,13 @@ public class ServiceIO {
         return result;
     }
 
+    /**
+     * Удаление всех перечисленных в массиве слов из входящего потока, запись в исходящий
+     * @param in вход
+     * @param out выход
+     * @param abuse исключения
+     * @throws IOException
+     */
     public void dropAbuses(InputStream in, OutputStream out, String[] abuse) throws IOException {
         try (final PrintStream writer = new PrintStream(out);
              final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
