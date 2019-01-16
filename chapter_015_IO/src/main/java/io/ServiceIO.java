@@ -1,11 +1,7 @@
 package io;
 
-import org.apache.commons.lang.RandomStringUtils;
-
 import java.io.*;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @autor aoliferov
@@ -50,5 +46,50 @@ public class ServiceIO {
                     )
                     .forEach(writer::print);
         }
+    }
+
+    /**
+     * Сканирует каталог и возвращает список всех файлов с указанными разширениями
+     * Метод обхода в ширину
+     * @param parent
+     * @param exts
+     * @return
+     */
+    public List<File> files(String parent, List<String> exts) {
+        File parentDirectory = new File(parent);
+        assert parentDirectory.isDirectory() && parentDirectory.exists() : "Incorrect directory!";
+        List<File> directories = List.of(parentDirectory);
+        List<File> result = new ArrayList<>();
+        seach(exts, directories, result);
+        return result;
+    }
+
+    /**
+     * Рекурсивный метод поиска
+     * @param exts расширение
+     * @param directories директории для текущей итерации
+     * @param result ссылка на результат
+     */
+    private void seach(List<String> exts, List<File> directories, List<File> result) {
+        if (directories.size() == 0) {
+            return;
+        }
+        List<File> newDirs = new ArrayList<>();
+        for (File dir : directories) {
+            File[] dirs = dir.listFiles(File::isDirectory);
+            if (dirs != null) {
+                newDirs.addAll(List.of(dirs));
+            }
+            File[] res = dir.listFiles((file) -> {
+                if (file.isDirectory()) {
+                    return false;
+                }
+                return exts.stream().anyMatch((ext) -> file.getName().contains(String.format(".%s", ext)));
+            });
+            if (res != null) {
+                result.addAll(List.of(res));
+            }
+        }
+        seach(exts, newDirs, result);
     }
 }
