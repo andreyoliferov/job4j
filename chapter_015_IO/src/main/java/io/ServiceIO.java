@@ -60,7 +60,7 @@ public class ServiceIO {
         assert parentDirectory.isDirectory() && parentDirectory.exists() : "Incorrect directory!";
         List<File> directories = List.of(parentDirectory);
         List<File> result = new ArrayList<>();
-        seach(exts, directories, result);
+        search(exts, directories, result);
         return result;
     }
 
@@ -70,7 +70,7 @@ public class ServiceIO {
      * @param directories директории для текущей итерации
      * @param result ссылка на результат
      */
-    private void seach(List<String> exts, List<File> directories, List<File> result) {
+    private void search(List<String> exts, List<File> directories, List<File> result) {
         if (directories.size() == 0) {
             return;
         }
@@ -90,6 +90,6 @@ public class ServiceIO {
                 result.addAll(List.of(res));
             }
         }
-        seach(exts, newDirs, result);
+        search(exts, newDirs, result);
     }
 }
