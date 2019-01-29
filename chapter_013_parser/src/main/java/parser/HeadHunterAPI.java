@@ -1,5 +1,8 @@
 package parser;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -87,5 +90,26 @@ public class HeadHunterAPI extends Hunter {
             LOG.error(e.getMessage(), e);
         }
         return result.toString();
+    }
+
+    /**
+     * Mетод выполнения GET запроса посредством библиотеки okhttp
+     * @param urlToRead запрос
+     * @return ответ
+     */
+    public static String requestGetOkHttp(String urlToRead) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(urlToRead)
+                .build();
+        String result = null;
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                result = response.body().string();
+            } else {
+                LOG.error(String.format("Error of GET to :%s, error code: %s", urlToRead, response.code()));
+            }
+        }
+        return result;
     }
 }
