@@ -1,10 +1,11 @@
 package socket.filemanager;
 
+import socket.filemanager.exceptions.ServerException;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 /**
  * @autor aoliferov
@@ -12,15 +13,16 @@ import java.util.NoSuchElementException;
  */
 public class Menu {
 
-    private BufferedReader input;
-    private OutputStream out;
+    private IOControllerServer io;
     private IFileManager logic;
     private Map<String, IActions> menuItems = new HashMap<>();
+    private boolean connectionRunning = true;
+    private StartServerApp server;
 
-    public Menu(IFileManager logic, InputStream input, OutputStream out) {
+    public Menu(IFileManager logic, IOControllerServer io, StartServerApp server) {
+        this.io = io;
         this.logic = logic;
-        this.input = new BufferedReader(new InputStreamReader(input));
-        this.out = out;
+        this.server = server;
         this.fillAclions();
     }
 
@@ -31,42 +33,51 @@ public class Menu {
         IActions download = new DownloadFile();
         IActions upload = new UploadFile();
         IActions showMenu = new ShowMenu();
+        IActions exit = new Exit();
+        IActions stopServer = new StopServer();
         menuItems.put(showList.getKey(), showList);
         menuItems.put(downDir.getKey(), downDir);
         menuItems.put(upDir.getKey(), upDir);
         menuItems.put(download.getKey(), download);
         menuItems.put(upload.getKey(), upload);
         menuItems.put(showMenu.getKey(), showMenu);
+        menuItems.put(exit.getKey(), exit);
+        menuItems.put(stopServer.getKey(), stopServer);
+    }
+
+    public void showMenu() throws IOException {
+        menuItems.get("show menu").execute(null);
+        io.next();
     }
 
     public void execute() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        String in;
-        do {
-            in = input.readLine();
-            sb.append(in);
-        } while (!in.isEmpty());
-        String[] params = sb.toString().split(" -");
+        String[] params = io.parseParams();
         IActions action = menuItems.get(params[0]);
         if (action == null) {
-            throw new NoSuchElementException("[FAILED] The corresponding command was not found, check the input!");
+            throw new ServerException("[FAILED] The corresponding command was not found!");
         }
-        action.execute(logic, out, params);
+        action.execute(params);
     }
 
-    public void showMenu() {
-        menuItems.get("show menu").execute(null, out, null);
+    public boolean isRunning() {
+        return connectionRunning;
     }
 
+    public void stop() {
+        connectionRunning = false;
+    }
+
+    /**
+     * Показать содержание текущей директории.
+     */
     private class ShowList extends BaseAction {
 
-        private ShowList(){
+        private ShowList() {
             super("list", "list");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
-            PrintWriter pw = new PrintWriter(out, true);
+        public void execute(String[] params) {
             File[] files = logic.list();
             Arrays.stream(files).map((file) -> {
                 String name = file.getName();
@@ -74,103 +85,137 @@ public class Menu {
                     name = String.format("[DIR] %s", name);
                 }
                 return name;
-            }).forEach(pw::println);
+            }).forEach(io::printLine);
         }
     }
 
+    /**
+     * Перейти во внутреннюю директорию.
+     */
     private class DownDirectory extends BaseAction {
 
-        private DownDirectory(){
+        private DownDirectory() {
             super("down dir", "down dir -directory");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
-            PrintWriter pw = new PrintWriter(out, true);
+        public void execute(String[] params) {
             if (params[1] == null) {
-                throw new NoSuchElementException("[FAILED] Attribute not specified, check input!");
+                throw new ServerException("[FAILED] Attribute not specified!");
             }
             logic.downDir(params[1]);
-            pw.println("[DONE]");
+            io.printLine("[DONE]");
         }
     }
 
+    /**
+     * Перейти к родительской директории.
+     */
     private class UpDirectory extends BaseAction {
 
-        private UpDirectory(){
+        private UpDirectory() {
             super("up dir", "up dir");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
-            PrintWriter pw = new PrintWriter(out, true);
+        public void execute(String[] params) {
             logic.upDir();
-            pw.println("[DONE]");
+            io.printLine("[DONE]");
         }
     }
 
+    /**
+     * Скачать файл с сервера.
+     */
     private class DownloadFile extends BaseAction {
 
-        private DownloadFile(){
+        private DownloadFile() {
             super("download", "download -file -directory");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
+        public void execute(String[] params) throws IOException {
             if (params[1] == null) {
-                throw new NoSuchElementException("[FAILED] Attribute not specified, check input!");
+                throw new ServerException("Attribute not specified!");
             }
             File file = logic.getFile(params[1]);
-            PrintWriter pw = new PrintWriter(out, true);
-
-
-            try {
-
-                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-                BufferedOutputStream bos = new BufferedOutputStream(out);
-                long s = file.length();
-                pw.println(s);
-                System.out.println(s);
-
-                byte[] byteArray = new byte[1024];
-                while (s > 0) {
-                    int i = bis.read(byteArray);
-                    bos.write(byteArray, 0, i);
-                    s -= i;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            pw.println("[DONE]");
+            io.sendFile(file.getAbsolutePath());
+            io.printLine("[DONE]");
         }
     }
 
+    /**
+     * Загрузить файл на сервер.
+     */
     private class UploadFile extends BaseAction {
 
-        private UploadFile(){
-            super("upload", "upload -path");
+        private UploadFile() {
+            super("upload", "upload -name -path");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
-
+        public void execute(String[] params) throws IOException {
+            if (params[1] == null) {
+                throw new ServerException("[FAILED] write in name!");
+            }
+            String newPath = logic.newPath(params[1]);
+            io.saveFile(newPath);
+            io.printLine("[DONE]");
         }
     }
 
+    /**
+     * Показать меню.
+     */
     private class ShowMenu extends BaseAction {
 
-        private ShowMenu(){
+        private ShowMenu() {
             super("show menu", "show menu");
         }
 
         @Override
-        public void execute(IFileManager logic, OutputStream out, String[] params) {
-            PrintWriter pw = new PrintWriter(out, true);
-            pw.println("available commands:");
-            menuItems.values().stream().map(IActions::getDisplay).forEach(pw::println);
+        public void execute(String[] params) {
+            io.printLine("available commands:");
+            menuItems.values().stream().map(IActions::getDisplay)
+                    .filter((str) -> !str.equals("stop server"))
+                    .forEach(io::printLine);
+        }
+    }
+
+    /**
+     * Отключение клиента.
+     */
+    private class Exit extends BaseAction {
+
+        private Exit() {
+            super("exit", "exit");
+        }
+
+        @Override
+        public void execute(String[] params) {
+            connectionRunning = false;
+        }
+    }
+
+    /**
+     * Остановка сервера.
+     */
+    private class StopServer extends BaseAction {
+
+        private StopServer() {
+            super("stop server", "stop server");
+        }
+
+        @Override
+        public void execute(String[] params) throws IOException {
+            boolean full = false;
+            if (params[2] != null) {
+                full = Boolean.parseBoolean(params[2]);
+            }
+            if (params[1] != null && params[1].equals("password")) {
+                connectionRunning = false;
+                server.stopServer(full);
+            }
         }
     }
 }

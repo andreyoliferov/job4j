@@ -1,6 +1,7 @@
 package socket.filemanager;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @autor aoliferov
@@ -12,6 +13,6 @@ public interface IFileManager {
     void downDir(String name);
     void upDir();
     File getFile(String name);
-    void uploadFile(String path);
+    String newPath(String name) throws IOException;
 
 }

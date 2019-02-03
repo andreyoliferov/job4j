@@ -13,6 +13,6 @@ public interface IActions {
 
     String getKey();
     String getDisplay();
-    void execute(IFileManager logic, OutputStream out, String[] params);
+    void execute(String[] params) throws IOException;
 
 }

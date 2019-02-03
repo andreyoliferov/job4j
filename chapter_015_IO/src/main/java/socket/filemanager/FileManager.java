@@ -1,8 +1,10 @@
 package socket.filemanager;
 
+import com.google.common.base.Joiner;
+import socket.filemanager.exceptions.ServerException;
+
 import java.io.File;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -11,9 +13,12 @@ import java.util.Optional;
  */
 public class FileManager implements IFileManager {
 
+    /**
+     * Текущая директория
+     */
     private File current;
 
-    public FileManager(String path){
+    public FileManager(String path) {
         File file = new File(path);
         assert file.isDirectory();
         this.current = file;
@@ -28,14 +33,14 @@ public class FileManager implements IFileManager {
     public void downDir(String name) {
         File[] dirs = current.listFiles(File::isDirectory);
         Optional<File> toDir = Arrays.stream(dirs).filter(dir ->  dir.getName().equals(name)).findFirst();
-        current = toDir.orElseThrow(() -> new NoSuchElementException("[FAILED] Invalid directory name entered, check input!"));
+        current = toDir.orElseThrow(() -> new ServerException("[FAILED] Invalid directory name entered!"));
     }
 
     @Override
     public void upDir() {
         File parent = current.getParentFile();
         if (parent == null) {
-            throw new NoSuchElementException("[FAILED] There is no parent directory!");
+            throw new ServerException("[FAILED] There is no parent directory!");
         }
         current = parent;
     }
@@ -44,11 +49,11 @@ public class FileManager implements IFileManager {
     public File getFile(String name) {
         File[] dirs = current.listFiles(File::isFile);
         Optional<File> toDownload = Arrays.stream(dirs).filter(dir ->  dir.getName().equals(name)).findFirst();
-        return toDownload.orElseThrow(() -> new NoSuchElementException("[FAILED] Invalid name file, check input!"));
+        return toDownload.orElseThrow(() -> new ServerException("Invalid name file!"));
     }
 
     @Override
-    public void uploadFile(String path) {
-
+    public String newPath(String name) {
+        return Joiner.on(File.separator).join(current.getAbsolutePath(), name);
     }
 }

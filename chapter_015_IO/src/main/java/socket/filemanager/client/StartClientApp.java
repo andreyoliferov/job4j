@@ -1,10 +1,17 @@
 package socket.filemanager.client;
 
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import socket.filemanager.StartServerApp;
+import socket.filemanager.exceptions.ServerException;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.Properties;
 
 /**
  * @autor aoliferov
@@ -12,77 +19,66 @@ import java.util.Scanner;
  */
 public class StartClientApp {
 
-//    @Parameter(names = {"-d", "--directory"},
-//            description = "Start directory",
-//            required = true)
-//    private String dir;
-//
-//    @Parameter(names = {"-a", "--address"},
-//            description = "Server address",
-//            required = true)
-//    private String address;
-//
-//    @Parameter(names = {"-p", "--port"},
-//            description = "Server port",
-//            required = true)
-//    private int port;
+    private static final Logger LOG = LogManager.getLogger(StartServerApp.class.getName());
+    private IOControllerClient io;
+    private boolean work = true;
+
+    @Parameter(names = {"-d", "--directory"},
+            description = "Start directory",
+            required = true)
+    private String dir;
+
+
+    public StartClientApp(IOControllerClient io) {
+        this.io = io;
+    }
+
+    private void execute(String command) throws IOException {
+        if ("exit".equals(command) || command.contains("stop server")) {
+            work = false;
+        }
+        if (command.contains("download")) {
+            String[] params = io.parseParams(command);
+            io.saveFile(params[2]);
+        }
+        if (command.contains("upload")) {
+            String[] params = io.parseParams(command);
+            io.sendFile(params[2]);
+        }
+    }
+
+    public void start() throws IOException {
+        io.printLine(dir);
+        while (work) {
+            io.consoleMessage();
+            try {
+                String command = io.userInput();
+                io.printLineLn(command);
+                execute(command);
+            } catch (ServerException ne) {
+                io.console(String.format("[FAILED] check input! %s", ne.getMessage()));
+            } catch (Exception e) {
+                io.console(String.format("[FAILED] check input! %s", e.getMessage()));
+                io.printLine(e.getMessage());
+            }
+        }
+    }
 
     public static void main(String[] args) throws IOException {
-        StartClientApp app = new StartClientApp();
-//        JCommander jc = JCommander.newBuilder().addObject(app).build();
-//        jc.parse(args);
-        boolean work = true;
-        try(Socket socket = new Socket(InetAddress.getByName(/*app.address*/ "127.0.0.1" ), /*app.port*/ 3606);
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            Scanner console = new Scanner(System.in)) {
-            output.println(/* app.dir */ "D:\\books\\java");
-            while (work) {
-                //3. отобразить результат (меню)
-                String str = input.readLine();
-                while (!str.isEmpty()) {
-                    System.out.println(str);
-                    str = input.readLine();
-                }
-                //1. ввести команду
-                String command = console.nextLine();
-                //2. отправить команду
-                output.println(command);
-                output.println();
-                if ("exit".equals(command)) {
-                    work = false;
-                }
-                if (command.contains("download")) {
-
-                    String[] params = command.split(" -");
-                    assert params[2] != null;
-                    File file = new File(params[2]);
-                    file.createNewFile();
-                    try {
-
-                        long size = Long.parseLong(new Scanner(socket.getInputStream()).nextLine());
-
-                        System.out.println(size);
-
-                        BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
-                        FileOutputStream bos = new FileOutputStream(file);
-                        byte[] byteArray = new byte[1024];
-
-
-                        while (size > 0) {
-                            int i = bis.read(byteArray);
-                            bos.write(byteArray, 0, i);
-                            size -= i;
-                        }
-
-                        System.out.println("!!!!!!");
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
+        Properties prop = new Properties();
+        try (InputStream is = StartClientApp.class.getClassLoader()
+                .getResourceAsStream("configFileManager.properties")) {
+            assert is != null;
+            prop.load(is);
+        }
+        try (Socket socket = new Socket(
+                InetAddress.getByName(prop.getProperty("address")),
+                Integer.parseInt(prop.getProperty("port")));
+            IOControllerClient io = new IOControllerClient(socket, System.out, System.in)) {
+            StartClientApp app = new StartClientApp(io);
+            JCommander commander = JCommander.newBuilder().addObject(app).build();
+            commander.parse(args);
+            app.start();
         }
     }
 
