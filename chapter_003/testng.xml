@@ -7,8 +7,8 @@
             <class name="ru.job4j.list.ConvertMatrix2ListTest"/>
             <class name="ru.job4j.list.ListCompareTest"/>
 
-            <class name="ru.job4j.search.PhoneDictionaryTest"/>
-            <class name="ru.job4j.search.PriorityQueueTest"/>
+            <class name="ru.job4j.io.search.PhoneDictionaryTest"/>
+            <class name="ru.job4j.io.search.PriorityQueueTest"/>
 
             <class name="ru.job4j.user.SortUserTest"/>
             <class name="ru.job4j.user.UserConvertTest"/>
