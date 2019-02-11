@@ -62,13 +62,10 @@ public class StartServerApp {
      * Начать принимать подключения.
      */
     private void startConnections(int port) throws IOException {
+        serverSocket = new ServerSocket(port);
         while (serverRunning) {
-            Socket socket;
-            try (ServerSocket ss = new ServerSocket(port)) {
-                serverSocket = ss;
-                socket = serverSocket.accept();
-                connections.add(socket);
-            }
+            Socket socket = serverSocket.accept();
+            connections.add(socket);
             pool.submit(
                     new Thread(() -> {
                         try {
