@@ -1,6 +1,11 @@
 package ru.job4j.calculator;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 /**
  * @autor aoliferov
@@ -9,33 +14,40 @@ import java.io.*;
 public class InteractCalc {
 
     private Calculator calc = new Calculator();
-    private BufferedReader in;
+    private Map<String, BiConsumer<Double, Double>> functions = new HashMap<>();
+    private Scanner in;
     private PrintWriter out;
-    private double result;
-    private double next;
-    private char func;
 
     private InteractCalc(InputStream in, OutputStream out) {
-        this.in = new BufferedReader(new InputStreamReader(in));
+        this.in = new Scanner(in);
         this.out = new PrintWriter(out, true);
+        this.addFunction();
+    }
+
+    private void addFunction() {
+        functions.put("*", calc::multiple);
+        functions.put("/", calc::div);
+        functions.put("+", calc::add);
+        functions.put("-", calc::subtract);
     }
 
     /**
      * Цикл вычисления.
      */
-    private void execute() throws IOException {
+    private void execute() {
         boolean retry = true;
         while (retry) {
             out.println("Введите значение");
-            result = readDouble();
+            double result = readDouble();
             boolean contin = true;
             while (contin) {
                 out.println("Введите действие");
-                func = readFunction();
+                String function = readFunction();
                 out.println("Введите следующее значение");
-                next = readDouble();
-                performFunction();
-                out.println(String.format("Результат = %s , продолжить(true) вычисление?", calc.getResult()));
+                double next = readDouble();
+                performFunction(result, next, function);
+                result = calc.getResult();
+                out.println(String.format("Результат = %s , продолжить(true) вычисление?", result));
                 contin = readBool();
             }
             out.println(String.format("Результат = %s", calc.getResult()));
@@ -47,71 +59,50 @@ public class InteractCalc {
     /**
      * Прочитать значение.
      */
-    private Double readDouble() throws IOException {
-        String temp;
-        Double result = null;
-        boolean correct = false;
-        while (!correct) {
-            temp = in.readLine();
-            try {
-                result = Double.parseDouble(temp);
-                correct = true;
-            } catch (NumberFormatException e) {
-                out.println("Некорректный ввод!");
-            }
+    private double readDouble() {
+        while (!in.hasNextDouble()) {
+            out.println(String.format("Некорректный ввод! {%s}", in.nextLine()));
         }
-        return result;
+        return Double.parseDouble(in.nextLine());
     }
 
     /**
      * Прочитать действие калькулятора.
      */
-    private char readFunction() throws IOException {
-        String temp;
-        char result = 0;
+    private String readFunction() {
+        Set<String> allFunc = functions.keySet();
+        String temp = "";
         boolean correct = false;
         while (!correct) {
-            temp = in.readLine();
-            result = temp.charAt(0);
-            if (result == '*' || result == '/' || result == '+' || result == '-') {
+            temp = in.nextLine();
+            if (allFunc.contains(temp)) {
                 correct = true;
             } else {
-                out.println("Введите корректное действие");
+                out.println(String.format("Нет функции {%s}, введите корректную функцию!", temp));
             }
         }
-        return result;
+        return temp;
     }
 
     /**
      * Прочитать решение пользователя.
      */
-    private boolean readBool() throws IOException {
-        String temp = in.readLine();
+    private boolean readBool() {
+        String temp = in.nextLine();
         return Boolean.parseBoolean(temp);
     }
 
     /**
      * Выполнить действие.
      */
-    private void performFunction() {
-        switch (func) {
-            case '*' : calc.multiple(result, next);
-            break;
-            case '/' : calc.div(result, next);
-            break;
-            case  '+' : calc.add(result, next);
-            break;
-            case  '-' : calc.subtract(result, next);
-            break;
-            default: throw new IllegalArgumentException();
-        }
-        result = calc.getResult();
+    private void performFunction(double first, double second, String function) {
+        functions.get(function).accept(first, second);
     }
 
     /**
      * Запуск калькулятора.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         InteractCalc interactCalc = new InteractCalc(System.in, System.out);
         interactCalc.execute();
     }

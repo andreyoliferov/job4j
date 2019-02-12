@@ -12,7 +12,7 @@ after_success:
 notifications:
   email:
     recipients:
-      -a.oliferov@gmail.com
+      - a.oliferov@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
 
