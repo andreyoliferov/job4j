@@ -8,7 +8,7 @@ public class Calculator {
     /**
      * Поле результат.
      */
-    private double result;
+    protected double result;
 
     /**
      * Сложение занчений переменных.

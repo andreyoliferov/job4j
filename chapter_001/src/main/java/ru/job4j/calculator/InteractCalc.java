@@ -1,5 +1,8 @@
 package ru.job4j.calculator;
 
+import ru.job4j.calculator.extend.ExtendedCalculator;
+import ru.job4j.calculator.extend.ExtendedInteractCalc;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,18 +16,19 @@ import java.util.function.BiConsumer;
  */
 public class InteractCalc {
 
-    private Calculator calc = new Calculator();
-    private Map<String, BiConsumer<Double, Double>> functions = new HashMap<>();
+    protected Calculator calc;
+    protected Map<String, BiConsumer<Double, Double>> functions = new HashMap<>();
     private Scanner in;
     private PrintWriter out;
 
-    private InteractCalc(InputStream in, OutputStream out) {
+    public InteractCalc(InputStream in, OutputStream out, Calculator calc) {
         this.in = new Scanner(in);
         this.out = new PrintWriter(out, true);
-        this.addFunction();
+        this.calc = calc;
+        init();
     }
 
-    private void addFunction() {
+    protected void init() {
         functions.put("*", calc::multiple);
         functions.put("/", calc::div);
         functions.put("+", calc::add);
@@ -34,7 +38,7 @@ public class InteractCalc {
     /**
      * Цикл вычисления.
      */
-    private void execute() {
+    public void execute() {
         boolean retry = true;
         while (retry) {
             out.println("Введите значение");
@@ -103,7 +107,7 @@ public class InteractCalc {
      * Запуск калькулятора.
      */
     public static void main(String[] args) {
-        InteractCalc interactCalc = new InteractCalc(System.in, System.out);
+        InteractCalc interactCalc = new ExtendedInteractCalc(System.in, System.out, new ExtendedCalculator());
         interactCalc.execute();
     }
 }
