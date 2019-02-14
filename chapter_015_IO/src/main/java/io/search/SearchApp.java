@@ -44,7 +44,7 @@ public class SearchApp {
             description = "Full name search mode")
     private boolean full;
 
-    @Parameter(names = {"-r", "--regular"},
+    @Parameter(names = {"-storage", "--regular"},
             description = "Regular expression mode")
     private boolean regular;
 
