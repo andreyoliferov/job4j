@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @autor aoliferov
  * @since 13.02.2019
  */
-public abstract class Storage {
+public abstract class Storage implements IStorage {
 
     /**
      * Список продуктов.
@@ -36,6 +36,11 @@ public abstract class Storage {
         return storage;
     }
 
+    @Override
+    public int engaged() {
+        return storage.size();
+    }
+
     /**
      * Добавить список продуктов.
      * @param items список продуктов.
@@ -50,6 +55,7 @@ public abstract class Storage {
      * @param item продукт.
      * @return false если продукт не подошел под условия хранения.
      */
+    @Override
     public boolean add(Food item) {
         boolean result = condition.test(item);
         if (result) {
