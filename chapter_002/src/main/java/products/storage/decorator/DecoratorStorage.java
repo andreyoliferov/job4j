@@ -1,12 +1,13 @@
-package products.storage;
+package products.storage.decorator;
 
-import products.items.Food;
+
+import products.items.decorator.IFood;
 
 /**
  * @autor aoliferov
  * @since 14.02.2019
  */
-public abstract class DecoratorStorage implements IStorage {
+public abstract class DecoratorStorage<E extends IFood> implements IStorage<E> {
 
     private IStorage storage;
 
@@ -15,7 +16,7 @@ public abstract class DecoratorStorage implements IStorage {
     }
 
     @Override
-    public boolean add(Food item) {
+    public boolean add(E item) {
         return storage.add(item);
     }
 

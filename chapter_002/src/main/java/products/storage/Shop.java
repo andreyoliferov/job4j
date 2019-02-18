@@ -1,5 +1,7 @@
 package products.storage;
 
+import products.items.decorator.IFood;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -7,7 +9,7 @@ import java.time.temporal.ChronoUnit;
  * @autor aoliferov
  * @since 13.02.2019
  */
-public class Shop extends Storage {
+public class Shop extends Storage<IFood> {
 
     public Shop() {
         super((food) -> {

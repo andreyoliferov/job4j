@@ -1,5 +1,7 @@
 package products.items;
 
+import products.items.decorator.IFood;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -8,7 +10,7 @@ import java.time.LocalDate;
  * @autor aoliferov
  * @since 13.02.2019
  */
-public abstract class Food {
+public abstract class Food implements IFood {
 
     protected String name;
     protected LocalDate expaireDate;
@@ -24,6 +26,7 @@ public abstract class Food {
         this.disscount = 0f;
     }
 
+    @Override
     public void setDisscount(float disscount)  {
         assert  disscount > 0 && disscount < 1;
         this.disscount = disscount;
@@ -37,10 +40,12 @@ public abstract class Food {
         return new BigDecimal(price - price * disscount).setScale(2, RoundingMode.CEILING);
     }
 
+    @Override
     public LocalDate getCreateDate() {
         return createDate;
     }
 
+    @Override
     public LocalDate getExpaireDate() {
         return expaireDate;
     }

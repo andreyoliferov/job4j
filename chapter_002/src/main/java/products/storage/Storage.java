@@ -1,6 +1,7 @@
 package products.storage;
 
-import products.items.Food;
+import products.items.decorator.IFood;
+import products.storage.decorator.IStorage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,26 +14,26 @@ import java.util.stream.Collectors;
  * @autor aoliferov
  * @since 13.02.2019
  */
-public abstract class Storage implements IStorage {
+public abstract class Storage<E extends IFood> implements IStorage<E> {
 
     /**
      * Список продуктов.
      */
-    protected List<Food> storage = new LinkedList<>();
+    protected List<E> storage = new LinkedList<>();
 
     /**
      * Условия хранения.
      */
-    protected Predicate<Food> condition;
+    protected Predicate<E> condition;
 
-    protected Storage(Predicate<Food> condition) {
+    protected Storage(Predicate<E> condition) {
         this.condition = condition;
     }
 
     /**
      * @return список всех продуктов.
      */
-    public List<Food> getAll() {
+    public List<E> getAll() {
         return storage;
     }
 
@@ -46,7 +47,7 @@ public abstract class Storage implements IStorage {
      * @param items список продуктов.
      * @return список продуктов, не подходящих под условия хранения.
      */
-    public List<Food> addAll(List<Food> items) {
+    public List<E> addAll(List<E> items) {
         return items.stream().filter((food) -> !this.add(food)).collect(Collectors.toList());
     }
 
@@ -56,7 +57,7 @@ public abstract class Storage implements IStorage {
      * @return false если продукт не подошел под условия хранения.
      */
     @Override
-    public boolean add(Food item) {
+    public boolean add(E item) {
         boolean result = condition.test(item);
         if (result) {
             storage.add(item);
@@ -68,11 +69,11 @@ public abstract class Storage implements IStorage {
      * Очистить хранилище от неподходящих продуктов.
      * @return список неподходящих продуктов.
      */
-    public List<Food> clear() {
-        Iterator<Food> iterator = storage.iterator();
-        List<Food> removed = new ArrayList<>();
+    public List<E> clear() {
+        Iterator<E> iterator = storage.iterator();
+        List<E> removed = new ArrayList<>();
         while (iterator.hasNext()) {
-            Food f = iterator.next();
+            E f = iterator.next();
             if (!condition.test(f)) {
                 removed.add(f);
                 iterator.remove();
