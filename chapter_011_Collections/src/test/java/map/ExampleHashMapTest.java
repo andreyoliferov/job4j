@@ -3,7 +3,6 @@ package map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -65,7 +64,7 @@ public class ExampleHashMapTest {
 
     @Test
     public void whenIterable() {
-        Iterator<ExampleHashMap.Node> iterator = myMap.iterator();
+        var iterator = myMap.iterator();
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next().getKey(), is(1));
         assertThat(iterator.hasNext(), is(true));
@@ -75,7 +74,7 @@ public class ExampleHashMapTest {
 
     @Test(expectedExceptions = NoSuchElementException.class)
     public void whenIterableException() {
-        Iterator<ExampleHashMap.Node> iterator = myMap.iterator();
+        var iterator = myMap.iterator();
         assertThat(iterator.next().getKey(), is(1));
         assertThat(iterator.next().getKey(), is(2));
         iterator.next();

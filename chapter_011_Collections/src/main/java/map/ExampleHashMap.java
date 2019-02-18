@@ -83,7 +83,7 @@ public class ExampleHashMap<K, V>  implements Iterable<ExampleHashMap.Node> {
 
     @Override
     public Iterator<Node> iterator() {
-        return new Iterator<Node>() {
+        return new Iterator<>() {
 
             int index = 0;
             int position = 0;
@@ -109,7 +109,7 @@ public class ExampleHashMap<K, V>  implements Iterable<ExampleHashMap.Node> {
         };
     }
 
-    public class Node<K, V> implements Map.Entry<K, V> {
+    public static class Node<K, V> implements Map.Entry<K, V> {
         private final K key;
         private V value;
 
