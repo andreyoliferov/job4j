@@ -26,6 +26,7 @@
         <module>chapter_014_Serlvet_JSP</module>
         <module>jaCoCoReport</module>
         <module>chapter_015_IO</module>
+        <module>chapter_016_GC</module>
     </modules>
 	
 	<build>
