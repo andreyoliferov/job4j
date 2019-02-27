@@ -19,7 +19,7 @@ import java.util.UUID;
  * @since 18.12.2018
  */
 @Path("catalog")
-public class RestController  {
+public class RestController {
 
     private final Validate logic = ValidateService.getInstance();
 

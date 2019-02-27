@@ -1,4 +1,4 @@
-package garbagecollect;
+package ru.job4j.gc.garbagecollect;
 
 /**
  * @autor aoliferov

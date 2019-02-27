@@ -26,7 +26,7 @@
         <module>chapter_014_Serlvet_JSP</module>
         <module>jaCoCoReport</module>
         <module>chapter_015_IO</module>
-        <module>chapter_016_GC</module>
+        <module>chapter_021_Hibernate</module>
     </modules>
 	
 	<build>
@@ -153,8 +153,6 @@
         </dependency>
 
 
-
-
         <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -217,6 +215,7 @@
             <artifactId>javafx-controls</artifactId>
             <version>11</version>
         </dependency>
+
 
         <!-- JAXB -->
         <dependency>
