@@ -29,7 +29,7 @@
             var country = $('#country').val();
             $.ajax({
                 type: 'GET',
-                url: '/user_app/rest/catalog/cities?country=' + country,
+                url: '/user_app/servlets/catalog/cities?country=' + country,
                 complete: function(data) {
                     var cities = JSON.parse(data.responseText);
                     var result = "<option selected disabled value=''>choose city</option>";
@@ -43,7 +43,7 @@
 
         $.ajax({
             type: "GET",
-            url: '/user_app/rest/catalog/countries',
+            url: '/user_app/servlets/catalog/countries',
             complete: function (data) {
                 var countries = JSON.parse(data.responseText);
                 var result = "";
@@ -57,7 +57,7 @@
         var user = "${sessionScope.currentUser.id}";
         $.ajax({
             type: "GET",
-            url: '/user_app/rest/catalog/clients?user=' + user,
+            url: '/user_app/servlets/catalog/clients?user=' + user,
             complete: function (data) {
                 var clients = JSON.parse(data.responseText);
                 var result = "";
@@ -77,7 +77,7 @@
         function ajaxReq() {
             $.ajax({
                 type: "POST",
-                url: '/user_app/rest/catalog/clients',
+                url: '/user_app/servlets/catalog/clients',
                 data: JSON.stringify(form2js('clientForm', '.', true)),
                 contentType : "application/json",
                 dataType: 'json',

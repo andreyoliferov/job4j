@@ -11,6 +11,8 @@ import java.util.List;
 public interface Store {
 
     void addTask(Item item) throws Exception;
+    void deleteTask(Item item) throws Exception;
+    void updateTask(Item item) throws Exception;
     List<Item> getAll();
     List<Item> getUnfulfilled();
 
