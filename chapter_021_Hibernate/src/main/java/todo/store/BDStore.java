@@ -101,11 +101,16 @@ public class BDStore implements Store {
      * @return
      */
     private <T> T tx(final Function<Session, T> command) {
-        T result;
+        T result = null;
         try (final Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            result = command.apply(session);
-            session.getTransaction().commit();
+            try {
+                session.beginTransaction();
+                result = command.apply(session);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                session.getTransaction().rollback();
+                Controller.LOG.error(e);
+            }
         }
         return result;
     }
