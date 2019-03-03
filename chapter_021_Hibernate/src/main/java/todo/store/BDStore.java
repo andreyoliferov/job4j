@@ -2,6 +2,7 @@ package todo.store;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -9,6 +10,7 @@ import todo.Item;
 import todo.servlets.Controller;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @autor aoliferov
@@ -79,19 +81,31 @@ public class BDStore implements Store {
 
     @Override
     public List<Item> getAll() {
-        List<Item> result;
-        try (Session session = sessionFactory.openSession()) {
-            result = (List<Item>) session.createSQLQuery("SELECT * FROM items").addEntity(Item.class).list();
-        }
-        return result;
+        return this.tx(
+                session -> (List<Item>) session.createSQLQuery("SELECT * FROM items").addEntity(Item.class).list()
+        );
     }
 
     @Override
     public List<Item> getUnfulfilled() {
-        List<Item> result;
-        try (Session session = sessionFactory.openSession()) {
-            result = (List<Item>) session.createSQLQuery("SELECT * FROM items WHERE done = false")
-                    .addEntity(Item.class).list();
+        return this.tx(
+                session -> (List<Item>) session.createSQLQuery("SELECT * FROM items WHERE done = false")
+                        .addEntity(Item.class).list()
+        );
+    }
+
+    /**
+     * Pattern Wrapper
+     * @param command
+     * @param <T>
+     * @return
+     */
+    private <T> T tx(final Function<Session, T> command) {
+        T result;
+        try (final Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            result = command.apply(session);
+            session.getTransaction().commit();
         }
         return result;
     }

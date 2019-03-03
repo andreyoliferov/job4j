@@ -68,7 +68,7 @@
             url: '/todo/tasks?scope=' + scope,
             complete: function(data) {
                 var tasks = JSON.parse(data.responseText);
-                var result = "";
+                var result = '<thead><tr><th width="18%">Name</th><th width="46%">Description</th><th width="15%">Date created</th><th width="8%">Is done</th><th width="8%"></th></tr></thead>';
                 for (var i = 0; i < tasks.length; i++) {
                     result = result.concat(makeLine(tasks[i]));
                 }

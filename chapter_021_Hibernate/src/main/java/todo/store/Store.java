@@ -14,6 +14,6 @@ public interface Store {
     void deleteTask(Item item) throws Exception;
     void updateTask(Item item) throws Exception;
     List<Item> getAll();
-    List<Item> getUnfulfilled();
+    List getUnfulfilled();
 
 }
