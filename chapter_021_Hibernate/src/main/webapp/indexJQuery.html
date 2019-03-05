@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO list</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script--> <!-- подключение vue.js -->
+</head>
+<SCRIPT>
+    function post(req, complete) {
+        $.ajax({
+            type: 'POST',
+            url: '/todo/tasks',
+            data: req,
+            contentType : "application/json",
+            dataType: 'json',
+            complete: function(data) {
+                complete(data);
+            }
+        });
+    }
+    function summaryPost() {
+        if(validate()) {
+            addTask();
+        }
+    }
+    function addTask() {
+        $.ajax({
+            type: "PUT",
+            url: '/todo/tasks',
+            data: getFormData($('#taskForm')),
+            contentType : "application/json",
+            dataType: 'json',
+            complete: function(data) {
+                var response = JSON.parse(data.responseText);
+                if (response.result.indexOf("success") + 1) {
+                    var task = new Task($('#name').val(), $('#desc').val(), new Date().getTime(), false, response.id);
+                    addInTable(task);
+                }
+            }
+        });
+    }
+    function deleteTask(elem) {
+        var id = $(elem).parents(".line").find(".line_id").val();
+        $.ajax({
+            type: 'DELETE',
+            url: '/todo/tasks',
+            data: '{"id":"' + id +'"}',
+            contentType : "application/json",
+            dataType: 'json',
+            complete: function(data) {
+                var response = JSON.parse(data.responseText);
+                if (response.result.indexOf("success") + 1) {
+                    $(elem).parents(".line").remove();
+                }
+            }
+        });
+    }
+    function getTasks(){
+        var scope = "all";
+        if(document.getElementById('unfulfilled').checked) {
+            scope = "unfulfilled"
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/todo/tasks?scope=' + scope,
+            complete: function(data) {
+                var tasks = JSON.parse(data.responseText);
+                var result = '<thead><tr><th width="18%">Name</th><th width="46%">Description</th><th width="15%">Date created</th><th width="8%">Is done</th><th width="8%"></th></tr></thead>';
+                for (var i = 0; i < tasks.length; i++) {
+                    result = result.concat(makeLine(tasks[i]));
+                }
+                $('.table').html(result);
+            }
+        });
+    }
+    function updatePerformanceTask(elem) {
+        var id = $(elem).parents(".line").find(".line_id").val();
+        var is_done = $(elem).is(':checked');
+        var data = '{"function":"update", "task":{"id":"' + id +'", "done":"' + is_done +'"}}';
+        function complete(data) {
+            var response = JSON.parse(data.responseText);
+            if (!(response.result.indexOf("success") + 1)) {
+                $(elem).prop('checked', !is_done);
+            }
+        }
+        post(data, complete);
+    }
+    function addInTable(task) {
+        $('#table tr:last').after(makeLine(task));
+    }
+    function makeLine(task) {
+        var name = task.name;
+        var desc = task.desc;
+        var done = task.done;
+        var checked = "";
+        if (done) {
+            checked = "checked";
+        }
+        var created = new Date();
+        created.setTime(task.created);
+        var date_created = created.toLocaleDateString();
+        var id = task.id;
+        return '<tr class="line"><td>' + name + '</td><td>' + desc +'</td><td>' + date_created + '</td><td><input class="line_done" onclick="updatePerformanceTask(this)" type="checkbox"' + checked + '></td><td><input class="btn btn-danger btn-sm del" type="button" value="del" onclick="deleteTask(this)"/></td><input class="line_id" name="id" type="hidden" value="'+ id +'"/></tr>';
+    }
+    function getFormData($form){
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+        $.map(unindexed_array, function(n, i){
+            indexed_array[n['name']] = n['value'];
+        });
+        return JSON.stringify(indexed_array);
+    }
+    function validate() {
+        var result = true;
+        var fields = document.getElementsByClassName('validate');
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].value == "") {
+                alert("Write in all required fields");
+                fields[i].focus();
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+    function Task(name, desc, created, done, id) {
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
+        this.done = done;
+        this.id = id;
+    }
+    $(document).ready(function() {
+        getTasks();
+    });
+</SCRIPT>
+<body>
+
+<div class="container">
+    <h1>TODO list</h1>
+    <form id="taskForm" action="/json">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control validate" id="name" placeholder="Enter name of new task" name="name">
+        </div>
+        <div class="form-group">
+            <label for="desc">Description:</label>
+            <input type="text" class="form-control validate" id="desc" placeholder="Enter description of new task" name="desc">
+        </div>
+        <div>
+            <input type="button" class="btn btn-primary" onclick="summaryPost()" value="Add a new task">
+        </div>
+    </form>
+    <form>
+        <div class="checkbox mt-lg-5">
+            <label>
+                <input id="unfulfilled" type="checkbox" onclick="getTasks()">
+                Only unfulfilled
+            </label>
+        </div>
+    </form>
+    <table class="table" id="table">
+        <thead>
+        <tr>
+            <th width="18%">Name</th>
+            <th width="46%">Description</th>
+            <th width="15%">Date created</th>
+            <th width="8%">Is done</th>
+            <th width="8%"></th>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+</html>
