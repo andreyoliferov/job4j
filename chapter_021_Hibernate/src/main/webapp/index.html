@@ -95,8 +95,7 @@
             addTask: function () {
                 axios.put(this.url, '{"name":"' + this.name + '","desc":"' + this.desc + '"}').then((response) => {
                     if (response.data.result.indexOf("success") + 1) {
-                        console.log(response.data);
-                        var task = new Task(this.name, this.desc, new Date().toLocaleDateString(), false, response.data.id);
+                        var task = new Task(this.name, this.desc, new Date(), false, response.data.id);
                         this.tasks.push(task);
                     }
                 })
