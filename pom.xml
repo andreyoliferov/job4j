@@ -27,6 +27,7 @@
         <module>jaCoCoReport</module>
         <module>chapter_015_IO</module>
         <module>chapter_021_Hibernate</module>
+        <module>chapter_022_Spring</module>
     </modules>
 	
 	<build>
