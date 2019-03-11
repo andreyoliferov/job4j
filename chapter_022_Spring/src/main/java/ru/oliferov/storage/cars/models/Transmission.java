@@ -1,6 +1,8 @@
 package ru.oliferov.storage.cars.models;
 
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 
 /**
@@ -40,5 +42,22 @@ public class Transmission {
 
     public void setAutomatic(boolean automatic) {
         this.automatic = automatic;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Transmission that = (Transmission) o;
+        return id == that.id && automatic == that.automatic;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, automatic);
     }
 }

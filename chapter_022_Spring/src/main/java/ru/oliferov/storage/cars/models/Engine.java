@@ -1,6 +1,8 @@
 package ru.oliferov.storage.cars.models;
 
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 
 /**
@@ -40,5 +42,22 @@ public class Engine {
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Engine engine = (Engine) o;
+        return id == engine.id && power == engine.power;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, power);
     }
 }

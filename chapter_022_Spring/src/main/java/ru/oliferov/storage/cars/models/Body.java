@@ -1,6 +1,8 @@
 package ru.oliferov.storage.cars.models;
 
 
+import com.google.common.base.Objects;
+
 import javax.persistence.*;
 
 /**
@@ -40,5 +42,22 @@ public class Body {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Body body = (Body) o;
+        return id == body.id && Objects.equal(type, body.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, type);
     }
 }
