@@ -29,7 +29,7 @@ public class StorageTest {
     @BeforeClass
     public void start() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("car-storage.cfg.xml")
+                .configure("storage.cfg.xml")
                 .build();
         try {
             sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();

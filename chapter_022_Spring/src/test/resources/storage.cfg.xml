@@ -25,6 +25,7 @@
         <mapping class="ru.oliferov.storage.cars.models.Engine"/>
         <mapping class="ru.oliferov.storage.cars.models.Car"/>
         <mapping class="ru.oliferov.storage.cars.models.Body"/>
+        <mapping class="ru.oliferov.storage.other.User"/>
 
     </session-factory>
 </hibernate-configuration>
