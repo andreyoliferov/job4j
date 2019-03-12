@@ -1,6 +1,9 @@
 package ru.oliferov.storage.other;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.util.UUID;
 
@@ -8,7 +11,8 @@ import java.util.UUID;
  * @autor aoliferov
  * @since 12.03.2019
  */
-
+@Component("jdbcStorage")
+@Scope("singleton")
 public class JDBCStorage implements Storage {
 
     private Connection conn;

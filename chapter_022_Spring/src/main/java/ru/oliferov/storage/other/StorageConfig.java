@@ -25,13 +25,13 @@ public class StorageConfig {
         return new JDBCStorage(env);
     }
 
-    /*
+
     @Bean(name = "jdbcApp")
     @Scope("singleton")
     public AppUser getAppJdbc(@Qualifier("jdbcStorage") Storage storage) {
         return new AppUser(storage);
     }
-    */
+
 
     @Bean(name = "hbApp")
     @Scope("singleton")
