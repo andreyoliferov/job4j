@@ -2,6 +2,7 @@ package ru.oliferov.storage.other;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import java.util.UUID;
@@ -14,7 +15,12 @@ import static org.testng.Assert.*;
  */
 public class AppUserTest {
 
-    private ApplicationContext context = new AnnotationConfigApplicationContext(StorageConfig.class);
+    private ApplicationContext context;
+
+    @BeforeClass
+    public void start() {
+        context = new AnnotationConfigApplicationContext(StorageConfig.class);
+    }
 
     @DataProvider
     public Object[][] data() {

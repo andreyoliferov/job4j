@@ -7,4 +7,19 @@
 * Java
 * Travis
 * Maven
+* jUnit
+* TestNg
+* Mockito
+* Сheckstyle, JaCoCo
+* Java IO
+* Java NIO, Netty
+* multithreading
+* JDBC
+* PostgreSQL, SQLLite, hsqldb
+* Liquibase
+* Servlet, JSP, JSTL
+* jQuery
+* vue.js
+* Hibernate
+* Spring
 * ...
