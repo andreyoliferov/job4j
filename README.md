@@ -27,7 +27,6 @@
 * Servlet, JSP, JSTL
 * jQuery
 * vue.js
-* Hibernate
 * Jersey
 * okhttp
 * jcommander
