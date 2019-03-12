@@ -10,16 +10,28 @@
 * jUnit
 * TestNg
 * Mockito
+* powermock
 * Сheckstyle, JaCoCo
+* Jackson
+* jaxb
 * Java IO
 * Java NIO, Netty
 * multithreading
+* jcip annotations
 * JDBC
 * PostgreSQL, SQLLite, hsqldb
 * Liquibase
+* log4j
+* jsoup
+* quartz-scheduler
 * Servlet, JSP, JSTL
 * jQuery
 * vue.js
 * Hibernate
+* Jersey
+* okhttp
+* jcommander
+* hibernate
 * Spring
+* Tomcat
 * ...
