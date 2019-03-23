@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory name="java:hibernate/SessionFactory">
+        <!-- properties -->
+        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+        <property name="connection.url">jdbc:hsqldb:mem:storage;sql.enforce_size=false</property>
+        <property name="connection.username">SA</property>
+        <property name="connection.password">SA</property>
+        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.connection.isolation">1</property>
+
+        <!--&lt;!&ndash; mapping files &ndash;&gt;-->
+        <!--<mapping resource="ru/oliferov/storage/cars/models/Body.hbm.xml"/>-->
+        <!--<mapping resource="ru/oliferov/storage/cars/models/Car.hbm.xml"/>-->
+        <!--<mapping resource="ru/oliferov/storage/cars/models/Engine.hbm.xml"/>-->
+        <!--<mapping resource="ru/oliferov/storage/cars/models/Transmission.hbm.xml"/>-->
+
+        <mapping class="ru.oliferov.models.Transmission"/>
+        <mapping class="ru.oliferov.models.Engine"/>
+        <mapping class="ru.oliferov.models.Car"/>
+        <mapping class="ru.oliferov.models.Body"/>
+        <mapping class="ru.oliferov.storage.other.User"/>
+
+    </session-factory>
+</hibernate-configuration>

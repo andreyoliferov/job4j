@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "ru.oliferov.models.Car" table = "car">
+        <id name = "id" column = "id">
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one name="transmission"
+                     column="id_transmission"
+                     class="ru.oliferov.models.Transmission"
+                     unique="true"
+                     cascade="all"
+                     fetch="join"/>
+        <many-to-one name="engine"
+                     column="id_engine"
+                     class="ru.oliferov.models.Engine"
+                     unique="true"
+                     cascade="all"
+                     fetch="join"/>
+        <many-to-one name="body"
+                     column="id_body"
+                     class="ru.oliferov.models.Body"
+                     unique="true"
+                     cascade="all"
+                     fetch="join"/>
+    </class>
+</hibernate-mapping>
