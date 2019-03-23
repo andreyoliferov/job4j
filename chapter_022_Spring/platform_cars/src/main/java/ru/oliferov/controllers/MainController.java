@@ -16,5 +16,4 @@ public class MainController {
     public String showMain(ModelMap model) {
         return "main";
     }
-
 }
