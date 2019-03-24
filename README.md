@@ -25,6 +25,7 @@
 * jsoup
 * quartz-scheduler
 * Servlet, JSP, JSTL
+* Thymeleaf
 * jQuery
 * vue.js
 * Jersey

@@ -1,6 +1,7 @@
 package ru.oliferov.models;
 
-import ru.oliferov.models.User;
+
+import ru.oliferov.platform.user.models.User;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

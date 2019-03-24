@@ -1,8 +1,10 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.user.models;
 
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @autor aoliferov
@@ -28,6 +30,14 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    private Set<Role> roles = new HashSet<>();
+
 
     public User() {
     }
@@ -77,6 +87,7 @@ public class User {
         this.password = password;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -90,11 +101,12 @@ public class User {
                 && Objects.equal(name, user.name)
                 && Objects.equal(login, user.login)
                 && Objects.equal(email, user.email)
-                && Objects.equal(password, user.password);
+                && Objects.equal(password, user.password)
+                && Objects.equal(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, name, login, email, password);
+        return Objects.hashCode(id, name, login, email, password, roles);
     }
 }

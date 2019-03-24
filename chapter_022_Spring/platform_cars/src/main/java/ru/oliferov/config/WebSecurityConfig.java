@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 /**
  * @autor aoliferov
  * @since 23.03.2019
@@ -21,6 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -28,11 +33,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder)
-                .withUser("guest").password(passwordEncoder.encode("guest")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder.encode("qwerty")).roles("USER", "ADMIN");
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select name, password, true from users where name=?")
+                .authoritiesByUsernameQuery(
+                        "select users.name, roles.name " +
+                        "from users left outer join user_role on users.id = user_role.user_id and users.name=? " +
+                        "left outer join roles on user_role.role_id = roles.id"
+                )
+                .passwordEncoder(passwordEncoder);
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)
+                .withUser("admin").password(passwordEncoder.encode("admin")).roles("ADMIN");
     }
 
     @Override

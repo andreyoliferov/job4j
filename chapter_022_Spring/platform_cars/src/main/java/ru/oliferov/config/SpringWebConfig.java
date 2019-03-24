@@ -20,15 +20,12 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
  */
 @EnableWebMvc
 @Configuration
-@ComponentScan("ru.oliferov.controllers")
+@ComponentScan("ru.oliferov.platform")
 public class SpringWebConfig implements WebMvcConfigurer {
 
     @Autowired
     private ApplicationContext applicationContext;
 
-    /*
-     * STEP 1 - Create SpringResourceTemplateResolver
-     * */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -43,9 +40,6 @@ public class SpringWebConfig implements WebMvcConfigurer {
         return new SpringSecurityDialect();
     }
 
-    /*
-     * STEP 2 - Create SpringTemplateEngine
-     * */
     @Bean
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -55,9 +49,6 @@ public class SpringWebConfig implements WebMvcConfigurer {
         return templateEngine;
     }
 
-    /*
-     * STEP 3 - Register ThymeleafViewResolver
-     * */
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
@@ -65,7 +56,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
-
+    /* Вариант работы с JSP шаблонизатором */
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/resources/**")
