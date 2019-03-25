@@ -1,4 +1,5 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.car.models;
+
 
 import com.google.common.base.Objects;
 
@@ -6,11 +7,11 @@ import javax.persistence.*;
 
 /**
  * @autor aoliferov
- * @since 18.03.2019
+ * @since 10.03.2019
  */
 @Entity
-@Table(name = "marks")
-public class Mark {
+@Table(name = "body")
+public class Body {
 
     @Id
     @Column(name = "id")
@@ -18,10 +19,14 @@ public class Mark {
     private int id;
 
     /** Имя */
-    @Column(name = "name")
-    private String name;
+    @Column(name = "type")
+    private String type;
 
-    public Mark() {
+    public Body(String type) {
+        this.type = type;
+    }
+
+    public Body() {
     }
 
     public int getId() {
@@ -32,12 +37,12 @@ public class Mark {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -48,13 +53,12 @@ public class Mark {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Mark mark = (Mark) o;
-        return id == mark.id
-                && Objects.equal(name, mark.name);
+        Body body = (Body) o;
+        return id == body.id && Objects.equal(type, body.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, name);
+        return Objects.hashCode(id, type);
     }
 }

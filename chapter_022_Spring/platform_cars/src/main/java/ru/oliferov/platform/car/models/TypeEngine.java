@@ -1,5 +1,4 @@
-package ru.oliferov.models;
-
+package ru.oliferov.platform.car.models;
 
 import com.google.common.base.Objects;
 
@@ -7,25 +6,25 @@ import javax.persistence.*;
 
 /**
  * @autor aoliferov
- * @since 10.03.2019
+ * @since 18.03.2019
  */
 @Entity
-@Table(name = "transmission")
-public class Transmission {
+@Table(name = "type_engine")
+public class TypeEngine {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "automatic")
-    private boolean automatic;
+    @Column(name = "name")
+    private String name;
 
-    public Transmission(boolean automatic) {
-        this.automatic = automatic;
+    public TypeEngine() {
     }
 
-    public Transmission() {
+    public TypeEngine(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -36,12 +35,12 @@ public class Transmission {
         this.id = id;
     }
 
-    public boolean isAutomatic() {
-        return automatic;
+    public String getName() {
+        return name;
     }
 
-    public void setAutomatic(boolean automatic) {
-        this.automatic = automatic;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -52,12 +51,13 @@ public class Transmission {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Transmission that = (Transmission) o;
-        return id == that.id && automatic == that.automatic;
+        TypeEngine that = (TypeEngine) o;
+        return id == that.id
+                && Objects.equal(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, automatic);
+        return Objects.hashCode(id, name);
     }
 }

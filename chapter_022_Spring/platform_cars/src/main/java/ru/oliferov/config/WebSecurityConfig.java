@@ -36,9 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select name, password, true from users where name=?")
                 .authoritiesByUsernameQuery(
-                        "select users.name, roles.name " +
-                        "from users left outer join user_role on users.id = user_role.user_id and users.name=? " +
-                        "left outer join roles on user_role.role_id = roles.id"
+                        "select users.name, roles.name "
+                         + "from users left outer join user_role on users.id = user_role.user_id and users.name=? "
+                         + "left outer join roles on user_role.role_id = roles.id"
                 )
                 .passwordEncoder(passwordEncoder);
         auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)

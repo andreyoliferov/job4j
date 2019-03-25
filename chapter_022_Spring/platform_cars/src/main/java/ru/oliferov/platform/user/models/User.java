@@ -28,8 +28,14 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "password")
     private String password;
+
+    @Column(name = "active")
+    private boolean active;
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(
@@ -40,11 +46,6 @@ public class User {
 
 
     public User() {
-    }
-
-    public User(String name, String login) {
-        this.name = name;
-        this.login = login;
     }
 
     public int getId() {
@@ -87,6 +88,29 @@ public class User {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -98,15 +122,17 @@ public class User {
         }
         User user = (User) o;
         return id == user.id
+                && active == user.active
                 && Objects.equal(name, user.name)
                 && Objects.equal(login, user.login)
                 && Objects.equal(email, user.email)
+                && Objects.equal(phone, user.phone)
                 && Objects.equal(password, user.password)
                 && Objects.equal(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, name, login, email, password, roles);
+        return Objects.hashCode(id, name, login, email, phone, password, active, roles);
     }
 }

@@ -1,6 +1,7 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.advt.models;
 
 
+import ru.oliferov.platform.car.models.Car;
 import ru.oliferov.platform.user.models.User;
 
 import javax.persistence.*;
@@ -11,8 +12,8 @@ import java.math.BigDecimal;
  * @since 18.03.2019
  */
 @Entity
-@Table(name = "announcement")
-public class Announcement {
+@Table(name = "advt")
+public class Advt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +38,9 @@ public class Announcement {
     @ManyToOne
     @JoinColumn(name = "author")
     private User author;
+
+    @ManyToOne
+    @JoinColumn(name = "state")
+    private State state;
 
 }

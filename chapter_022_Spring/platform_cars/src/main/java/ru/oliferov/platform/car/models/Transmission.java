@@ -1,4 +1,4 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.car.models;
 
 
 import com.google.common.base.Objects;
@@ -10,23 +10,22 @@ import javax.persistence.*;
  * @since 10.03.2019
  */
 @Entity
-@Table(name = "body")
-public class Body {
+@Table(name = "transmission")
+public class Transmission {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    /** Имя */
-    @Column(name = "type")
-    private String type;
+    @Column(name = "automatic")
+    private boolean automatic;
 
-    public Body(String type) {
-        this.type = type;
+    public Transmission(boolean automatic) {
+        this.automatic = automatic;
     }
 
-    public Body() {
+    public Transmission() {
     }
 
     public int getId() {
@@ -37,12 +36,12 @@ public class Body {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public boolean isAutomatic() {
+        return automatic;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAutomatic(boolean automatic) {
+        this.automatic = automatic;
     }
 
     @Override
@@ -53,12 +52,12 @@ public class Body {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Body body = (Body) o;
-        return id == body.id && Objects.equal(type, body.type);
+        Transmission that = (Transmission) o;
+        return id == that.id && automatic == that.automatic;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, type);
+        return Objects.hashCode(id, automatic);
     }
 }

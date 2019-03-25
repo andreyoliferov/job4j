@@ -6,6 +6,7 @@
 ##### Технологии, используемые в проекте: #####
 * Java
 * Travis
+* jacoco
 * Maven
 * jUnit
 * TestNg
@@ -28,6 +29,7 @@
 * Thymeleaf
 * jQuery
 * vue.js
+* Bootstrap
 * Jersey
 * okhttp
 * jcommander

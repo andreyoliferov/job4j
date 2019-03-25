@@ -78,7 +78,7 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public HibernateTransactionManager hibTransMan(){
+    public HibernateTransactionManager hibTransMan() {
         return new HibernateTransactionManager(sessionFactory());
     }
 
@@ -91,7 +91,7 @@ public class PersistenceConfig {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(getDataSource());
-        em.setPackagesToScan(new String[] { "ru.oliferov" });
+        em.setPackagesToScan(new String[]{"ru.oliferov"});
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(hibernateProperties());
@@ -106,7 +106,7 @@ public class PersistenceConfig {
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 }

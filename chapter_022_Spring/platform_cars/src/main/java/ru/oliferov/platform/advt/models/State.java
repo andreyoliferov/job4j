@@ -1,30 +1,27 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.advt.models;
 
 import com.google.common.base.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @autor aoliferov
- * @since 18.03.2019
+ * @since 25.03.2019
  */
 @Entity
-@Table(name = "type_engine")
-public class TypeEngine {
+@Table(name = "state")
+public class State {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(name = "name")
     private String name;
 
-    public TypeEngine() {
-    }
-
-    public TypeEngine(String name) {
-        this.name = name;
+    public State() {
     }
 
     public int getId() {
@@ -51,9 +48,9 @@ public class TypeEngine {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TypeEngine that = (TypeEngine) o;
-        return id == that.id
-                && Objects.equal(name, that.name);
+        State state = (State) o;
+        return id == state.id
+                && Objects.equal(name, state.name);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.oliferov.platform.user.models;
+package ru.oliferov.platform.car.models;
 
 import com.google.common.base.Objects;
 
@@ -6,21 +6,22 @@ import javax.persistence.*;
 
 /**
  * @autor aoliferov
- * @since 24.03.2019
+ * @since 18.03.2019
  */
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "type_car")
+public class TypeCar {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /** Имя */
     @Column(name = "name")
     private String name;
 
-    public Role() {
+    public TypeCar() {
     }
 
     public int getId() {
@@ -47,9 +48,9 @@ public class Role {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Role role = (Role) o;
-        return id == role.id
-                && Objects.equal(name, role.name);
+        TypeCar typeCar = (TypeCar) o;
+        return id == typeCar.id
+                && Objects.equal(name, typeCar.name);
     }
 
     @Override
@@ -57,3 +58,4 @@ public class Role {
         return Objects.hashCode(id, name);
     }
 }
+

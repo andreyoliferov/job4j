@@ -1,4 +1,4 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.car.models;
 
 
 import com.google.common.base.Objects;

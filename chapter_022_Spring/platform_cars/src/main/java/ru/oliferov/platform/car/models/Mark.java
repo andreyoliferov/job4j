@@ -1,4 +1,4 @@
-package ru.oliferov.models;
+package ru.oliferov.platform.car.models;
 
 import com.google.common.base.Objects;
 
@@ -9,8 +9,8 @@ import javax.persistence.*;
  * @since 18.03.2019
  */
 @Entity
-@Table(name = "models")
-public class Model {
+@Table(name = "marks")
+public class Mark {
 
     @Id
     @Column(name = "id")
@@ -21,12 +21,7 @@ public class Model {
     @Column(name = "name")
     private String name;
 
-    /** Марка */
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinColumn(name = "mark")
-    private Mark mark;
-
-    public Model() {
+    public Mark() {
     }
 
     public int getId() {
@@ -45,14 +40,6 @@ public class Model {
         this.name = name;
     }
 
-    public Mark getMark() {
-        return mark;
-    }
-
-    public void setMark(Mark mark) {
-        this.mark = mark;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -61,14 +48,13 @@ public class Model {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Model model = (Model) o;
-        return id == model.id
-                && Objects.equal(name, model.name)
-                && Objects.equal(mark, model.mark);
+        Mark mark = (Mark) o;
+        return id == mark.id
+                && Objects.equal(name, mark.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, name, mark);
+        return Objects.hashCode(id, name);
     }
 }
