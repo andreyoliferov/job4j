@@ -24,6 +24,10 @@ public class TypeCar {
     public TypeCar() {
     }
 
+    public TypeCar(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

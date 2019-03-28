@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>New advt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col">
+            <h2>Add new advt</h2>
+
+            <form th:action='@{/advt/new}' method='post' th:object="${newAdvt}">
+                <div class="form-group ">
+                    Theme:
+                    <input class="form-control" type='text' name='theme' placeholder="Enter theme" required/>
+                </div>
+                <div class="form-group ">
+                    Description:
+                    <input class="form-control" type='text' name='description' placeholder="Enter description" required/>
+                </div>
+                <div class="form-group ">
+                    Write in data car:
+                    <select class="form-control" name="type">
+                        <option selected disabled value=''>choose type</option>
+                        <th:block th:each="type : ${types}">
+                            <option value="${type.id}" th:text="${type.name}"></option>
+                        </th:block>
+                    </select>
+                    <select class="form-control" name="model">
+                        <option selected disabled value=''>choose model</option>
+                        <th:block th:each="model : ${models}">
+                            <option value="${model.id}" th:text="${model.name}"></option>
+                        </th:block>
+                    </select>
+                    <select class="form-control" name="body">
+                        <option selected disabled value=''>choose body</option>
+                        <th:block th:each="body : ${bodies}">
+                            <option value="${body.id}" th:text="${body.name}"></option>
+                        </th:block>
+                    </select>
+                    <select class="form-control" name="transmission">
+                        <option selected disabled value=''>choose transmission</option>
+                        <th:block th:each="transmission : ${transmissions}">
+                            <option value="${transmission.id}" th:text="${transmission.name}"></option>
+                        </th:block>
+                    </select>
+                    <input class="form-control" type='text' name='power' placeholder="Enter power engine" />
+                    <input class="form-control" type='text' name='volume' placeholder="Enter volume engine" />
+                    <input class="form-control" type='text' name='year' placeholder="Enter year of issue" />
+                    <input class="form-control" type='text' name='mileage' placeholder="Enter mileage" />
+                </div>
+                <div class="form-group ">
+                    Price:
+                    <input class="form-control" type='text' name='price' placeholder="Enter price" required/>
+                </div>
+                <div class="form-group ">
+                    Photo:
+                    <input class="form-control" type='text' name='photo' placeholder="Attach photo" required/>
+                </div>
+                <div class="form-group ">
+                    <input class="btn btn-primary btn-lg" type='submit' value='create'/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
