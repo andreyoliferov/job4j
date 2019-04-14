@@ -26,23 +26,15 @@ public class AdvtController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView showNewForm(ModelMap model) {
-
         ModelAndView view = new ModelAndView("new");
         view.addObject("types", List.of(new TypeCar("track"), new TypeCar("big"), new TypeCar("taxi")));
-
-
         return view;
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ModelAndView createAdvt(Advt newAdvt, ModelMap model) {
-
-
         Set<String> t = model.keySet();
         ModelAndView view = new ModelAndView("advt");
-
-
-
         return view;
     }
 }

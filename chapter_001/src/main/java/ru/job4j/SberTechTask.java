@@ -4,7 +4,7 @@ package ru.job4j;
  * @autor aoliferov
  * @since 28.03.2019
  */
-public class Task {
+public class SberTechTask {
 
     private int paving(int a, int b, int start) {
         if (a == 0 || b == 0) {
@@ -16,7 +16,6 @@ public class Task {
             b = b - a;
         }
         start++;
-
         return paving(a, b, start);
     }
 
@@ -25,7 +24,7 @@ public class Task {
     }
 
     public static void main(String[] args) {
-        int result = new Task().paving(4, 3);
+        int result = new SberTechTask().paving(4, 3);
         System.out.println();
     }
 
