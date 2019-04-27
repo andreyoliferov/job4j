@@ -14,6 +14,7 @@
     <modules>
         <module>example</module>
         <module>platform_cars</module>
+        <module>boot_example</module>
     </modules>
 
     <dependencies>
