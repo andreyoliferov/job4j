@@ -28,6 +28,7 @@
         <module>chapter_015_IO</module>
         <module>chapter_021_Hibernate</module>
         <module>chapter_022_Spring</module>
+        <module>chapter_031_algorithms</module>
     </modules>
 	
 	<build>
@@ -221,9 +222,16 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>27.0.1-jre</version>
+            <version>28.0-jre</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>3.0.0-beta-2</version>
+            <type>pom</type>
+        </dependency>
 
     </dependencies>
 
