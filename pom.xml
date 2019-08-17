@@ -29,6 +29,7 @@
         <module>chapter_021_Hibernate</module>
         <module>chapter_022_Spring</module>
         <module>chapter_031_algorithms</module>
+        <module>chapter_032_design_patterns</module>
     </modules>
 	
 	<build>
