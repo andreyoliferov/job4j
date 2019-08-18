@@ -28,9 +28,9 @@ public class InterpreterDemo {
     private static List<String> interpreter(String command, Context ctx) {
         String[] items = command.split(" ");
         Expression query4 = null;
-        List<String> result4;
+        //можно переделать на TreeMap
         if ("select".equals(items[0])) {
-            if("from".equals(items[2])) {
+            if ("from".equals(items[2])) {
                 if (items.length == 4) {
                     query4 = new Select(items[1], new From(items[3]));
                 } else if ("where".equals(items[4])) {

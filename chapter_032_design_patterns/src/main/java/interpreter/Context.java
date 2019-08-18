@@ -35,13 +35,13 @@ public class Context {
      * Default setup, used for clearing the context for next queries.
      * See {@link Context#clear()}
      */
-    private static final Predicate<String> matchAnyString = s -> s.length() > 0;
-    private static final Function<String, Stream<? extends String>> matchAllColumns = Stream::of;
+    private static final Predicate<String> MATCH_ANY_STRING = s -> s.length() > 0;
+    private static final Function<String, Stream<? extends String>> MATCH_ALL_COLUMNS = Stream::of;
     /**
      * Varies based on setup in subclasses of {@link Expression}
      */
-    private Predicate<String> whereFilter = matchAnyString;
-    private Function<String, Stream<? extends String>> columnMapper = matchAllColumns;
+    private Predicate<String> whereFilter = MATCH_ANY_STRING;
+    private Function<String, Stream<? extends String>> columnMapper = MATCH_ALL_COLUMNS;
 
     void setColumn(String column) {
         this.column = column;
@@ -60,10 +60,10 @@ public class Context {
      * Clears the context to defaults.
      * No filters, match all columns.
      */
-    void clear() {
+    private void clear() {
         column = "";
-        columnMapper = matchAllColumns;
-        whereFilter = matchAnyString;
+        columnMapper = MATCH_ALL_COLUMNS;
+        whereFilter = MATCH_ANY_STRING;
     }
 
     List<String> search() {
@@ -98,6 +98,7 @@ public class Context {
             case "surname":
                 colIndex = 1;
                 break;
+            default: throw new RuntimeException("Unsupported mapper");
         }
         if (colIndex != -1) {
             columnMapper = s -> Stream.of(s.split(" ")[colIndex]);
