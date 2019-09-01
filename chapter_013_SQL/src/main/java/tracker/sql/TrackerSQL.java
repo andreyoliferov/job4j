@@ -1,4 +1,4 @@
-package trackersql;
+package tracker.sql;
 
 import example.SQLStorage;
 import org.apache.logging.log4j.LogManager;

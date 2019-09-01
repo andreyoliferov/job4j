@@ -17,6 +17,10 @@ public class Item {
     private LocalDateTime created;
     private ArrayList<String> comments;
 
+    public Item() {
+        this.created = LocalDateTime.now().withNano(0);
+    }
+
     public Item(String name, String desc) {
         this.name = name;
         this.desc = desc;

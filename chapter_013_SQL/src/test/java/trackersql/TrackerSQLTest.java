@@ -2,6 +2,7 @@ package trackersql;
 
 import org.testng.annotations.Test;
 import tracker.Item;
+import tracker.sql.TrackerSQL;
 
 import java.io.InputStream;
 import java.sql.Connection;
