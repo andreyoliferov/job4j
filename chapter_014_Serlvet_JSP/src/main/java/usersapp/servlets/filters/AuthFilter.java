@@ -28,11 +28,14 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("currentUser");
-        if (user == null && !req.getRequestURI().contains("/login")) {
-            ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/login", req.getContextPath()));
-            return;
+        String url = req.getRequestURI();
+        if(!url.contains("soap")) {
+            HttpSession session = req.getSession();
+            User user = (User) session.getAttribute("currentUser");
+            if (user == null && !req.getRequestURI().contains("/login")) {
+                ((HttpServletResponse) servletResponse).sendRedirect(String.format("%s/login", req.getContextPath()));
+                return;
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

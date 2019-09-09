@@ -3,6 +3,7 @@ package usersapp.items;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import usersapp.items.address.Address;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
  * @autor aoliferov
  * @since 20.12.2018
  */
+@XmlRootElement(name = "client")
 public class Client {
 
     private UUID id;
