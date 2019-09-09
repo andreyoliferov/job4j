@@ -29,7 +29,7 @@ public class AuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String url = req.getRequestURI();
-        if(!url.contains("soap")) {
+        if (!url.contains("soap")) {
             HttpSession session = req.getSession();
             User user = (User) session.getAttribute("currentUser");
             if (user == null && !req.getRequestURI().contains("/login")) {
